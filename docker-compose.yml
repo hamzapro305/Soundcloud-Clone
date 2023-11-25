@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+
+    frontend:
+        build: ./frontend
+        restart: always
+        ports:
+            - 3000:3000
+        depends_on:
+            - backend
+        
+    backend:
+        build: ./backend
+        restart: always
+        ports:
+            - 3001:3001
+        depends_on:
+            - database
+        environment:
+            - MONGO_HOST=database
+            - MONGO_PORT=27017
+    database:
+        image: "mongo:4.0.27-xenial"
+        restart: always
+        expose:
+            - 27017
+        volumes:
+            - ./mongo-data:/data/db
+        ports:
+            - 27017:27017
