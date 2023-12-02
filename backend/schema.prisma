@@ -1,0 +1,140 @@
+model User {
+    // Unique identifier for a user
+    user_id         String     @id @unique
+    // Username chosen by the user
+    username        String
+    // Email address of the user
+    email           String
+    // Password for user authentication
+    password        String
+    // Full name of the user
+    full_name       String
+    // Bio or description of the user
+    bio             String
+    // URL or path to the user's profile picture
+    profile_picture String
+    // Number of followers for the user
+    followers_count Int
+    // Number of users the user is following
+    following_count Int
+    // Timestamp of when the user account was created
+    created_at      DateTime
+    // Timestamp of the last update to the user account
+    updated_at      DateTime
+    // Saved Play List
+    saved_playlists Playlist[]
+    // Comments
+    comments        Comment[]
+    // Likes
+    user_likes      Like[]
+    // Uploaded Songs
+    songs           Song[]
+
+    // Follow Relationship
+    follows   Follow[] @relation("Following")
+    followers Follow[] @relation("Follower")
+}
+
+model Song {
+    // Unique identifier for a song
+    song_id        String    @id @unique
+    // Foreign key referencing the user who uploaded the song
+    user_id        String
+    upload_by      User      @relation(fields: [user_id], references: [user_id])
+    // Title of the song
+    title          String
+    // Description of the song
+    description    String
+    // Genre of the song
+    genre          String
+    // Length of the song in seconds
+    duration       String
+    // Number of likes the song has received
+    likes_count    Int
+    likes          Like[]
+    // Number of plays the song has received
+    plays_count    Int
+    // Number of comments on the song
+    comments_count Int
+    // Timestamp of when the song was uploaded
+    created_at     DateTime
+    // Timestamp of the last update to the song
+    updated_at     DateTime
+    // Comments
+    comments       Comment[]
+    // URL of song store in storage
+    url            String
+
+    // playlist Relation
+    song_playlist_id String
+    song_playlist    Playlist @relation(fields: [song_playlist_id], references: [playlist_id])
+}
+
+model Playlist {
+    // Unique identifier for a playlist
+    playlist_id String   @id @unique
+    // Foreign key referencing the user who created the playlist
+    created_by  String
+    // Title of the playlist
+    title       String
+    // Description of the playlist
+    description String
+    // Array of song IDs included in the playlist
+    songs       Song[]
+    // Number of likes the playlist has received
+    likes_count Int
+    // Timestamp of when the playlist was created
+    created_at  DateTime
+    // Timestamp of the last update to the playlist
+    updated_at  DateTime
+
+    // playlist save
+    user_id String
+    user    User   @relation(fields: [user_id], references: [user_id])
+}
+
+model Comment {
+    // Unique identifier for a comment
+    comment_id String   @id @unique
+    // Foreign key referencing the user who posted the comment
+    user_id    String
+    user       User     @relation(fields: [user_id], references: [user_id])
+    // Content of the comment
+    content    String
+    // Timestamp of when the comment was posted
+    created_at DateTime
+    // Timestamp of the last update to the comment
+    updated_at DateTime
+    // timestamp
+    timestamp  Int
+
+    // Foreign key referencing the song the comment is posted on
+    // Song Relation
+    song_id String
+    song    Song   @relation(fields: [song_id], references: [song_id])
+}
+
+model Like {
+    // Unique identifier for a like
+    like_id String @id @unique
+
+    // Foreign key referencing the song that was liked
+    song_id String
+    song    Song   @relation(fields: [song_id], references: [song_id])
+
+    // Timestamp of when the like was created
+    created_at DateTime
+
+    // Foreign key referencing the user who liked the song
+    user_id String
+    user    User   @relation(fields: [user_id], references: [user_id])
+}
+
+model Follow {
+    follow_id    String   @id @unique
+    follower     User     @relation("Following", fields: [follower_id], references: [user_id])
+    follower_id  String
+    following    User     @relation("Follower", fields: [following_id], references: [user_id])
+    following_id String
+    created_at   DateTime @default(now())
+}
