@@ -7,21 +7,23 @@ services:
         restart: always
         ports:
             - 3000:3000
-        environment:
-            - BACKEND_DOMAIN=backend:3001
+        env_file:
+            - .env
         depends_on:
             - backend
         
     backend:
-        build: ./backend
+        build: ./backend-node
         restart: always
         expose:
             - 3001
+        ports:
+            - 3001:3001
         depends_on:
             - database
-        environment:
-            - MONGO_HOST=database
-            - MONGO_PORT=27017
+        env_file:
+            - .env
+
     database:
         image: "mongo:4.0.27-xenial"
         restart: always
