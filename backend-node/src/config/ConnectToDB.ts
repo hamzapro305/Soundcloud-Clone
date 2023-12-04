@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
-import { Application } from "express"
-import { BACKEND_PORT, DB_HOST, DB_PORT } from ".";
-
-
-const port = BACKEND_PORT || 3001;
+import { DB_HOST, DB_PORT } from ".";
 
 // Connect to MongoDB
 export const ConnectToDB = async (callBack: () => void): Promise<void> => {
