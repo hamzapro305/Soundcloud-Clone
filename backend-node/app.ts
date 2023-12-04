@@ -1,12 +1,15 @@
 import express, { Request, Response, Application } from 'express';
-import { BACKEND_PORT, DB_HOST, DB_PORT } from './src/config';
 import testRouter from './src/routes/testRouter';
+import { ConnectToDB } from './src/config/ConnectToDB';
+import { BACKEND_PORT } from './src/config';
 
 const app: Application = express();
-const port = BACKEND_PORT || 3001;
 
+// Routers
 app.use("/api/test", testRouter)
 
-app.listen(port, () => {
-    console.log(`Server is Fire at http://localhost:${port}`);
-});
+ConnectToDB(() => {
+    app.listen(BACKEND_PORT, () => {
+        console.log(`Application started at ${BACKEND_PORT}`);
+    });
+})

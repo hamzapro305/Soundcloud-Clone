@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
     frontend:
         build: ./frontend
         restart: always
@@ -11,6 +10,8 @@ services:
             - .env
         depends_on:
             - backend
+        expose:
+            - 3000
         
     backend:
         build: ./backend-node

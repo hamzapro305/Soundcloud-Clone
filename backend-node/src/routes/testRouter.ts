@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { TestController } from "../controllers/testController";
+import TestController from "../controllers/TestController";
 
 const testRouter = Router()
-const testController = new TestController()
 
-testRouter.get("/", testController.getTest)
+testRouter.get("/", TestController.getTest)
 
 export default testRouter
