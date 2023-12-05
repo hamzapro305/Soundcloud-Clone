@@ -7,11 +7,10 @@ export class CustomError extends Error {
     constructor(message: string, httpCode: HttpStatusCode) {
         super(message);
 
-        Object.setPrototypeOf(this, new.target.prototype);
-
         this.message = message;
         this.httpCode = httpCode;
 
-        Error.captureStackTrace(this);
+        // Set the prototype explicitly
+        Object.setPrototypeOf(this, CustomError.prototype);
     }
 }
