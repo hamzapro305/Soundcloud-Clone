@@ -22,7 +22,7 @@ class UserServices {
                 password
             );
             if (new_user === null) {
-                return new CustomError("User Already Exists", 400);
+                throw new CustomError("User Already Exists", 400);
             }
 
             return new_user;
@@ -32,7 +32,7 @@ class UserServices {
     public async log_in(
         email: string,
         login_password: string
-    ): Promise< UserLoginDTO> {
+    ): Promise<UserLoginDTO> {
             const user = await userRepository.getUser(email, login_password);
             
             if (user.password !== login_password) {
