@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import userRepository from "../repository/UserRepository";
-import { CustomError } from "../utils/CustomError";
+import { CustomError } from "../exceptions/CustomError";
 import { User, UserLoginDTO } from "../@Types/User";
 
 class UserServices {
