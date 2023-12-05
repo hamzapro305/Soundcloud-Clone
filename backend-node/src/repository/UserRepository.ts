@@ -40,6 +40,60 @@ class UserRepository {
             
         }
     }
+
+    async getUserByID(user_id: string) {
+        try {
+            const user= await prisma.user.findUnique({
+                where:{
+                    user_id
+                }
+            })
+
+            return user
+        } catch (error) {
+            
+        }
+    }
+
+    async addFollower(user_id: string) {
+        try {
+            const user= await prisma.user.update({
+                where:{
+                    user_id
+                },
+                data:{
+                    followers_count:{
+                        increment:1
+                    }
+                }
+            })
+
+            return user
+        } catch (error) {
+            
+        }
+    }
+
+    async addFollowing(user_id: string) {
+        try {
+            const user= await prisma.user.update({
+                where:{
+                    user_id
+                },
+                data:{
+                    following_count:{
+                        increment:1
+                    }
+                }
+            })
+
+            return user
+        } catch (error) {
+            
+        }
+    }
+
+
 }
 
 export default new UserRepository();
