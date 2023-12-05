@@ -10,7 +10,7 @@ export class ErrorHandler {
 
         return false;
     }
-
+    
     private handleTrustedError(error: CustomError, response: Response): void {
         response.status(error.httpCode).json({ message: error.message });
     }

@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import testRouter from './src/routes/testRouter';
 import user_router from './src/routes/UserRoutes';
 import follow_router from './src/routes/FollowRoutes';
-import errorRouter from './src/routes/ErrorRouter';
+import ErrorMiddleware from './src/routes/ErrorRouter';
 
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
@@ -14,7 +14,8 @@ app.use(express.json())
 app.use("/api/test", testRouter)
 app.use("/api/user", user_router)
 app.use("/api/follow-user", follow_router)
-app.use(errorRouter)
+
+app.use(ErrorMiddleware)
 
 // Run application
 app.listen(PORT, () => {
