@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import testRouter from './src/routes/testRouter';
 import user_router from './src/routes/UserRoutes';
+import follow_router from './src/routes/FollowRoutes';
 import errorRouter from './src/routes/ErrorRouter';
 
 const app: Application = express();
@@ -12,6 +13,7 @@ app.use(express.json())
 // Routers
 app.use("/api/test", testRouter)
 app.use("/api/user", user_router)
+app.use("/api/follow-user", follow_router)
 app.use(errorRouter)
 
 // Run application

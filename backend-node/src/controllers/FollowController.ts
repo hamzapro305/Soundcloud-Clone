@@ -1,18 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import userServices from "../services/UserServices";
+import followServices from "../services/FollowService";
 
-class UserController {
-    public async signUp(req: Request, res: Response) {
-        const { username, full_name, bio, profile_picture, email, password } = req.body;
-        const user = await userServices.sign_up(username, full_name, bio, profile_picture, email, password)
-        res.status(200).json(user);
-    }
+class FollowController {
     
-    public async logIn(req: Request, res: Response) {
-        const { email, password } = req.body;
-        const user = await userServices.log_in(email,password)
+    public async follow(req: Request, res: Response) {
+        const { followedById, followingId } = req.body;
+        const user = await followServices.toggleFollow(followedById,followingId)
         res.status(200).json(user);
     }
 }
 
-export default new UserController();
+export default new FollowController();

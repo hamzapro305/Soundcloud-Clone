@@ -1,4 +1,4 @@
-import { UserLoginDTO } from "../@Types/User";
+import { User, UserLoginDTO } from "../@Types/User";
 import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
@@ -30,7 +30,7 @@ class UserRepository {
         }
     }
 
-    async getUser(email: string, password: string): Promise<UserLoginDTO> {
+    async getUser(email: string, password: string): Promise<User> {
         try {
             const user = await prisma.user.findUnique({
                 where: {

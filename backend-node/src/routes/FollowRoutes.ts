@@ -1,7 +1,7 @@
 import { Router } from "express";
-import userController from "../controllers/UserController";
-const fllow_router = Router();
+import followController from "../controllers/FollowController";
+const follow_router = Router();
 
-fllow_router.post("/follow", userController.signUp)
+follow_router.post("/follow", followController.follow)
 
-export default fllow_router;
+export default follow_router;

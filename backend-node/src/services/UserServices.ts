@@ -1,6 +1,7 @@
 import userRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import { User, UserLoginDTO } from "../@Types/User";
+import HttpStatusCode from "../utils/HttpStatusCode";
 
 class UserServices {
     public async sign_up(
@@ -31,20 +32,21 @@ class UserServices {
     public async log_in(
         email: string,
         login_password: string
-    ): Promise< UserLoginDTO | CustomError> {
+    ): Promise< UserLoginDTO> {
         try {
             const user = await userRepository.getUser(email, login_password);
             if (!user) {
-                return new CustomError("User Not Found", 404);
+                throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
             }
+            // console.log(object)
             if (user.password !== login_password) {
-                return new CustomError("Invalid Password", 400);
+                throw new CustomError("Invalid Password", HttpStatusCode.BAD_REQUEST);
             }
             const { password, ...user2 } = user;
 
             return user2;
         } catch (error) {
-            return new CustomError("Internal Server Error", 500);
+            throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
         }
     }
 }
