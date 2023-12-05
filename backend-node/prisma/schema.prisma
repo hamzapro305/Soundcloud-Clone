@@ -13,7 +13,7 @@ model User {
     // Username chosen by the user
     username        String
     // Email address of the user
-    email           String
+    email           String     @unique
     // Password for user authentication
     password        String
     // Full name of the user
@@ -40,8 +40,8 @@ model User {
     songs           Song[]
 
     // Follow Relationship
-    follows   Follow[] @relation("Following")
-    followers Follow[] @relation("Follower")
+    followedBy Follow[] @relation("followedBy")
+    following  Follow[] @relation("following")
 }
 
 model Song {
@@ -156,12 +156,13 @@ model Like {
 }
 
 model Follow {
-    follow_id    String   @id @default(uuid())
-    follower     User     @relation("Following", fields: [follower_id], references: [user_id])
-    follower_id  String
-    following    User     @relation("Follower", fields: [following_id], references: [user_id])
-    following_id String
+    followedBy   User     @relation("followedBy", fields: [followedById], references: [user_id])
+    followedById String
+    following    User     @relation("following", fields: [followingId], references: [user_id])
+    followingId  String
     created_at   DateTime @default(now())
+
+    @@id([followingId, followedById])
 }
 
 enum Privacy {

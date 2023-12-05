@@ -7,9 +7,11 @@ class UserController {
         const user = await userServices.sign_up(username, full_name, bio, profile_picture, email, password)
         res.status(200).json(user);
     }
-
-    public logIn(req: Request, res: Response) {
-        res.status(200).send("test done ");
+    
+    public async logIn(req: Request, res: Response) {
+        const { email, password } = req.body;
+        const user = await userServices.log_in(email,password)
+        res.status(200).json(user);
     }
 }
 

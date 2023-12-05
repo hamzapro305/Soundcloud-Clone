@@ -26,6 +26,20 @@ class UserRepository {
             return null;
         }
     }
+
+    async getUser(email: string, password: string) {
+        try {
+            const user= await prisma.user.findUnique({
+                where:{
+                    email
+                }
+            })
+
+            return user
+        } catch (error) {
+            
+        }
+    }
 }
 
 export default new UserRepository();

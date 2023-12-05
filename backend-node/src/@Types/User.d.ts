@@ -24,3 +24,5 @@ export type User = {
     // follows: Follow[]
     // followers: Follow[]
 }
+
+export type UserLoginDTO = Omit< User , "password" >
