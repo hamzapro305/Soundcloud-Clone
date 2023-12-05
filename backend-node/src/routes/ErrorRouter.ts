@@ -3,9 +3,10 @@ import { ErrorHandler } from '../exceptions/ErrorHandler';
 
 const errorRouter = Router()
 
-errorRouter.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+errorRouter.use(async (err: Error, req: Request, res: Response, next: NextFunction) => {
     // 3. Lastly, handle the error
-    (new ErrorHandler()).handleError(err, res);
+    const errorHandler = new ErrorHandler()
+    errorHandler.handleError(err, res);
 });
 
 export default errorRouter

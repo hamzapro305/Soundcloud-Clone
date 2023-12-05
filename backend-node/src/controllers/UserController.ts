@@ -8,10 +8,14 @@ class UserController {
         res.status(200).json(user);
     }
 
-    public async logIn(req: Request, res: Response) {
-        const { email, password } = req.body;
-        const user = await userServices.log_in(email, password)
-        res.status(200).json(user);
+    public async logIn(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email, password } = req.body;
+            const user = await userServices.log_in(email, password)
+            res.status(200).json(user);
+        } catch (error) {
+            next(error)
+        }
     }
 }
 
