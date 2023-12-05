@@ -41,8 +41,11 @@ class UserRepository {
                 throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
             }
             return user
-        } catch (error) {
-            throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
+        } catch (error: any) {
+            throw new CustomError(
+                error?.message as string || 'Internal Server Error',
+                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
         }
     }
 

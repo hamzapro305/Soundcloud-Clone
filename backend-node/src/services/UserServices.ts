@@ -33,21 +33,14 @@ class UserServices {
         email: string,
         login_password: string
     ): Promise< UserLoginDTO> {
-        try {
             const user = await userRepository.getUser(email, login_password);
-            if (!user) {
-                throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
-            }
-            // console.log(object)
+            
             if (user.password !== login_password) {
                 throw new CustomError("Invalid Password", HttpStatusCode.BAD_REQUEST);
             }
             const { password, ...user2 } = user;
 
             return user2;
-        } catch (error) {
-            throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
-        }
     }
 }
 
