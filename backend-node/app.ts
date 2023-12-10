@@ -3,12 +3,14 @@ import testRouter from './src/routes/testRouter';
 import user_router from './src/routes/UserRoutes';
 import follow_router from './src/routes/FollowRoutes';
 import ErrorMiddleware from './src/routes/ErrorRouter';
+import cors from "cors"
 
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 // Middlewares
 app.use(express.json())
+app.use(cors());
 
 // Routers
 app.use("/api/test", testRouter)

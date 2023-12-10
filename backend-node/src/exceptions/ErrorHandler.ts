@@ -7,7 +7,6 @@ export class ErrorHandler {
         if (error instanceof CustomError) {
             return true;
         }
-
         return false;
     }
     
@@ -17,13 +16,14 @@ export class ErrorHandler {
 
     private handleCriticalError(error: Error | CustomError, response?: Response): void {
         if (response) {
+            console.trace(error)
             response
                 .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
                 .json({ message: 'Internal server error' });
         }
 
-        console.log('Application encountered a critical error. Exiting');
-        process.exit(1);
+        console.log('Application encountered a critical error');
+        // process.exit(1);
     }
 
 
