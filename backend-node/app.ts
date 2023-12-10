@@ -1,8 +1,8 @@
 import express, { Application } from 'express';
-import UserRouter from './src/routes/FollowRouter';
 import ErrorMiddleware from './src/routes/ErrorRouter';
 import cors from "cors"
-import TestRouter from './src/routes/testRouter';
+import TestRouter from './src/routes/TestRouter';
+import UserRouter from './src/routes/UserRouter';
 import FollowRouter from './src/routes/FollowRouter';
 
 const app: Application = express();
