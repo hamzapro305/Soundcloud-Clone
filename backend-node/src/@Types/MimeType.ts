@@ -1,5 +1,4 @@
-export type MimeTypes =
-    | { mimeType: "text/plain", ext: ".txt" }
+export type MimeType = { mimeType: "text/plain", ext: ".txt" }
     | { mimeType: "text/html", ext: ".html" }
     | { mimeType: "text/html", ext: ".htm" }
     | { mimeType: "text/css", ext: ".css" }
@@ -32,8 +31,8 @@ export type MimeTypes =
     | { mimeType: "application/x-7z-compressed", ext: ".7z" }
     | { mimeType: "application/vnd.android.package-archive", ext: ".apk" }
 
-export const MimeData: MimeTypes[] =
-    [{ mimeType: "text/plain", ext: ".txt" },
+export const MimeData: MimeType[] = [
+    { mimeType: "text/plain", ext: ".txt" },
     { mimeType: "text/html", ext: ".html" },
     { mimeType: "text/html", ext: ".htm" },
     { mimeType: "text/css", ext: ".css" },
@@ -64,4 +63,5 @@ export const MimeData: MimeTypes[] =
     { mimeType: "application/gzip", ext: ".gz" },
     { mimeType: "application/x-bzip2", ext: ".bz2" },
     { mimeType: "application/x-7z-compressed", ext: ".7z" },
-    { mimeType: "application/vnd.android.package-archive", ext: ".apk" }]
+    { mimeType: "application/vnd.android.package-archive", ext: ".apk" }
+]

@@ -1,25 +1,28 @@
-import { Request } from "express";
-import { Storage } from "firebase-admin/lib/storage/storage";
 import { storage } from "../config/Firebase";
 
+import fs from "fs"
+
 export class UploadService {
-    private storage: Storage;
+    private storage: typeof storage;
     constructor() {
         this.storage = storage;
     }
 
-    public uploadData(File: Express.Multer.File, filePath: string, req: Request): Promise<any> {
+    public uploadDataUsingMemoryStorage(File: Express.Multer.File, filePath: string): Promise<any> {
         return new Promise(async (resolve, reject) => {
             const chunkSize = 1 * 1024 * 1024;
             const bucket = this.storage.bucket();
 
             const blob = bucket.file(filePath, {
+
             });
+
             try {
                 await blob.save(File.buffer, {
                     chunkSize: chunkSize,
                     gzip: true,
                     contentType: File.mimetype,
+                    
                 })
                 resolve("finish")
             } catch (error) {
@@ -29,6 +32,49 @@ export class UploadService {
 
         })
 
+    }
+    public uploadDataUsingDiskStorage(File: Express.Multer.File, filePath: string): Promise<any> {
+        return new Promise(async (resolve, reject) => {
+            const chunkSize = 1 * 1024 * 1024;
+            const bucket = this.storage.bucket();
+
+            const fileStream = fs.createReadStream(File.path);
+
+            const fileUpload = bucket.file(filePath);
+            const writableStream = fileUpload.createWriteStream({
+                chunkSize: chunkSize
+            });
+
+
+            fileStream.pipe(writableStream)
+                .on('error', (error) => {
+                    console.error(error);
+                    this.deleteFile(File.path)
+                    reject(error)
+                })
+                .on('finish', () => {
+
+                    this.deleteFile(File.path)
+                    resolve(true)
+                });
+
+
+        })
+
+    }
+
+    private deleteFile(path: string) {
+        try {
+            fs.unlink(path, (error) => {
+                if (error) {
+                    console.error('Error deleting file:', error);
+                } else {
+                    // console.log('File deleted successfully');
+                }
+            });
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     downloadData(fileName: string, destinationPath: NodeJS.WritableStream) {

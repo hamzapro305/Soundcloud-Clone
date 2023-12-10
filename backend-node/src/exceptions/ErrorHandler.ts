@@ -15,8 +15,8 @@ export class ErrorHandler {
     }
 
     private handleCriticalError(error: Error | CustomError, response?: Response): void {
+        console.trace(error)
         if (response) {
-            console.trace(error)
             response
                 .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
                 .json({ message: 'Internal server error' });

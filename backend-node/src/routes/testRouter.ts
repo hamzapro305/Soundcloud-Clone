@@ -2,10 +2,10 @@ import { Router } from "express";
 import TestController from "../controllers/TestController";
 import { MulterConfigured } from "../config/Multer";
 
-const testRouter = Router()
-const upload = MulterConfigured([".zip"])
+const TestRouter = Router()
+const upload = MulterConfigured([".zip", ".json"], "RAM")
 
-testRouter.get("/", TestController.getTest)
-testRouter.post("/upload", upload.single("file"), TestController.uploadFile)
+TestRouter.get("/", TestController.getTest)
+TestRouter.post("/upload", upload.single("file"), TestController.uploadFile)
 
-export default testRouter
+export default TestRouter

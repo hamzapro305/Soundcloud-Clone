@@ -1,14 +1,25 @@
-import multer, { Multer } from "multer";
+import multer from "multer";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
-import { MimeTypes } from "../@Types/MimeType";
+import { MimeType } from "../@Types/MimeType";
 import { GetExtensionFromMime } from "../utils/Functions";
 
-export const MulterConfigured = (Types: MimeTypes["ext"][]): multer.Multer => {
+export const MulterConfigured = (Types: MimeType["ext"][], StorageType: "DISK" | "RAM"): multer.Multer => {
     return multer({
-        storage: multer.memoryStorage(),
+
+        storage: StorageType === "DISK" ?
+            multer.diskStorage({
+                destination(req, file, callback) {
+                    callback(null, "temp/")
+                },
+                filename(req, file, callback) {
+                    callback(null, Date.now() + ' - ' + file.originalname)
+                }
+            })
+            : multer.memoryStorage(),
+
         fileFilter: (req, File, cb) => {
-            const FileExt = GetExtensionFromMime(File.mimetype as MimeTypes["mimeType"])
+            const FileExt = GetExtensionFromMime(File.mimetype as MimeType["mimeType"])
             if (Types.includes(FileExt)) {
                 cb(null, true);
             } else {

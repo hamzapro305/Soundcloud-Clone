@@ -1,9 +1,9 @@
 import express, { Application } from 'express';
-import testRouter from './src/routes/testRouter';
-import user_router from './src/routes/UserRoutes';
-import follow_router from './src/routes/FollowRoutes';
+import UserRouter from './src/routes/FollowRouter';
 import ErrorMiddleware from './src/routes/ErrorRouter';
 import cors from "cors"
+import TestRouter from './src/routes/testRouter';
+import FollowRouter from './src/routes/FollowRouter';
 
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
@@ -13,9 +13,9 @@ app.use(express.json())
 app.use(cors());
 
 // Routers
-app.use("/api/test", testRouter)
-app.use("/api/user", user_router)
-app.use("/api/follow-user", follow_router)
+app.use("/api/test", TestRouter)
+app.use("/api/user", UserRouter)
+app.use("/api/follow-user", FollowRouter)
 
 app.use(ErrorMiddleware)
 
