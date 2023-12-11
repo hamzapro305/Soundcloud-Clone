@@ -3,13 +3,15 @@ import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
+type UpdateAbleUser = Partial<Pick<User, "facebook_id" | "google_id" | "password" | "email">>
+
 class UserRepository {
-    public createUserByLocal = async (email: string, password: string): Promise<User> => {
+    public createUserByLocal = async (data: Pick<User, "password" | "email">): Promise<User> => {
         try {
             const new_user = await prisma.user.create({
                 data: {
-                    email: email,
-                    password: password,
+                    email: data.email,
+                    password: data.password,
                     facebook_id: "",
                     google_id: "",
                 },
@@ -20,15 +22,21 @@ class UserRepository {
         }
     }
 
-    public updateUserByUID = async (uid: string, data: Pick<User, "facebook_id" | "google_id">) => {
-        prisma.user.update({
-            where: {
-                uid: uid
-            },
-            data: {
-                ...data
-            }
-        })
+
+    public updateUserByUID = async (uid: string, data: UpdateAbleUser) => {
+        try {
+            const user = await prisma.user.update({
+                where: {
+                    uid: uid
+                },
+                data: {
+                    ...data
+                }
+            })
+            return user;
+        } catch (error) {
+            throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public getUserByEmail = async (email: string) => {
@@ -67,52 +75,6 @@ class UserRepository {
             );
         }
     }
-
-
-    // async addFollower(user_id: string) {
-    //     try {
-    //         const user = await prisma.user.update({
-    //             where: {
-    //                 uid: user_id
-    //             },
-    //             data: {
-    //                 followers_count: {
-    //                     increment: 1
-    //                 }
-    //             }
-    //         })
-
-    //         return user
-    //     } catch (error: any) {
-    //         throw new CustomError(
-    //             error?.message as string || 'Internal Server Error',
-    //             error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-    //         );
-    //     }
-    // }
-
-    // async addFollowing(user_id: string) {
-    //     try {
-    //         const user = await prisma.user.update({
-    //             where: {
-    //                 uid: user_id
-    //             },
-    //             data: {
-    //                 following_count: {
-    //                     increment: 1
-    //                 }
-    //             }
-    //         })
-
-    //         return user
-    //     } catch (error: any) {
-    //         throw new CustomError(
-    //             error?.message as string || 'Internal Server Error',
-    //             error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-    //         );
-    //     }
-    // }
-
 
 }
 

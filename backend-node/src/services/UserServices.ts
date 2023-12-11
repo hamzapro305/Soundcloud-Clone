@@ -1,22 +1,22 @@
 import userRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
+import HttpStatusCode from "../utils/HttpStatusCode";
 
 class UserServices {
-    public async sign_up(
+    public async SignUpLocal(
         email: string,
-        uid: string
+        password: string
     ) {
         try {
-            const new_user = await userRepository.createUser(
-                email,
-                uid
-            );
+            const new_user = await userRepository.createUserByLocal({ email, password });
             if (new_user === null) {
-                throw new CustomError("User Already Exists", 400);
+                throw new CustomError("User Already Exists", HttpStatusCode.BAD_REQUEST);
             }
 
             return new_user;
-        } catch (error) { }
+        } catch (error) {
+            console.log(error)
+        }
     }
     public async getUserByEmail(email: string) {
         const user = await userRepository.getUserByEmail(email);
