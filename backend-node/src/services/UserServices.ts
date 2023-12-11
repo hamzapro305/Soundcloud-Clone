@@ -20,6 +20,7 @@ class UserServices {
     }
     public async getUserByEmail(email: string) {
         const user = await userRepository.getUserByEmail(email);
+        return user;
     }
 }
 

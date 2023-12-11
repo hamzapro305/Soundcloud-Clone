@@ -7,19 +7,21 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model User {
+model Profile {
     // Unique identifier for a user
-    uid         String     @id  
-    // Username chosen by the user
+    profile_id      String @id
+    // Profilename chosen by the user
     username        String
     // Email address of the user
-    email           String     @unique
+    email           String @unique
     // Bio or description of the user
     bio             String
     // Number of followers for the user
-    followers_count Int        @default(0)
+    followers_count Int    @default(0)
     // Number of users the user is following
-    following_count Int        @default(0)
+    following_count Int    @default(0)
+
+    uid             String     @unique
     // Saved Play List
     saved_playlists Playlist[]
     // Comments
@@ -30,8 +32,18 @@ model User {
     songs           Song[]
 
     // Follow Relationship
-    followedBy Follow[] @relation("followedBy")
-    following  Follow[] @relation("following")
+    followedBy Follow[]                   @relation("followedBy")
+    following  Follow[]                   @relation("following")
+    user       AuthenticationRequirements @relation(fields: [uid], references: [uid])
+}
+
+model AuthenticationRequirements {
+    uid         String   @id @default(uuid())
+    password    String
+    email       String
+    facebook_id String
+    google_id   String
+    profile     Profile?
 }
 
 model Song {
@@ -42,8 +54,8 @@ model Song {
 
     privacy        Privacy   @default(PUBLIC)
     // Foreign key referencing the user who uploaded the song
-    uid        String
-    upload_by      User      @relation(fields: [uid], references: [uid])
+    profile_id     String
+    upload_by      Profile   @relation(fields: [profile_id], references: [profile_id])
     // Title of the song
     title          String
     // Description of the song
@@ -104,16 +116,16 @@ model Playlist {
     updated_at  DateTime
 
     // playlist save
-    uid String
-    user    User   @relation(fields: [uid], references: [uid])
+    profile_id String
+    user       Profile @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Comment {
     // Unique identifier for a comment
     comment_id String   @id @default(uuid())
     // Foreign key referencing the user who posted the comment
-    uid    String
-    user       User     @relation(fields: [uid], references: [uid])
+    profile_id String
+    user       Profile  @relation(fields: [profile_id], references: [profile_id])
     // Content of the comment
     content    String
     // Timestamp of when the comment was posted
@@ -141,14 +153,14 @@ model Like {
     created_at DateTime @default(now())
 
     // Foreign key referencing the user who liked the song
-    uid String
-    user    User   @relation(fields: [uid], references: [uid])
+    profile_id String
+    user       Profile @relation(fields: [profile_id], references: [profile_id])
 }
 
 model Follow {
-    followedBy   User     @relation("followedBy", fields: [followedById], references: [uid])
+    followedBy   Profile  @relation("followedBy", fields: [followedById], references: [profile_id])
     followedById String
-    following    User     @relation("following", fields: [followingId], references: [uid])
+    following    Profile  @relation("following", fields: [followingId], references: [profile_id])
     followingId  String
     created_at   DateTime @default(now())
 

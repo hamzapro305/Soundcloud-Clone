@@ -1,43 +1,104 @@
-import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import { FirebaseAuth } from "../config/Firebase";
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'; // Assuming you have a User model and IUser interface
+import UserServices from './UserServices';
 
-export class AuthService {
-    private Auth: typeof FirebaseAuth;
+class AuthService {
     constructor() {
-        this.Auth = FirebaseAuth
+        // Initialize passport
+        passport.initialize();
+
+        // Configure the session
+        passport.session();
+
+        this.configureLocalStrategy();
+        this.configureGoogleStrategy();
+        this.serializeUser();
+        this.deserializeUser();
     }
 
-    createUserByEmailPass = (email: string, password: string): Promise<UserRecord> => {
-        return new Promise(async (res, rej) => {
+    private configureLocalStrategy() {
+        passport.use(
+            new LocalStrategy(
+                {
+                    usernameField: 'email',
+                    passwordField: 'password',
+                },
+                async (username, password, done) => {
+                    try {
+                        const user = await UserServices.getUserByEmail(username)
+
+                        if (!user || !(await user.verifyPassword(password))) {
+                            return done(null, false, { message: 'Invalid username or password' });
+                        }
+
+                        return done(null, user);
+                    } catch (error) {
+                        return done(error);
+                    }
+                }
+            )
+        );
+    }
+
+    private configureGoogleStrategy() {
+        passport.use(
+            new GoogleStrategy(
+                {
+                    clientID: 'your_client_id',
+                    clientSecret: 'your_client_secret',
+                    callbackURL: 'your_callback_url',
+                },
+                async (accessToken, refreshToken, profile, done) => {
+                    try {
+                        // Check if the user already exists in your database
+                        let user = await User.findOne({ googleId: profile.id });
+
+                        if (!user) {
+                            // Create a new user if not found
+                            user = new User({
+                                googleId: profile.id,
+                                email: profile.emails[0].value,
+                                name: profile.displayName,
+                            });
+                            await user.save();
+                        }
+
+                        return done(null, user);
+                    } catch (error) {
+                        return done(error);
+                    }
+                }
+            )
+        );
+    }
+
+    private serializeUser() {
+        passport.serializeUser<any, any>((user, done) => {
+            done(null, user.id);
+        });
+    }
+
+    private deserializeUser() {
+        passport.deserializeUser(async (id: string, done) => {
             try {
-                const user = await this.Auth.createUser({
-                    email: email,
-                    password: password,
-                })
-                res(user)
+                const user = await User.findById(id);
+                done(null, user);
             } catch (error) {
-                console.log(error)
-                rej(null)
+                done(error);
             }
-        })
+        });
     }
 
-    verifyToken = async (token: string) => {
-        try {
-            const decodedToken = await this.Auth.verifyIdToken(token);
+    // Other methods related to authentication if needed
+}
 
-            // Access the user's ID and other information from the decoded token
-            const userId = decodedToken.uid;
-            const email = decodedToken.email;
+export default AuthService;
 
-            // Perform any additional logic or operations with the authenticated user
-
-            return { success: true, message: 'User authenticated successfully' };
-        } catch (error) {
-            console.error('Error authenticating user:', error);
-            return { success: false, message: 'Failed to authenticate user' };
-        }
-
-    }
-
+let user = {
+    id: "",
+    email: "",
+    password: "",
+    googleId: "", // Providees
+    facebookId: "" // Providees
 }

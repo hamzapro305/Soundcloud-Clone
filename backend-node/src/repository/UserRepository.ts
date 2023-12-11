@@ -6,15 +6,17 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 class UserRepository {
     async createUser(
         email: string,
-        uid: string
+        userId: string
     ): Promise<UserLoginDTO> {
         try {
             const new_user = await prisma.user.create({
                 data: {
-                    uid,
-                    username: "Noob",
+                    uid: userId,
+                    username: "noob",
                     email: email,
                     bio: "",
+                    full_name: "",
+                    password: "",
                 },
             });
             return new_user;
