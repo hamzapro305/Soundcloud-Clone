@@ -1,0 +1,51 @@
+//  Variables
+@import "vars"; 
+//  Globals
+@import "global";
+// components
+@import "./components/index.scss";
+// modals
+@import "./modals/index.scss";
+
+
+// .main-header{
+//     height: 400px;
+//     background-image: url('/header Image large.jpg');
+//     background-size: cover;
+//     color: white;
+//     // .header-nav{
+//     //     display: flex;
+//     //     justify-content: space-between;
+//     // }
+
+// }
+.main-header {
+    position: relative;
+    background-image: url('/header Image large.jpg');
+    background-size: cover;
+    color: white;
+    nav {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        .nav-btns{
+            display: flex;
+        }
+    }
+
+    .content {
+        max-width: 530px;
+        margin: 0 auto;
+        padding: 145px 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        button{
+            margin-top: 17px;
+        }
+    }
+}

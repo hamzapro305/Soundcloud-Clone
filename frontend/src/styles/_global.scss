@@ -1,0 +1,18 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $MainFont !important;
+}
+
+.general-container{
+    max-width: 1240px;
+    margin: auto;
+    @include responsive(lg){
+        max-width: 1080px;
+    }@include responsive(md){
+        max-width: 960px;
+    }@include responsive(sm){
+        max-width: 100%;
+    }
+}
