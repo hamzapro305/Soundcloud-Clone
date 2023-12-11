@@ -11,6 +11,6 @@ export class CustomError extends Error {
         this.httpCode = httpCode;
 
         // Set the prototype explicitly
-            
+        Object.setPrototypeOf(this,CustomError.prototype)
     }
 }
