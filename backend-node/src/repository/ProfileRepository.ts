@@ -6,14 +6,10 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 
 type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
 class ProfileRepository {
-    async createProfile(
-        uid: string,
-    ): Promise<TProfile> {
+    async createProfile(uid: string): Promise<TProfile> {
         try {
             const new_user = await prisma.profile.create({
-                data: {
-                    uid,
-                },
+                data: { uid },
             });
             return new_user;
         } catch (error) {
@@ -24,9 +20,7 @@ class ProfileRepository {
     getProfileByUID = async (uid: string) => {
         try {
             const profile = await prisma.profile.findUnique({
-                where: {
-                    uid
-                }
+                where: { uid }
             })
             if (profile == null) {
                 throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
@@ -43,12 +37,8 @@ class ProfileRepository {
     updateProfile = async (uid: string, data: UpdateAbleProfile) => {
         try {
             const user = await prisma.user.update({
-                where: {
-                    uid: uid
-                },
-                data: {
-                    ...data
-                }
+                where: { uid: uid },
+                data: { ...data }
             })
             return user;
         } catch (error) {
@@ -78,11 +68,8 @@ class ProfileRepository {
         try {
             const profile = await prisma.profile.update({
                 where: { uid },
-                data: {
-                    following_count: { increment: 1 }
-                }
+                data: { following_count: { increment: 1 } }
             })
-
             return profile
         } catch (error: any) {
             throw new CustomError(
