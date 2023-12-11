@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./../styles/style.scss";
 import Header from "@components/components/Header";
+import HSToast from "@components/components/Toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,9 @@ export default function RootLayout({
                 <div className="general-container">
                     <Header />
                     {children}
+                </div>
+                <div className="Middlewares">
+                    <HSToast />
                 </div>
             </body>
         </html>
