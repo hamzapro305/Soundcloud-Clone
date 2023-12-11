@@ -17,9 +17,9 @@ services:
         build: ./backend-node
         restart: always
         expose:
-            - 3001
+            - 8000
         ports:
-            - 3001:3001
+            - 8000:8000
         depends_on:
             - database
         env_file:
