@@ -5,17 +5,13 @@ import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
 class ProfileRepository {
-    async createUser(
-        userId: string,
-        fullname: string,
-        bio: string,
+    async createProfile(
+        uid: string,
     ): Promise<TProfile> {
         try {
             const new_user = await prisma.profile.create({
                 data: {
-                    fullname,
-                    bio,
-                    uid: userId,
+                    uid,
                 },
             });
             return new_user;

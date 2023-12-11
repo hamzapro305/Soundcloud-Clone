@@ -14,8 +14,11 @@ class UserServices {
             }
 
             return new_user;
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            throw new CustomError(
+                error?.message as string || 'Internal Server Error',
+                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
         }
     }
     public async getUserByEmail(email: string) {
