@@ -1,19 +1,18 @@
 import { TProfile } from "../@Types/Profile";
-import { User, UserLoginDTO } from "../@Types/User";
 import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
 class ProfileRepository {
-    async createUser(
+    createUser = async (
         userId: string,
-        fullname: string,
+        full_name: string,
         bio: string,
-    ): Promise<TProfile> {
+    ): Promise<TProfile> => {
         try {
             const new_user = await prisma.profile.create({
                 data: {
-                    fullname,
+                    full_name,
                     bio,
                     uid: userId,
                 },
@@ -24,24 +23,6 @@ class ProfileRepository {
         }
     }
 
-    getUserByUsername = async (fullname: string) => {
-        try {
-            const profile = await prisma.profile.findUnique({
-                where: {
-                    fullname: fullname
-                }
-            })
-            if (profile == null) {
-                throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
-            }
-            return profile
-        } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
-        }
-    }
     getProfileByUID = async (uid: string) => {
         try {
             const profile = await prisma.profile.findUnique({
@@ -62,16 +43,12 @@ class ProfileRepository {
     }
 
 
-    async addFollower(uid: string) {
+    addFollower = async (uid: string) => {
         try {
             const profile = await prisma.profile.update({
-                where: {
-                    uid
-                },
+                where: { uid },
                 data: {
-                    followers_count: {
-                        increment: 1
-                    }
+                    followers_count: { increment: 1 }
                 }
             })
 
@@ -84,16 +61,12 @@ class ProfileRepository {
         }
     }
 
-    async addFollowing(uid: string) {
+    addFollowing = async (uid: string) => {
         try {
             const profile = await prisma.profile.update({
-                where: {
-                    uid
-                },
+                where: { uid },
                 data: {
-                    following_count: {
-                        increment: 1
-                    }
+                    following_count: { increment: 1 }
                 }
             })
 

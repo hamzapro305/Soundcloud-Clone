@@ -4,6 +4,6 @@
 # build
 /dist
 
-/prisma/migrations/*
+/prisma/migrations
 
-.env
+/.env
