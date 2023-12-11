@@ -19,6 +19,7 @@ app.use("/api/test", TestRouter)
 app.use("/api/user", UserRouter)
 app.use("/api/follow-user", FollowRouter)
 
+// Handle Error After Controller
 app.use(ErrorMiddleware)
 
 // Run application

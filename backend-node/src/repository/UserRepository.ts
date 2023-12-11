@@ -1,20 +1,17 @@
-import { User, UserLoginDTO } from "../@Types/User";
+import { User } from "../@Types/User";
 import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
 class UserRepository {
-    async createUser(
-        email: string,
-        uid: string
-    ): Promise<UserLoginDTO> {
+    public createUserByLocal = async (email: string, password: string): Promise<User> => {
         try {
             const new_user = await prisma.user.create({
                 data: {
-                    uid,
-                    username: "Noob",
                     email: email,
-                    bio: "",
+                    password: password,
+                    facebook_id: "",
+                    google_id: "",
                 },
             });
             return new_user;
@@ -23,7 +20,18 @@ class UserRepository {
         }
     }
 
-    getUserByEmail = async (email: string) => {
+    public updateUserByUID = async (uid: string, data: Pick<User, "facebook_id" | "google_id">) => {
+        prisma.user.update({
+            where: {
+                uid: uid
+            },
+            data: {
+                ...data
+            }
+        })
+    }
+
+    public getUserByEmail = async (email: string) => {
         try {
             const user = await prisma.user.findUnique({
                 where: {
@@ -41,11 +49,11 @@ class UserRepository {
             );
         }
     }
-    getUserByUID = async (email: string) => {
+    public getUserByUID = async (uid: string) => {
         try {
             const user = await prisma.user.findUnique({
                 where: {
-                    uid: email
+                    uid: uid
                 }
             })
             if (user == null) {
@@ -61,49 +69,49 @@ class UserRepository {
     }
 
 
-    async addFollower(user_id: string) {
-        try {
-            const user = await prisma.user.update({
-                where: {
-                    uid: user_id
-                },
-                data: {
-                    followers_count: {
-                        increment: 1
-                    }
-                }
-            })
+    // async addFollower(user_id: string) {
+    //     try {
+    //         const user = await prisma.user.update({
+    //             where: {
+    //                 uid: user_id
+    //             },
+    //             data: {
+    //                 followers_count: {
+    //                     increment: 1
+    //                 }
+    //             }
+    //         })
 
-            return user
-        } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
-        }
-    }
+    //         return user
+    //     } catch (error: any) {
+    //         throw new CustomError(
+    //             error?.message as string || 'Internal Server Error',
+    //             error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
+    //         );
+    //     }
+    // }
 
-    async addFollowing(user_id: string) {
-        try {
-            const user = await prisma.user.update({
-                where: {
-                    uid: user_id
-                },
-                data: {
-                    following_count: {
-                        increment: 1
-                    }
-                }
-            })
+    // async addFollowing(user_id: string) {
+    //     try {
+    //         const user = await prisma.user.update({
+    //             where: {
+    //                 uid: user_id
+    //             },
+    //             data: {
+    //                 following_count: {
+    //                     increment: 1
+    //                 }
+    //             }
+    //         })
 
-            return user
-        } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
-        }
-    }
+    //         return user
+    //     } catch (error: any) {
+    //         throw new CustomError(
+    //             error?.message as string || 'Internal Server Error',
+    //             error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
+    //         );
+    //     }
+    // }
 
 
 }

@@ -5,11 +5,10 @@ import { Comment } from "./Comment"
 
 export type User = {
     uid: string
-    username: string
-    email: string
-    bio: string
-    followers_count: Int
-    following_count: Int
+    email: string 
+    password: string
+    facebook_id: string
+    google_id: string
 }
 
 export type TotalUser = User & {
