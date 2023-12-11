@@ -36,7 +36,7 @@ class ProfileRepository {
 
     updateProfile = async (uid: string, data: UpdateAbleProfile) => {
         try {
-            const user = await prisma.user.update({
+            const user = await prisma.profile.update({
                 where: { uid: uid },
                 data: { ...data }
             })

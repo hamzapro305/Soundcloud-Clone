@@ -6,9 +6,9 @@ import { TProfile } from "../@Types/Profile";
 type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
 
 class ProfileService{
-    async createProfile(userId:string) : Promise<TProfile> {
+    async createProfile(uid:string) : Promise<TProfile> {
         try {
-            const new_profile = await profileRepository.createProfile(userId);
+            const new_profile = await profileRepository.createProfile(uid);
             return new_profile;
 
         } catch (error: any) {
@@ -18,7 +18,7 @@ class ProfileService{
             );
         }
     }
-    async updateProfile(uid: string, data: UpdateAbleProfile){
+    async updateProfile(uid: string, data: UpdateAbleProfile) : Promise<TProfile>{
         try {
             const new_profile = await profileRepository.updateProfile(uid,data);
             return new_profile;
@@ -42,4 +42,4 @@ class ProfileService{
     }
 }
 
-export default ProfileService
+export default new ProfileService
