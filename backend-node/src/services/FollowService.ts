@@ -1,27 +1,27 @@
-import userRepository from "../repository/UserRepository";
-import followRepository from "../repository/FollowRepository";
-import { User, UserLoginDTO } from "../@Types/User";
+import UserRepository from "../repository/UserRepository";
+import ProfileRepository from "../repository/ProfileRepository";
 import { CustomError } from "../exceptions/CustomError";
+import FollowRepository from "../repository/FollowRepository";
+import { ThrowCriticalError } from "../utils/Functions";
 
 class FollowService {
 
-    public async toggleFollow(follower_id: string, following_id: string) : Promise<Boolean> {
+    public async toggleFollow(follower_id: string, following_id: string): Promise<true | undefined> {
         try {
+            const userRepository = new UserRepository()
+            const profileRepository = new ProfileRepository()
+            const followRepository = new FollowRepository()
             const user = await userRepository.getUserByUID(follower_id);
             if (!user) {
                 throw new CustomError("User Not Found", 404);
             }
-
-            const follow = await followRepository.follow(follower_id,following_id);
-
-            const followedUser = await userRepository.addFollower(following_id);
-            
-            const followerUser = await userRepository.addFollowing(follower_id);
-
+            await followRepository.follow(follower_id, following_id);
+            await profileRepository.addFollower(following_id);
+            await profileRepository.addFollowing(follower_id);
             return true
 
-        } catch (error) {
-            return false
+        } catch (error: any) {
+            ThrowCriticalError(error)
         }
     }
 }
