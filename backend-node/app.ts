@@ -4,9 +4,7 @@ import cors from "cors"
 import TestRouter from './src/routes/TestRouter';
 import UserRouter from './src/routes/UserRouter';
 import FollowRouter from './src/routes/FollowRouter';
-import dotenv from 'dotenv';
 
-dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
