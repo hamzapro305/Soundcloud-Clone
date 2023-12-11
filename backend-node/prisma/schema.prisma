@@ -9,7 +9,7 @@ generator client {
 
 model Profile {
     // Unique identifier for a user
-    profile_id      String     @id
+    profile_id      String     @id @default(uuid())
     // Profilename chosen by the user
     username        String
     // Bio or description of the user
