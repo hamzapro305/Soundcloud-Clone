@@ -3,6 +3,8 @@ import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
+
+type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
 class ProfileRepository {
     async createProfile(
         uid: string,
@@ -38,6 +40,21 @@ class ProfileRepository {
         }
     }
 
+    updateProfile = async (uid: string, data: UpdateAbleProfile) => {
+        try {
+            const user = await prisma.user.update({
+                where: {
+                    uid: uid
+                },
+                data: {
+                    ...data
+                }
+            })
+            return user;
+        } catch (error) {
+            throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     addFollower = async (uid: string) => {
         try {
