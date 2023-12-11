@@ -1,7 +1,7 @@
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
-import profileRepository from "../repository/ProfileRepository";
 import { TProfile } from "../@Types/Profile";
+import profileRepository from "../repository/ProfileRepository";
 
 type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
 
@@ -20,6 +20,7 @@ class ProfileService{
     }
     async updateProfile(uid: string, data: UpdateAbleProfile) : Promise<TProfile>{
         try {
+            const profileRepository = new ProfileRepository()
             const new_profile = await profileRepository.updateProfile(uid,data);
             return new_profile;
         } catch (error: any) {
@@ -31,6 +32,7 @@ class ProfileService{
     }
     async getProfileByUID(uid: string){
         try {
+            const profileRepository = new ProfileRepository()
             const new_profile = await profileRepository.getProfileByUID(uid);
             return new_profile;
         } catch (error: any) {
