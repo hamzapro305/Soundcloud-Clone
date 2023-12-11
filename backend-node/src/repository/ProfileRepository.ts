@@ -82,4 +82,4 @@ class ProfileRepository {
 
 }
 
-export default ProfileRepository
+export default new ProfileRepository

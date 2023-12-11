@@ -20,7 +20,6 @@ class ProfileService{
     }
     async updateProfile(uid: string, data: UpdateAbleProfile) : Promise<TProfile>{
         try {
-            const profileRepository = new ProfileRepository()
             const new_profile = await profileRepository.updateProfile(uid,data);
             return new_profile;
         } catch (error: any) {
