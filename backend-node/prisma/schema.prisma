@@ -9,18 +9,15 @@ generator client {
 
 model Profile {
     // Unique identifier for a user
-    profile_id      String @id
+    profile_id      String     @id
     // Profilename chosen by the user
     username        String
-    // Email address of the user
-    email           String @unique
     // Bio or description of the user
     bio             String
     // Number of followers for the user
-    followers_count Int    @default(0)
+    followers_count Int        @default(0)
     // Number of users the user is following
-    following_count Int    @default(0)
-
+    following_count Int        @default(0)
     uid             String     @unique
     // Saved Play List
     saved_playlists Playlist[]
@@ -32,17 +29,17 @@ model Profile {
     songs           Song[]
 
     // Follow Relationship
-    followedBy Follow[]                   @relation("followedBy")
-    following  Follow[]                   @relation("following")
-    user       AuthenticationRequirements @relation(fields: [uid], references: [uid])
+    followedBy Follow[] @relation("followedBy")
+    following  Follow[] @relation("following")
+    user       User     @relation(fields: [uid], references: [uid])
 }
 
-model AuthenticationRequirements {
+model User {
     uid         String   @id @default(uuid())
     password    String
-    email       String
-    facebook_id String
-    google_id   String
+    email       String   @unique
+    facebook_id String   @unique
+    google_id   String   @unique
     profile     Profile?
 }
 
