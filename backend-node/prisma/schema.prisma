@@ -9,27 +9,17 @@ generator client {
 
 model User {
     // Unique identifier for a user
-    user_id         String     @id @default(uuid())
+    uid         String     @id  
     // Username chosen by the user
     username        String
     // Email address of the user
     email           String     @unique
-    // Password for user authentication
-    password        String
-    // Full name of the user
-    full_name       String
     // Bio or description of the user
     bio             String
-    // URL or path to the user's profile picture
-    profile_picture String
     // Number of followers for the user
     followers_count Int        @default(0)
     // Number of users the user is following
     following_count Int        @default(0)
-    // Timestamp of when the user account was created
-    created_at      DateTime   @default(now())
-    // Timestamp of the last update to the user account
-    updated_at      DateTime   @default(now())
     // Saved Play List
     saved_playlists Playlist[]
     // Comments
@@ -52,8 +42,8 @@ model Song {
 
     privacy        Privacy   @default(PUBLIC)
     // Foreign key referencing the user who uploaded the song
-    user_id        String
-    upload_by      User      @relation(fields: [user_id], references: [user_id])
+    uid        String
+    upload_by      User      @relation(fields: [uid], references: [uid])
     // Title of the song
     title          String
     // Description of the song
@@ -114,16 +104,16 @@ model Playlist {
     updated_at  DateTime
 
     // playlist save
-    user_id String
-    user    User   @relation(fields: [user_id], references: [user_id])
+    uid String
+    user    User   @relation(fields: [uid], references: [uid])
 }
 
 model Comment {
     // Unique identifier for a comment
     comment_id String   @id @default(uuid())
     // Foreign key referencing the user who posted the comment
-    user_id    String
-    user       User     @relation(fields: [user_id], references: [user_id])
+    uid    String
+    user       User     @relation(fields: [uid], references: [uid])
     // Content of the comment
     content    String
     // Timestamp of when the comment was posted
@@ -151,14 +141,14 @@ model Like {
     created_at DateTime @default(now())
 
     // Foreign key referencing the user who liked the song
-    user_id String
-    user    User   @relation(fields: [user_id], references: [user_id])
+    uid String
+    user    User   @relation(fields: [uid], references: [uid])
 }
 
 model Follow {
-    followedBy   User     @relation("followedBy", fields: [followedById], references: [user_id])
+    followedBy   User     @relation("followedBy", fields: [followedById], references: [uid])
     followedById String
-    following    User     @relation("following", fields: [followingId], references: [user_id])
+    following    User     @relation("following", fields: [followingId], references: [uid])
     followingId  String
     created_at   DateTime @default(now())
 

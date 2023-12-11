@@ -7,7 +7,7 @@ class FollowService {
 
     public async toggleFollow(follower_id: string, following_id: string) : Promise<Boolean> {
         try {
-            const user = await userRepository.getUserByID(follower_id);
+            const user = await userRepository.getUserByUID(follower_id);
             if (!user) {
                 throw new CustomError("User Not Found", 404);
             }
