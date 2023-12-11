@@ -5,47 +5,36 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 
 class UserRepository {
     async createUser(
+        username: string,
+        full_name: string,
+        bio: string,
+        profile_picture: string,
         email: string,
-        uid: string
+        password: string
     ): Promise<UserLoginDTO> {
         try {
             const new_user = await prisma.user.create({
                 data: {
-                    uid,
-                    username: "Noob",
-                    email: email,
-                    bio: "",
+                    username,
+                    full_name,
+                    bio,
+                    profile_picture,
+                    email,
+                    password,
                 },
             });
+
             return new_user;
         } catch (error) {
             throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
         }
     }
 
-    getUserByEmail = async (email: string) => {
+    async getUser(email: string, password: string): Promise<User> {
         try {
             const user = await prisma.user.findUnique({
                 where: {
-                    email: email
-                }
-            })
-            if (user == null) {
-                throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
-            }
-            return user
-        } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
-        }
-    }
-    getUserByUID = async (email: string) => {
-        try {
-            const user = await prisma.user.findUnique({
-                where: {
-                    uid: email
+                    email
                 }
             })
             if (user == null) {
@@ -60,12 +49,25 @@ class UserRepository {
         }
     }
 
+    async getUserByID(user_id: string) {
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    user_id
+                }
+            })
+
+            return user
+        } catch (error) {
+
+        }
+    }
 
     async addFollower(user_id: string) {
         try {
             const user = await prisma.user.update({
                 where: {
-                    uid: user_id
+                    user_id
                 },
                 data: {
                     followers_count: {
@@ -75,11 +77,8 @@ class UserRepository {
             })
 
             return user
-        } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+        } catch (error) {
+
         }
     }
 
@@ -87,7 +86,7 @@ class UserRepository {
         try {
             const user = await prisma.user.update({
                 where: {
-                    uid: user_id
+                    user_id
                 },
                 data: {
                     following_count: {
@@ -97,11 +96,8 @@ class UserRepository {
             })
 
             return user
-        } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+        } catch (error) {
+
         }
     }
 

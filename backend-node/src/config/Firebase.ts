@@ -10,10 +10,8 @@ admin.initializeApp({
 
 
 const storage = admin.storage();
-const FirebaseAuth = admin.auth()
 
 export {
     storage,
     admin,
-    FirebaseAuth
 }
