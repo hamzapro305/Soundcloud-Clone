@@ -1,20 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
-  // Breakpoints Structure
+// Breakpoints Structure
 $custom-breakpoints: (
-	xs:		(minSize: 0px, maxSize: 575px, maxContWidth: 0px, name: 'XS'), // vertical mobile layout
-	sm:		(minSize: 576px, maxSize: 767px, maxContWidth: 719px, name: 'SM'), // horizontal mobile layout
-	md:		(minSize: 768px, maxSize: 991px, maxContWidth: 720px, name: 'MD'), // ipad
-	lg:		(minSize: 992px, maxSize: 1249px, maxContWidth: 960px, name: 'LG'), // ipad pro
-	xl:		(minSize: 1250px, maxSize: 1499px, maxContWidth: 1250px, name: 'XL'),
-	max: 	(minSize: 1500px, maxSize: 0px, maxContWidth: 1201px, name: 'MAX')
+	xs: (minSize: 0px, maxSize: 575px, maxContWidth: 0px, name: 'XS'),
+	// vertical mobile layout
+	sm: (minSize: 576px, maxSize: 767px, maxContWidth: 719px, name: 'SM'),
+	// horizontal mobile layout
+	md: (minSize: 768px, maxSize: 991px, maxContWidth: 720px, name: 'MD'),
+	// ipad
+	lg: (minSize: 992px, maxSize: 1249px, maxContWidth: 960px, name: 'LG'),
+	// ipad pro
+	xl: (minSize: 1250px, maxSize: 1499px, maxContWidth: 1250px, name: 'XL'),
+	max: (minSize: 1500px, maxSize: 0px, maxContWidth: 1201px, name: 'MAX')
 );
-@mixin responsive($breakpoint) { 
+
+@mixin responsive($breakpoint) {
 	@if map-has-key($custom-breakpoints, $breakpoint) {
 		@media (max-width: #{map-get(map-get($custom-breakpoints, $breakpoint), maxSize)}) {
 			@content;
 		}
 	}
+
 	@else {
 		@warn "Breakpoint #{$breakpoint} does not exist. Check case sensitivity.";
 	}
@@ -25,17 +31,12 @@ $custom-breakpoints: (
 $MainFont: 'Open Sans', sans-serif;
 $DarkText: #252525;
 $MaxPageWidth: 1920px;
-$LightTextColor: rgba(80, 80, 80, 0.5);
-$Blue: #131ef3;
-$LightBackground: #e3e6ff;
+$Orange: #f50;
 
 
 
 .MF {
 	font-family: $MainFont;
-	@include responsive(sm){
-		
-	}
+
+	@include responsive(sm) {}
 }
-
-

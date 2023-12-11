@@ -1,18 +1,23 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: $MainFont !important;
 }
 
-.general-container{
+.general-container {
     max-width: 1240px;
     margin: auto;
-    @include responsive(lg){
+
+    @include responsive(lg) {
         max-width: 1080px;
-    }@include responsive(md){
+    }
+
+    @include responsive(md) {
         max-width: 960px;
-    }@include responsive(sm){
+    }
+
+    @include responsive(sm) {
         max-width: 100%;
     }
 }

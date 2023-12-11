@@ -1,4 +1,4 @@
-import LoginModal from '@components/components/Modals/LoginModal'
+import LoginModal from '@/components/Modals/LoginModal'
 import React from 'react'
 
 const page = () => {

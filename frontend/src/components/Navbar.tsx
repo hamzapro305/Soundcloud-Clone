@@ -1,26 +1,21 @@
 "use client"
-import React, { useState } from "react";
-import LoginModal from "./Modals/LoginModal";
-import { AnimatePresence } from "framer-motion";
+import { useAppDispatch } from "@/Redux/Hooks";
+import { GlobalVariablesActions } from "@/Redux/Slices/GlobalVariablesSlice";
 
 const Navbar = () => {
-    const [showLoginModal, setShowLoginModal]= useState<boolean>(false);
-
+    const dispatch = useAppDispatch()
     return (
         <nav className="header-nav">
             <div>
                 <div>Logo</div>
             </div>
             <div className="nav-btns">
-                <button onClick={()=>{setShowLoginModal(true)}}>Signin</button>
+                <button onClick={() => {
+                    dispatch(GlobalVariablesActions.setLoginModal(true))
+                }}>Sign in</button>
                 <button>Create Account</button>
                 <div>For Artists</div>
             </div>
-            <AnimatePresence >
-                {showLoginModal &&
-                <LoginModal />
-                }
-            </AnimatePresence>
         </nav>
     );
 };

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./../styles/style.scss";
-import Header from "@components/components/Header";
-import HSToast from "@components/components/Toastify";
-
-const inter = Inter({ subsets: ["latin"] });
+import Header from "@/components/Header";
+import HSToast from "@/components/Toastify";
+import StoreProvider from "@/Redux/StoreProvide";
+import ModalsInit from "@/components/ModalsInit";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -18,15 +17,16 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body >
-                <div className="general-container">
+            <StoreProvider>
+                <body className="general-container">
                     <Header />
                     {children}
-                </div>
-                <div className="Middlewares">
-                    <HSToast />
-                </div>
-            </body>
+                    <div className="Middlewares">
+                        <HSToast />
+                        <ModalsInit />
+                    </div>
+                </body>
+            </StoreProvider>
         </html>
     );
 }

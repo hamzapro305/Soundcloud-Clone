@@ -1,17 +1,18 @@
 "use client"
 import React, { FC } from "react";
-import { motion } from "framer-motion";
+import { MotionStyle, motion } from "framer-motion";
 
 type Component = FC<{
     children?: JSX.Element;
     onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     Animation?: any;
+    Styles?: MotionStyle
 }>;
-const BackDrop: Component = ({ children, onClick, Animation }) => (
+const BackDrop: Component = ({ children, onClick, Animation, Styles }) => (
     <motion.div
         className="BackDrop"
         {...(Animation ?? PageAnimation)}
-        style={Styling}
+        style={{ ...Styling, ...(Styles ?? {}) }}
         onClick={(e) => {
             onClick && onClick(e);
         }}
