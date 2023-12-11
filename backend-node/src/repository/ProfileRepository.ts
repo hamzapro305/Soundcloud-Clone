@@ -1,3 +1,4 @@
+import { TProfile } from "../@Types/Profile";
 import { User, UserLoginDTO } from "../@Types/User";
 import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
@@ -6,14 +7,13 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 class ProfileRepository {
     async createUser(
         userId: string,
-        full_name: string,
+        fullname: string,
         bio: string,
-        password: string,
-    ): Promise<UserLoginDTO> {
+    ): Promise<TProfile> {
         try {
             const new_user = await prisma.profile.create({
                 data: {
-                    full_name,
+                    fullname,
                     bio,
                     uid: userId,
                 },
@@ -24,17 +24,17 @@ class ProfileRepository {
         }
     }
 
-    getUserByUsername = async (username: string) => {
+    getUserByUsername = async (fullname: string) => {
         try {
-            const user = await prisma.profile.findUnique({
+            const profile = await prisma.profile.findUnique({
                 where: {
-                    username: username
+                    fullname: fullname
                 }
             })
-            if (user == null) {
+            if (profile == null) {
                 throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
             }
-            return user
+            return profile
         } catch (error: any) {
             throw new CustomError(
                 error?.message as string || 'Internal Server Error',
@@ -42,17 +42,17 @@ class ProfileRepository {
             );
         }
     }
-    getUserByUID = async (email: string) => {
+    getProfileByUID = async (uid: string) => {
         try {
-            const user = await prisma.user.findUnique({
+            const profile = await prisma.profile.findUnique({
                 where: {
-                    uid: email
+                    uid
                 }
             })
-            if (user == null) {
+            if (profile == null) {
                 throw new CustomError("User Not Found", HttpStatusCode.NOT_FOUND);
             }
-            return user
+            return profile
         } catch (error: any) {
             throw new CustomError(
                 error?.message as string || 'Internal Server Error',
@@ -62,11 +62,11 @@ class ProfileRepository {
     }
 
 
-    async addFollower(user_id: string) {
+    async addFollower(uid: string) {
         try {
-            const user = await prisma.user.update({
+            const profile = await prisma.profile.update({
                 where: {
-                    uid: user_id
+                    uid
                 },
                 data: {
                     followers_count: {
@@ -75,7 +75,7 @@ class ProfileRepository {
                 }
             })
 
-            return user
+            return profile
         } catch (error: any) {
             throw new CustomError(
                 error?.message as string || 'Internal Server Error',
@@ -84,11 +84,11 @@ class ProfileRepository {
         }
     }
 
-    async addFollowing(user_id: string) {
+    async addFollowing(uid: string) {
         try {
-            const user = await prisma.user.update({
+            const profile = await prisma.profile.update({
                 where: {
-                    uid: user_id
+                    uid
                 },
                 data: {
                     following_count: {
@@ -97,7 +97,7 @@ class ProfileRepository {
                 }
             })
 
-            return user
+            return profile
         } catch (error: any) {
             throw new CustomError(
                 error?.message as string || 'Internal Server Error',

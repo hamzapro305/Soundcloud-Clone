@@ -11,7 +11,7 @@ model Profile {
     // Unique identifier for a user
     profile_id      String     @id @default(uuid())
     // Profilename chosen by the user
-    username        String
+    fullname        String  @unique
     // Bio or description of the user
     bio             String
     // Number of followers for the user
