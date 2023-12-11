@@ -3,18 +3,19 @@ import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
-class UserRepository {
+class ProfileRepository {
     async createUser(
-        email: string,
-        uid: string
+        userId: string,
+        full_name: string,
+        bio: string,
+        password: string,
     ): Promise<UserLoginDTO> {
         try {
-            const new_user = await prisma.user.create({
+            const new_user = await prisma.profile.create({
                 data: {
-                    uid,
-                    username: "Noob",
-                    email: email,
-                    bio: "",
+                    full_name,
+                    bio,
+                    uid: userId,
                 },
             });
             return new_user;
@@ -23,11 +24,11 @@ class UserRepository {
         }
     }
 
-    getUserByEmail = async (email: string) => {
+    getUserByUsername = async (username: string) => {
         try {
-            const user = await prisma.user.findUnique({
+            const user = await prisma.profile.findUnique({
                 where: {
-                    email: email
+                    username: username
                 }
             })
             if (user == null) {
@@ -108,4 +109,4 @@ class UserRepository {
 
 }
 
-export default new UserRepository();
+export default new ProfileRepository();
