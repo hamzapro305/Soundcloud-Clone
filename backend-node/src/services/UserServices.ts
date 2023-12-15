@@ -2,36 +2,36 @@ import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import profileService from "../services/ProfileService";
+import { ThrowCriticalError } from "../exceptions/CriticalError";
 
 
-class UserServices {
+export class UserServices {
+
+    private userRepository: UserRepository;
+    constructor() {
+        this.userRepository = new UserRepository()
+    }
+
     public async SignUpLocal(
         email: string,
         password: string
     ) {
         try {
-            const userRepository = new UserRepository()
-            const new_user = await userRepository.createByLocal({ email, password });
+            const new_user = await this.userRepository.createByLocal({ email, password });
             if (new_user === null) {
                 throw new CustomError("User Already Exists", HttpStatusCode.BAD_REQUEST);
             }
 
             // Create user profile
-            await  profileService.createProfile(new_user.uid);
+            await profileService.createProfile(new_user.uid);
 
             return new_user;
         } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+            throw new ThrowCriticalError(error)
         }
     }
     public async getUserByEmail(email: string) {
-        const userRepository = new UserRepository()
-        const user = await userRepository.getByEmail(email);
+        const user = await this.userRepository.getByEmail(email);
         return user;
     }
 }
-
-export default new UserServices();

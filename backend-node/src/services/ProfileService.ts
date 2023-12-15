@@ -1,44 +1,38 @@
-import { CustomError } from "../exceptions/CustomError";
-import HttpStatusCode from "../utils/HttpStatusCode";
 import { TProfile } from "../@Types/Profile";
-import profileRepository from "../repository/ProfileRepository";
+import { ThrowCriticalError } from "../exceptions/CriticalError";
+import ProfileRepository from "../repository/ProfileRepository";
 
 type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
 
-class ProfileService{
-    async createProfile(uid:string) : Promise<TProfile> {
+class ProfileService {
+    private profileRepository: ProfileRepository;
+    constructor() {
+        this.profileRepository = new ProfileRepository();
+    }
+
+    async createProfile(uid: string): Promise<TProfile> {
         try {
-            const new_profile = await profileRepository.createProfile(uid);
+            const new_profile = await this.profileRepository.createProfile(uid);
             return new_profile;
 
         } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+            throw new ThrowCriticalError(error)
         }
     }
-    async updateProfile(uid: string, data: UpdateAbleProfile) : Promise<TProfile>{
+    async updateProfile(uid: string, data: UpdateAbleProfile): Promise<TProfile> {
         try {
-            const new_profile = await profileRepository.updateProfile(uid,data);
+            const new_profile = await this.profileRepository.updateProfile(uid, data);
             return new_profile;
         } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+            throw new ThrowCriticalError(error)
         }
     }
-    async getProfileByUID(uid: string){
+    async getProfileByUID(uid: string) {
         try {
-            const profileRepository = new ProfileRepository()
-            const new_profile = await profileRepository.getProfileByUID(uid);
+            const new_profile = await this.profileRepository.getProfileByUID(uid);
             return new_profile;
         } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+            throw new ThrowCriticalError(error)
         }
     }
 }

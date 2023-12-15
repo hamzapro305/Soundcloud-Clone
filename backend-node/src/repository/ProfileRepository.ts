@@ -1,5 +1,6 @@
 import { TProfile } from "../@Types/Profile";
 import prisma from "../config/prisma-client";
+import { ThrowCriticalError } from "../exceptions/CriticalError";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
@@ -13,7 +14,7 @@ class ProfileRepository {
             });
             return new_user;
         } catch (error) {
-            throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
+            throw new ThrowCriticalError(error)
         }
     }
 
@@ -27,10 +28,7 @@ class ProfileRepository {
             }
             return profile
         } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+            throw new ThrowCriticalError(error)
         }
     }
 
@@ -42,7 +40,7 @@ class ProfileRepository {
             })
             return user;
         } catch (error) {
-            throw new CustomError("Internal Server Error", HttpStatusCode.INTERNAL_SERVER_ERROR);
+            throw new ThrowCriticalError(error)
         }
     }
 
@@ -57,10 +55,7 @@ class ProfileRepository {
 
             return profile
         } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+            throw new ThrowCriticalError(error)
         }
     }
 
@@ -72,14 +67,11 @@ class ProfileRepository {
             })
             return profile
         } catch (error: any) {
-            throw new CustomError(
-                error?.message as string || 'Internal Server Error',
-                error?.httpCode || HttpStatusCode.INTERNAL_SERVER_ERROR
-            );
+            throw new ThrowCriticalError(error)
         }
     }
 
 
 }
 
-export default new ProfileRepository
+export default ProfileRepository

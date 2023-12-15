@@ -7,33 +7,42 @@ import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
+
 export class Strategies {
 	constructor(passport: PassportStatic) {
 		this.localStrategy(passport);
-		this.googleStrategy(passport);
+		// this.googleStrategy(passport);
 		// this.facebookStrategy(passport);
 	}
 	private localStrategy(passport: PassportStatic) {
 		passport.use(
-			new LocalStrategy(async (email, password, done) => {
-				// Implement your local authentication logic here
-				// Example: Find user by username in your database and verify the password
-
-				const userRepository = new UserRepository()
-				try {
-					const user = await userRepository.getByEmail(email);
-					if (user && user?.password === password) {
-						return done(null, user);
-					} else {
-						return done(
-							new CustomError("User Not Found", HttpStatusCode.NOT_FOUND),
-							false
-						);
+			new LocalStrategy(
+				{
+					usernameField: "email",
+				},
+				async (email, password, done) => {
+					console.log(email, password)
+					const userRepository = new UserRepository()
+					try {
+						const user = await userRepository.getByEmail(email);
+						if (!user) {
+							return done(
+								new CustomError("User Not Found", HttpStatusCode.NOT_FOUND),
+								false
+							);
+						}
+						if (user?.password === password) {
+							return done(null, user);
+						} else {
+							return done(
+								new CustomError("Password incorrect", HttpStatusCode.NOT_FOUND),
+								false
+							);
+						}
+					} catch (error) {
+						return done(error, false);
 					}
-				} catch (error) {
-					return done(error, false);
-				}
-			})
+				})
 		);
 
 	}

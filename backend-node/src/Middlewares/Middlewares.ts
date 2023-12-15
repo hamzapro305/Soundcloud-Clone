@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import cors from "cors";
 import compression from 'compression';
 import session from 'express-session';
-import passport from 'passport';
+import cookieParser from 'cookie-parser';
 
 
 const Middlewares = () => {
@@ -19,12 +19,12 @@ const Middlewares = () => {
         }
     }));
     app.use(session({
-        secret: 'your-secret-key',
-        resave: true,
-        saveUninitialized: true
+        // this should be changed to something cryptographically secure for production
+        secret: 'Secret_key',
+        resave: false,
+        saveUninitialized: false,
     }));
-    app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(cookieParser());
     return app;
 }
 

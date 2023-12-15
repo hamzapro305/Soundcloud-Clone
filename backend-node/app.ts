@@ -4,7 +4,10 @@ import UserRouter from './src/routes/UserRouter';
 import FollowRouter from './src/routes/FollowRouter';
 import dotenv from 'dotenv';
 import { BACKEND_PORT } from './src/config';
-import Middlewares from './src/Middlewares';
+import Middlewares from './src/Middlewares/Middlewares';
+import passport from 'passport';
+import { PassportConfig } from './src/passport/PassportConfig';
+
 
 dotenv.config();
 const PORT = BACKEND_PORT || 8000;
@@ -12,9 +15,8 @@ const PORT = BACKEND_PORT || 8000;
 // Middlewares
 const app = Middlewares()
 
-app.get("/check", (req, res) => {
-    res.status(200).send("Hamza Siddiqui".repeat(100000))
-})
+// Passport Config
+new PassportConfig(app, passport)
 
 // Routers
 app.use("/api/test", TestRouter)
