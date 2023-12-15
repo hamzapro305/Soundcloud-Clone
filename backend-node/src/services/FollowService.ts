@@ -11,7 +11,7 @@ class FollowService {
             const userRepository = new UserRepository()
             const profileRepository = new ProfileRepository()
             const followRepository = new FollowRepository()
-            const user = await userRepository.getUserByUID(follower_id);
+            const user = await userRepository.getByUID(follower_id);
             if (!user) {
                 throw new CustomError("User Not Found", 404);
             }

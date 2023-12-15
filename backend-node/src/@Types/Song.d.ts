@@ -16,8 +16,4 @@ export type Song = {
     updated_at: DateTime
     url: String
     song_playlist_id: String
-
-    // schema hidden fields
-    // comments: Comment[]
-    // playlists: Playlist[]
 }

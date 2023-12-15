@@ -1,7 +1,7 @@
 import { Router } from "express";
 import TestController from "../controllers/TestController";
 import { MulterConfigured } from "../config/Multer";
-import AuthMiddleware from "../Middlewares/AuthMiddleware";
+import AuthMiddleware from "../Middlewares";
 
 const TestRouter = Router()
 const upload = MulterConfigured([".zip", ".json"], "RAM")

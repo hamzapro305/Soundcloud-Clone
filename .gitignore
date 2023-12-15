@@ -1,2 +1,3 @@
 mongo-data
 backend-node/.env
+/node_modules

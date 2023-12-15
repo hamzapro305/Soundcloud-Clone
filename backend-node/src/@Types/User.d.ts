@@ -1,23 +1,24 @@
-import { Follow } from "./Follow"
-import { Playlist } from "./Playlist"
-import { Song } from "./Song"
-import { Comment } from "./Comment"
-
 export type User = {
-    uid: string
-    email: string 
-    password: string
-    facebook_id: string
-    google_id: string
+    uid: string;
+    email: string;
+    password: string;
+    facebook_id?: string; // these providers have multiple emails
+    google_id?: string; // these providers have multiple emails
+};
+
+export type UserLocalSignUpDTO = {
+    uid: string;
+    email: string;
+    password: string;
 }
 
-export type TotalUser = User & {
-    photoURL: string | undefined
-    displayName: string | undefined
-    phoneNumber: string | undefined
-    disabled: boolean
-    emailVerified: boolean
-    creationTime: any
+export type UserGoogleSignUpDTO = {
+    uid: string;
+    email: string;
+    google_id: string;
 }
-
-export type UserLoginDTO = Omit<User, "password">
+export type UserFacebookSignUpDTO = {
+    uid: string;
+    email: string;
+    google_id?: string;
+}

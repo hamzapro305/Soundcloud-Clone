@@ -8,7 +8,6 @@ admin.initializeApp({
     storageBucket: "gs://soundcloud-clone-3cbce.appspot.com" // Replace with your Firebase Storage bucket URL
 });
 
-
 const storage = admin.storage();
 
 export {

@@ -26,7 +26,7 @@ export const MulterConfigured = (Types: MimeType["ext"][], StorageType: "DISK" |
                 cb(
                     new CustomError(
                         `File of extension: ${FileExt} Not allowed`,
-                        HttpStatusCode.NOT_ACCEPTABLE
+                        HttpStatusCode.UNSUPPORTED_MEDIA_TYPE
                     )
                 );
             }
