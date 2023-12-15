@@ -1,6 +1,8 @@
 import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
+import profileService from "../services/ProfileService";
+
 
 class UserServices {
     public async SignUpLocal(
@@ -13,6 +15,9 @@ class UserServices {
             if (new_user === null) {
                 throw new CustomError("User Already Exists", HttpStatusCode.BAD_REQUEST);
             }
+
+            // Create user profile
+            await  profileService.createProfile(new_user.uid);
 
             return new_user;
         } catch (error: any) {

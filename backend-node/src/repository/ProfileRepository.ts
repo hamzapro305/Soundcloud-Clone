@@ -36,7 +36,7 @@ class ProfileRepository {
 
     updateProfile = async (uid: string, data: UpdateAbleProfile) => {
         try {
-            const user = await prisma.user.update({
+            const user = await prisma.profile.update({
                 where: { uid: uid },
                 data: { ...data }
             })
@@ -82,4 +82,4 @@ class ProfileRepository {
 
 }
 
-export default ProfileRepository
+export default new ProfileRepository

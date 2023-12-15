@@ -1,15 +1,14 @@
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { TProfile } from "../@Types/Profile";
-import ProfileRepository from "../repository/ProfileRepository";
+import profileRepository from "../repository/ProfileRepository";
 
 type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
 
 class ProfileService{
-    async createProfile(userId:string) : Promise<TProfile> {
+    async createProfile(uid:string) : Promise<TProfile> {
         try {
-            const profileRepository = new ProfileRepository()
-            const new_profile = await profileRepository.createProfile(userId);
+            const new_profile = await profileRepository.createProfile(uid);
             return new_profile;
 
         } catch (error: any) {
@@ -19,9 +18,8 @@ class ProfileService{
             );
         }
     }
-    async updateProfile(uid: string, data: UpdateAbleProfile){
+    async updateProfile(uid: string, data: UpdateAbleProfile) : Promise<TProfile>{
         try {
-            const profileRepository = new ProfileRepository()
             const new_profile = await profileRepository.updateProfile(uid,data);
             return new_profile;
         } catch (error: any) {
@@ -45,4 +43,4 @@ class ProfileService{
     }
 }
 
-export default ProfileService
+export default new ProfileService
