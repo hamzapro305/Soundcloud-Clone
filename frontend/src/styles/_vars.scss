@@ -30,6 +30,7 @@ $custom-breakpoints: (
 
 $MainFont: 'Open Sans', sans-serif;
 $DarkText: #252525;
+$blackBG: #333;
 $MaxPageWidth: 1920px;
 $Orange: #f50;
 
@@ -37,6 +38,4 @@ $Orange: #f50;
 
 .MF {
 	font-family: $MainFont;
-
-	@include responsive(sm) {}
 }
