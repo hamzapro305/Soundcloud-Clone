@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./../styles/style.scss";
-import Header from "@/components/Header";
+import Header from "@/components/LandingBanner";
 import HSToast from "@/components/Toastify";
 import StoreProvider from "@/Redux/StoreProvide";
 import ModalsInit from "@/components/ModalsInit";
@@ -19,7 +19,6 @@ export default function RootLayout({
         <html lang="en">
             <StoreProvider>
                 <body className="general-container">
-                    <Header />
                     {children}
                     <div className="Middlewares">
                         <HSToast />
