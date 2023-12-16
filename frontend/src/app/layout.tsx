@@ -18,7 +18,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <StoreProvider>
-                <body className="general-container">
+                <body>
                     {children}
                     <div className="Middlewares">
                         <HSToast />

@@ -1,0 +1,11 @@
+.DiscoverHeader {
+    background-color: $blackBG;
+
+    &-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        .left {
+            padding: 20px 90px;
+        }
+    }
+}
