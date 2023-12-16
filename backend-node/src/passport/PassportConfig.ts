@@ -39,6 +39,7 @@ export class PassportConfig {
                 if (!user) {
                     return done(new CustomError("User Not Found", HttpStatusCode.NOT_FOUND), { message: "User Not Found" })
                 }
+                // const { password, ...data } = user
                 return done(null, user)
             } catch (error) {
                 return done(error, false)

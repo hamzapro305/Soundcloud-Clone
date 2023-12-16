@@ -35,7 +35,7 @@ export class Strategies {
 							return done(null, user);
 						} else {
 							return done(
-								new CustomError("Password incorrect", HttpStatusCode.NOT_FOUND),
+								new CustomError("Password incorrect", HttpStatusCode.BAD_REQUEST),
 								false
 							);
 						}
