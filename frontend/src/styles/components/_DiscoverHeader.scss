@@ -5,7 +5,23 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         .left {
-            padding: 20px 90px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr;
+            .logo,
+            a {
+                border-right: 1px solid #111;
+                padding: 12px 10px;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            a {
+            }
+        }
+        .middle {
+            padding: 9px 10px 8px;
         }
     }
 }
