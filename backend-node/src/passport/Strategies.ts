@@ -21,7 +21,6 @@ export class Strategies {
 					usernameField: "email",
 				},
 				async (email, password, done) => {
-					console.log(email, password)
 					const userRepository = new UserRepository()
 					try {
 						const user = await userRepository.getByEmail(email);

@@ -8,11 +8,12 @@ import { autoInjectable } from "tsyringe";
 @autoInjectable()
 export class UserController {
     _userServices: UserServices;
-    constructor( _userServices: UserServices) {
+    constructor(_userServices: UserServices) {
         this._userServices = _userServices;
     }
 
     public async login(req: Request, res: Response, next: NextFunction) {
+        console.log(req.body?.token)
         return res.status(HttpStatusCode.OK).json({ message: "Login Done" })
     }
 
