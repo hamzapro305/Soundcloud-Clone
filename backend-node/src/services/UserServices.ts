@@ -1,15 +1,18 @@
 import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
-import profileService from "../services/ProfileService";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
+import { autoInjectable } from "tsyringe";
+import ProfileRepository from "../repository/ProfileRepository";
 
 
+@autoInjectable()
 export class UserServices {
-
     private userRepository: UserRepository;
-    constructor() {
-        this.userRepository = new UserRepository()
+    private _profileRepository: ProfileRepository;
+    constructor(_userRepository: UserRepository, _profileRepository: ProfileRepository) {
+        this.userRepository = _userRepository;
+        this._profileRepository = _profileRepository;
     }
 
     public async SignUpLocal(
@@ -23,7 +26,7 @@ export class UserServices {
             }
 
             // Create user profile
-            await profileService.createProfile(new_user.uid);
+            await this._profileRepository.createProfile(new_user.uid);
 
             return new_user;
         } catch (error: any) {

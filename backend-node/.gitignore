@@ -3,6 +3,7 @@
 
 # build
 /dist
+*.js
 
 /prisma/migrations
 

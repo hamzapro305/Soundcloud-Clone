@@ -4,4 +4,4 @@ class TestService {
     }
 }
 
-export default new TestService()
+export default TestService

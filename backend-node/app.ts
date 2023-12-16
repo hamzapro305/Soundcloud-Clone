@@ -1,11 +1,12 @@
+import "reflect-metadata";
+import dotenv from 'dotenv';
+import passport from 'passport';
 import ErrorMiddleware from './src/routes/ErrorRouter';
 import TestRouter from './src/routes/TestRouter';
 import UserRouter from './src/routes/UserRouter';
 import FollowRouter from './src/routes/FollowRouter';
-import dotenv from 'dotenv';
 import { BACKEND_PORT } from './src/config';
 import Middlewares from './src/Middlewares/Middlewares';
-import passport from 'passport';
 import { PassportConfig } from './src/passport/PassportConfig';
 
 

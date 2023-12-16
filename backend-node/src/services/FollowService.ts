@@ -3,15 +3,21 @@ import ProfileRepository from "../repository/ProfileRepository";
 import { CustomError } from "../exceptions/CustomError";
 import FollowRepository from "../repository/FollowRepository";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
+import { autoInjectable } from "tsyringe";
 
-class FollowService {
+@autoInjectable()
+export default class FollowService {
     private userRepository: UserRepository;
     private profileRepository: ProfileRepository;
     private followRepository: FollowRepository;
-    constructor() {
-        this.userRepository = new UserRepository()
-        this.profileRepository = new ProfileRepository()
-        this.followRepository = new FollowRepository()
+    constructor(
+        userRepository: UserRepository,
+        profileRepository: ProfileRepository,
+        followRepository: FollowRepository
+    ) {
+        this.userRepository = userRepository
+        this.profileRepository = profileRepository
+        this.followRepository = followRepository
     }
 
     public async toggleFollow(follower_id: string, following_id: string): Promise<true | undefined> {
@@ -30,5 +36,3 @@ class FollowService {
         }
     }
 }
-
-export default new FollowService();

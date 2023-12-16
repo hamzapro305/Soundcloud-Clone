@@ -14,11 +14,11 @@ export class PassportConfig {
 
 
         // Initialize Passport and configure strategies
-        app.use(passport.initialize());
-        app.use(passport.session());
+        app.use(this._passport.initialize());
+        app.use(this._passport.session());
 
         // Setup Passport strategies
-        new Strategies(passport);
+        new Strategies(this._passport);
 
         // Serialize and deserialize user
         this.serializeUser();

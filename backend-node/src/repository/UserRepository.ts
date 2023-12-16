@@ -1,3 +1,4 @@
+import { injectable } from "tsyringe";
 import { User } from "../@Types/User";
 import prisma from "../config/prisma-client";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
@@ -7,7 +8,6 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 type UpdateAbleUser = Partial<Pick<User, "facebook_id" | "google_id" | "password" | "email">>
 
 class UserRepository {
-
     public getByGoogleId = async (google_id: string) => {
         try {
             const user = await prisma.user.findUnique({

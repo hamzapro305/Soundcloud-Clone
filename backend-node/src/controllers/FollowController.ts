@@ -1,13 +1,18 @@
-import { NextFunction, Request, Response } from "express";
-import followServices from "../services/FollowService";
+import { Request, Response } from "express";
+import FollowService from "../services/FollowService";
+import { autoInjectable } from "tsyringe";
 
+@autoInjectable()
 class FollowController {
-    
+    private _followServices: FollowService;
+    constructor(_followServices: FollowService) {
+        this._followServices = _followServices
+    }
     public async follow(req: Request, res: Response) {
         const { followedById, followingId } = req.body;
-        const user = await followServices.toggleFollow(followedById,followingId)
+        const user = await this._followServices.toggleFollow(followedById, followingId)
         res.status(200).json(user);
     }
 }
 
-export default new FollowController();
+export default FollowController;

@@ -29,7 +29,9 @@
 		"passport": "^0.7.0",
 		"passport-facebook": "^3.0.0",
 		"passport-google-oauth20": "^2.0.0",
-		"passport-local": "^1.0.0"
+		"passport-local": "^1.0.0",
+		"reflect-metadata": "^0.2.1",
+		"tsyringe": "^4.8.0"
 	},
 	"devDependencies": {
 		"@types/compression": "^1.7.5",
@@ -46,8 +48,11 @@
 		"dotenv": "^16.3.1",
 		"nodemon": "^3.0.2",
 		"prisma": "^5.6.0",
+		"ts-loader": "^9.5.1",
 		"ts-node": "^10.9.1",
 		"ts-node-dev": "^2.0.0",
-		"typescript": "^5.3.2"
+		"typescript": "^5.3.2",
+		"webpack": "^5.89.0",
+		"webpack-cli": "^5.1.4"
 	}
 }

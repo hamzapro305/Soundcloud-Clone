@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 
 export class AuthMiddleware {

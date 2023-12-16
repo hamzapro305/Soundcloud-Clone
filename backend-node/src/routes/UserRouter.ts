@@ -2,11 +2,12 @@ import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 import passport from "passport";
 import { AuthMiddleware } from "../passport/AuthMiddleware";
+import { container } from "tsyringe";
 
 const UserRouter = Router();
 
-const userController = new UserController()
-const authMiddleware = new AuthMiddleware()
+const userController = container.resolve(UserController);
+const authMiddleware = container.resolve(AuthMiddleware);
 
 UserRouter.post("/login/password", authMiddleware.authenticateLocal(), userController.login)
 UserRouter.post("/login/google", passport.authenticate("local"))

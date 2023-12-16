@@ -2,8 +2,8 @@ import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
-class FollowRepository {
 
+class FollowRepository {
     async follow(followedById: string, followingId: string) {
         try {
             const follow = await prisma.follow.create({

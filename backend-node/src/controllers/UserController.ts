@@ -1,9 +1,16 @@
+import "reflect-metadata";
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../exceptions/CustomError";
 import { UserServices } from "../services/UserServices";
 import HttpStatusCode from "../utils/HttpStatusCode";
+import { autoInjectable } from "tsyringe";
 
+@autoInjectable()
 export class UserController {
+    _userServices: UserServices;
+    constructor( _userServices: UserServices) {
+        this._userServices = _userServices;
+    }
 
     public async login(req: Request, res: Response, next: NextFunction) {
         return res.status(HttpStatusCode.OK).json({ message: "Login Done" })
@@ -18,11 +25,10 @@ export class UserController {
 
     public async signUp(req: Request, res: Response, next: NextFunction) {
         try {
-            const _userServices = new UserServices();
             const { email, password } = req.body;
             if (!email || !password) throw new CustomError("Email, pass wrong", 400)
             try {
-                const user = await _userServices.SignUpLocal(
+                const user = await this._userServices.SignUpLocal(
                     email,
                     password
                 )

@@ -6,6 +6,8 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 
 
 type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
+
+
 class ProfileRepository {
     async createProfile(uid: string): Promise<TProfile> {
         try {
