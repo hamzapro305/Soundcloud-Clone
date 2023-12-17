@@ -1,0 +1,5 @@
+.trending-section {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns with equal width */
+    gap: 16px; /* Adjust the gap between grid items as needed */
+}

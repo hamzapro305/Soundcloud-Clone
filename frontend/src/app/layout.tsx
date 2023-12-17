@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./../styles/style.scss";
+import Header from "@/components/LandingBanner";
 import HSToast from "@/components/Toastify";
 import StoreProvider from "@/Redux/StoreProvide";
 import ModalsInit from "@/components/ModalsInit";

@@ -1,4 +1,4 @@
-.main-header {
+.landing-banner {
     position: relative;
     background-image: url('/header Image large.jpg');
     background-size: cover;
@@ -17,6 +17,7 @@
 
         .nav-btns {
             display: flex;
+            align-items: center;
             gap: 6px;
 
             button {
@@ -34,6 +35,9 @@
         flex-direction: column;
         gap: 8px;
 
+        .desc{
+            font-size: large;
+        }
         button {
             margin-top: 17px;
             align-self: center;
