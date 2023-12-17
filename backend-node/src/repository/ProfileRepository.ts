@@ -1,3 +1,4 @@
+import { injectable } from "tsyringe";
 import { TProfile } from "../@Types/Profile";
 import prisma from "../config/prisma-client";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
@@ -7,7 +8,7 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 
 type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>
 
-
+@injectable()
 class ProfileRepository {
     async createProfile(uid: string): Promise<TProfile> {
         try {

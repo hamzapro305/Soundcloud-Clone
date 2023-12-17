@@ -1,116 +1,163 @@
-import { PassportStatic } from "passport";
-
 import { Strategy as LocalStrategy } from "passport-local";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import {
+    Strategy as GoogleStrategy,
+    VerifyCallback,
+} from "passport-google-oauth2";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
+import passport from "passport";
+import { autoInjectable } from "tsyringe";
+import { Request } from "express";
 
+@autoInjectable()
+export default class Strategies {
+    private _userRepository: UserRepository;
+    constructor(_userRepository: UserRepository) {
+        this._userRepository = _userRepository;
 
-export class Strategies {
-	constructor(passport: PassportStatic) {
-		this.localStrategy(passport);
-		// this.googleStrategy(passport);
-		// this.facebookStrategy(passport);
-	}
-	private localStrategy(passport: PassportStatic) {
-		passport.use(
-			new LocalStrategy(
-				{
-					usernameField: "email",
-				},
-				async (email, password, done) => {
-					const userRepository = new UserRepository()
-					try {
-						const user = await userRepository.getByEmail(email);
-						if (!user) {
-							return done(
-								new CustomError("User Not Found", HttpStatusCode.NOT_FOUND),
-								false
-							);
-						}
-						if (user?.password === password) {
-							return done(null, user);
-						} else {
-							return done(
-								new CustomError("Password incorrect", HttpStatusCode.BAD_REQUEST),
-								false
-							);
-						}
-					} catch (error) {
-						return done(error, false);
-					}
-				})
-		);
+        this.localStrategy();
+        this.googleStrategy();
+    }
 
-	}
-	private googleStrategy(passport: PassportStatic) {
-		passport.use(
-			new GoogleStrategy(
-				{
-					clientID: 'YOUR_GOOGLE_CLIENT_ID',
-					clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
-					callbackURL: 'http://localhost:3000/auth/google/callback', // Adjust the callback URL
-				},
-				async (accessToken, refreshToken, profile, done) => {
-					try {
-						const userRepository = new UserRepository();
+    private localStrategy() {
+        passport.use(
+            new LocalStrategy(
+                {
+                    usernameField: "email",
+                },
+                async (email, password, done) => {
+                    const userRepository = new UserRepository();
+                    try {
+                        const user = await userRepository.getByEmail(email);
+                        if (!user) {
+                            return done(
+                                new CustomError(
+                                    "User Not Found",
+                                    HttpStatusCode.NOT_FOUND
+                                ),
+                                false
+                            );
+                        }
+                        if (user?.password === password) {
+                            return done(null, user);
+                        } else {
+                            return done(
+                                new CustomError(
+                                    "Password incorrect",
+                                    HttpStatusCode.BAD_REQUEST
+                                ),
+                                false
+                            );
+                        }
+                    } catch (error) {
+                        return done(error, false);
+                    }
+                }
+            )
+        );
+    }
+    private googleStrategy() {
+        passport.use(
+            new GoogleStrategy(
+                {
+                    clientID: "435572794537-flep8daaqbigtc8a2u2koru2hbhffknd.apps.googleusercontent.com",
+                    clientSecret: "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",
+                    callbackURL: "http://localhost:8000/api/auth/login/google/callback",
+                    passReqToCallback: true,
+                },
+                async (
+                    request: Request,
+                    accessToken: string,
+                    refreshToken: string,
+                    profile: any,
+                    done: VerifyCallback
+                ) => {
+                    try {
+                        console.log("Check if a user with the provided Google ID exists")
+                        // Check if a user with the provided Google ID exists
+                        const existingUser = await this._userRepository.getByGoogleId(
+                                profile.id
+                            );
 
-						// Check if a user with the provided Google ID exists
-						const existingUser = await userRepository.getByGoogleId(profile.id);
+                        if (existingUser) {
+                            // User with Google ID already exists
+                            return done(null, existingUser);
+                        }
+                        console.log("failed")
+                        console.log("Check if a user with the provided email exists")
+                        // Check if a user with the provided email exists
+                        const userWithEmail =
+                            await this._userRepository.getByEmail(
+                                profile.emails ? profile.emails[0].value : ""
+                            );
 
-						if (existingUser) {
-							// User with Google ID already exists
-							return done(null, existingUser);
-						}
+                        if (userWithEmail) {
+                            // User with the provided email exists, link Google ID to the existing user
+                            userWithEmail.google_id = profile.id;
 
-						// Check if a user with the provided email exists
-						const userWithEmail = await userRepository.getByEmail(profile.emails ? profile.emails[0].value : '');
+                            // Update the user in the database
+                            const updatedUser =
+                                await this._userRepository.createGoogleForUser(
+                                    userWithEmail.uid,
+                                    {
+                                        google_id: profile?.id,
+                                        access_token: accessToken, 
+                                        refresh_token: refreshToken ?? ""
+                                    }
+                                );
+                            return done(null, updatedUser);
+                        }
+                        console.log("failed")
 
-						if (userWithEmail) {
-							// User with the provided email exists, link Google ID to the existing user
-							userWithEmail.google_id = profile.id;
+                        console.log("User does not exist, create a new user with Google ID")
+                        // User does not exist, create a new user with Google ID
+                        const email = profile.emails ? profile.emails[0].value : ""
 
-							// Update the user in the database
-							const updatedUser = await userRepository.updateByUID(userWithEmail.uid, userWithEmail);
-							return done(null, updatedUser);
-						}
+                        // Create the new user in the database
+                        const createdUser = await this._userRepository.createByGoogle(email, {
+                            access_token: accessToken,
+                            google_id: profile?.id,
+                            refresh_token: refreshToken ?? "",
+                        });
+                        console.log("failed")
 
-						// User does not exist, create a new user with Google ID
-						const newUser = {
-							email: profile.emails ? profile.emails[0].value : '',
-							google_id: profile.id,
-							password: '',
-						};
+                        return done(null, createdUser);
+                    } catch (error) {
+                        console.error(error); // Log the error for debugging
+                        return done(
+                            new CustomError(
+                                "Google Authentication Failed",
+                                HttpStatusCode.INTERNAL_SERVER_ERROR
+                            ),
+                            false
+                        );
+                    }
+                }
+            )
+        );
+    }
 
-						// Create the new user in the database
-						const createdUser = await userRepository.createByGoogle(newUser);
-						return done(null, createdUser);
-					} catch (error) {
-						return done(new CustomError("Google Authentication Failed", HttpStatusCode.INTERNAL_SERVER_ERROR), false);
-					}
-				}
-			)
-		);
-	}
-
-	private facebookStrategy(passport: PassportStatic) {
-		passport.use(
-			new FacebookStrategy(
-				{
-					clientID: 'YOUR_FACEBOOK_APP_ID',
-					clientSecret: 'YOUR_FACEBOOK_APP_SECRET',
-					callbackURL: 'http://localhost:3000/auth/facebook/callback', // Adjust the callback URL
-				},
-				(accessToken, refreshToken, profile, done) => {
-					// Implement your Facebook authentication logic here
-					// Example: Find or create a user based on the Facebook profile information
-					const user = { id: 3, username: 'facebookUser', email: profile.emails ? profile.emails[0].value : '' };
-					return done(null, user);
-				}
-			)
-		);
-
-	}
+    private facebookStrategy() {
+        passport.use(
+            new FacebookStrategy(
+                {
+                    clientID: "YOUR_FACEBOOK_APP_ID",
+                    clientSecret: "YOUR_FACEBOOK_APP_SECRET",
+                    callbackURL: "http://localhost:3000/auth/facebook/callback", // Adjust the callback URL
+                },
+                (accessToken, refreshToken, profile, done) => {
+                    // Implement your Facebook authentication logic here
+                    // Example: Find or create a user based on the Facebook profile information
+                    const user = {
+                        id: 3,
+                        username: "facebookUser",
+                        email: profile.emails ? profile.emails[0].value : "",
+                    };
+                    return done(null, user);
+                }
+            )
+        );
+    }
 }

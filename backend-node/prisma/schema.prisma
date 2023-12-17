@@ -11,9 +11,9 @@ model Profile {
     // Unique identifier for a user
     profile_id      String     @id @default(uuid())
     // Profilename chosen by the user
-    full_name        String     @default("Noob")
+    full_name       String     @default("Noob")
     // Bio or description of the user
-    bio             String      @default("")
+    bio             String     @default("")
     // Number of followers for the user
     followers_count Int        @default(0)
     // Number of users the user is following
@@ -34,14 +34,7 @@ model Profile {
     user       User     @relation(fields: [uid], references: [uid])
 }
 
-model User {
-    uid         String   @id @default(uuid())
-    password    String
-    email       String   @unique
-    facebook_id String   @unique
-    google_id   String   @unique
-    profile     Profile?
-}
+
 
 model Song {
     // Unique identifier for a song
@@ -167,4 +160,28 @@ model Follow {
 enum Privacy {
     PUBLIC
     PRIVATE
+}
+model User {
+    uid         String    @id @default(uuid())
+    password    String?
+    email       String    @unique
+    facebook_id String?   @unique
+    facebook    Facebook? @relation(fields: [facebook_id], references: [facebook_id])
+    google_id   String?   @unique
+    google      Google?   @relation(fields: [google_id], references: [google_id])
+    profile     Profile?
+}
+
+model Google {
+    google_id     String @id @unique
+    user          User?
+    access_token  String
+    refresh_token String?
+}
+
+model Facebook {
+    facebook_id   String @id @unique
+    user          User?
+    access_token  String
+    refresh_token String?
 }

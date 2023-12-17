@@ -9,7 +9,7 @@ export default class JWT_Utils {
 
     public generateToken(data: any) {
         return jwt.sign(
-            data, this.Private_Key, { algorithm: 'HS256', expiresIn: 15 }
+            data, this.Private_Key, { algorithm: 'HS256', expiresIn: "1h" }
         );
     }
 
