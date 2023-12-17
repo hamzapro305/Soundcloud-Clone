@@ -8,8 +8,9 @@ const TestRouter = Router()
 const upload = MulterConfigured([".zip", ".json"], "RAM")
 
 const authMiddleware = container.resolve(AuthMiddleware);
+const testController = container.resolve(TestController);
 
-TestRouter.get("/", authMiddleware.isLoggedIn, TestController.getTest)
-TestRouter.post("/upload", upload.single("file"), TestController.uploadFile)
+TestRouter.get("/", testController.getTest)
+TestRouter.post("/upload", upload.single("file"), testController.uploadFile)
 
 export default TestRouter

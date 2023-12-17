@@ -1,11 +1,12 @@
 import { PassportStatic } from "passport";
-import { Strategies } from "./Strategies";
+import Strategies from "./Strategies";
 import { Application } from "express";
 import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import JWT_Utils from "../utils/JWT_Utils";
 import { JwtPayload } from "jsonwebtoken";
+import { container } from "tsyringe";
 
 export class PassportConfig {
     private _passport: PassportStatic;
@@ -22,7 +23,7 @@ export class PassportConfig {
         app.use(this._passport.session());
 
         // Setup Passport strategies
-        new Strategies(this._passport);
+        container.resolve(Strategies)
 
         // Serialize and deserialize user
         this.serializeUser();

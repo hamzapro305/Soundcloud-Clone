@@ -3,24 +3,22 @@ import ProfileRepository from "../repository/ProfileRepository";
 import { CustomError } from "../exceptions/CustomError";
 import FollowRepository from "../repository/FollowRepository";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
-import { autoInjectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
-@autoInjectable()
+@injectable()
 export default class FollowService {
-    private userRepository: UserRepository;
-    private profileRepository: ProfileRepository;
-    private followRepository: FollowRepository;
     constructor(
-        userRepository: UserRepository,
-        profileRepository: ProfileRepository,
-        followRepository: FollowRepository
-    ) {
-        this.userRepository = userRepository
-        this.profileRepository = profileRepository
-        this.followRepository = followRepository
-    }
+        @inject(UserRepository)
+        private readonly userRepository: UserRepository,
 
-    public async toggleFollow(follower_id: string, following_id: string): Promise<true | undefined> {
+        @inject(ProfileRepository)
+        private readonly profileRepository: ProfileRepository,
+
+        @inject(FollowRepository)
+        private readonly followRepository: FollowRepository
+    ) {}
+
+    public toggleFollow = async (follower_id: string, following_id: string): Promise<true | undefined> => {
         try {
             const user = await this.userRepository.getByUID(follower_id);
             if (!user) {

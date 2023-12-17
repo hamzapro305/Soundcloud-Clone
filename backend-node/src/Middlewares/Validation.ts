@@ -1,6 +1,7 @@
 import { ZodError, z } from "zod"
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { NextFunction, Request, Response } from "express";
+import { injectable } from "tsyringe";
 
 const extractError = (error: ZodError, res: Response): Response => {
     const errorMessages = error.errors.map((err) => {
@@ -15,9 +16,10 @@ const extractError = (error: ZodError, res: Response): Response => {
     });
 }
 
+@injectable()
 export default class Validation {
 
-    static UserLoginValidator(req: Request, res: Response, next: NextFunction) {
+    public UserLoginValidator(req: Request, res: Response, next: NextFunction) {
 
         const userSchema = z.object({
             email: z.string().email().nullable(),

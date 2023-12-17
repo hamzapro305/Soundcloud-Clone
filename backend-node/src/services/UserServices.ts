@@ -2,27 +2,30 @@ import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
-import { autoInjectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import ProfileRepository from "../repository/ProfileRepository";
 
-
-@autoInjectable()
+@injectable()
 export class UserServices {
-    private userRepository: UserRepository;
-    private _profileRepository: ProfileRepository;
-    constructor(_userRepository: UserRepository, _profileRepository: ProfileRepository) {
-        this.userRepository = _userRepository;
-        this._profileRepository = _profileRepository;
-    }
+    constructor(
+        @inject(UserRepository)
+        private readonly _userRepository: UserRepository,
 
-    public async SignUpLocal(
-        email: string,
-        password: string
-    ) {
+        @inject(ProfileRepository)
+        private readonly _profileRepository: ProfileRepository
+    ) {}
+
+    public SignUpLocal = async (email: string, password: string) => {
         try {
-            const new_user = await this.userRepository.createByLocal({ email, password });
+            const new_user = await this._userRepository.createByLocal({
+                email,
+                password,
+            });
             if (new_user === null) {
-                throw new CustomError("User Already Exists", HttpStatusCode.BAD_REQUEST);
+                throw new CustomError(
+                    "User Already Exists",
+                    HttpStatusCode.BAD_REQUEST
+                );
             }
 
             // Create user profile
@@ -30,11 +33,11 @@ export class UserServices {
 
             return new_user;
         } catch (error: any) {
-            throw new ThrowCriticalError(error)
+            throw new ThrowCriticalError(error);
         }
     }
-    public async getUserByEmail(email: string) {
-        const user = await this.userRepository.getByEmail(email);
+    public getUserByEmail = async (email: string) => {
+        const user = await this._userRepository.getByEmail(email);
         return user;
     }
 }
