@@ -5,7 +5,7 @@ import TrendingSection from "@/components/TrendingSection";
 
 const page = () => {
     return (
-        <div>
+        <div className="general-container">
             <Banner />
             Sommething
             <TrendingSection />
