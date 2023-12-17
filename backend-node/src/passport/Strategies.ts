@@ -8,14 +8,15 @@ import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import passport from "passport";
-import { autoInjectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { Request } from "express";
 
-@autoInjectable()
+@injectable()
 export default class Strategies {
-    private _userRepository: UserRepository;
-    constructor(_userRepository: UserRepository) {
-        this._userRepository = _userRepository;
+    constructor(
+        @inject(UserRepository)
+        private readonly _userRepository: UserRepository
+    ) {
 
         this.localStrategy();
         this.googleStrategy();
@@ -86,12 +87,10 @@ export default class Strategies {
                             return done(null, existingUser);
                         }
                         console.log("failed")
+                        const email = profile.emails ? profile.emails[0].value : ""
                         console.log("Check if a user with the provided email exists")
                         // Check if a user with the provided email exists
-                        const userWithEmail =
-                            await this._userRepository.getByEmail(
-                                profile.emails ? profile.emails[0].value : ""
-                            );
+                        const userWithEmail = await this._userRepository.getByEmail(email);
 
                         if (userWithEmail) {
                             // User with the provided email exists, link Google ID to the existing user
@@ -113,7 +112,6 @@ export default class Strategies {
 
                         console.log("User does not exist, create a new user with Google ID")
                         // User does not exist, create a new user with Google ID
-                        const email = profile.emails ? profile.emails[0].value : ""
 
                         // Create the new user in the database
                         const createdUser = await this._userRepository.createByGoogle(email, {
