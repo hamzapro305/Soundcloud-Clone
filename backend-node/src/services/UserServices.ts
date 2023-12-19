@@ -4,6 +4,7 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
 import { inject, injectable } from "tsyringe";
 import ProfileRepository from "../repository/ProfileRepository";
+import { GoogleProvider } from "../@Types/Provider";
 
 @injectable()
 export class UserServices {
@@ -35,9 +36,23 @@ export class UserServices {
         } catch (error: any) {
             throw new ThrowCriticalError(error);
         }
-    }
+    };
+    public createUserUsingGoogle = async (
+        email: string,
+        provider: GoogleProvider
+    ) => {
+        try {
+            const user = await this._userRepository.createByGoogle(
+                email,
+                provider
+            );
+            return user;
+        } catch (error) {
+            return null;
+        }
+    };
     public getUserByEmail = async (email: string) => {
         const user = await this._userRepository.getByEmail(email);
         return user;
-    }
+    };
 }

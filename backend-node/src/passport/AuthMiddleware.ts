@@ -2,13 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import JWT_Utils from "../utils/JWT_Utils";
-import { autoInjectable, inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
-@autoInjectable()
+@injectable()
 export default class AuthMiddleware {
     constructor(
         @inject(JWT_Utils)
-        private _JWT_UTILS: JWT_Utils
+        private readonly _JWT_UTILS: JWT_Utils
     ) {}
 
     public authenticateLocal = (req: Request, res: Response, next: NextFunction) => {
@@ -44,8 +44,8 @@ export default class AuthMiddleware {
     }
     public googleCallback = (req: Request, res: Response, next: NextFunction) => {
         passport.authenticate('google', (err: any, user: any, info: any) => {
-            console.log(err);
             if (err) {
+                console.log(err);
                 return next(err);
             }
             if (!user) {

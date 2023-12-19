@@ -40,5 +40,14 @@ AuthRouter.get(
         });
     }
 );
+AuthRouter.get(
+    "/login/facebook/callback",
+    (req, res) => {
+        return res.status(HttpStatusCode.OK).json({
+            token: req?.user,
+            message: "success",
+        });
+    }
+);
 
 export default AuthRouter;

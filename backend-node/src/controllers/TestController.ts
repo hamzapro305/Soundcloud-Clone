@@ -11,10 +11,11 @@ import axios from "axios";
 class TestController {
     constructor(
         @inject(UploadService)
-        private _uploadService: UploadService
+        private readonly _uploadService: UploadService
     ) {}
 
     public getTest(req: Request, res: Response) {
+        
         axios
             .get("https://www.googleapis.com/oauth2/v2/userinfo", {
                 headers: {
