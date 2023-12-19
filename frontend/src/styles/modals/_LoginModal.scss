@@ -1,0 +1,83 @@
+.login-modal{
+    position: relative;
+    width: 450px;
+    background-color: white;
+    padding: 10px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    .login-strategies {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        .fb-strategy{
+            background-color: #3578e5;
+            color: white;
+        }
+        .google-strategy{
+            border: 1px solid #ccc;
+            background-color: white;
+        }
+        .apple-strategy{
+            background-color: black;
+            color: white;
+        }
+        input{
+            padding: 5px;
+        }
+        .continue-btn{
+            background-color: #f50;
+            color: white;
+        }
+      }
+      .login-strategies > * {
+        width: 100%;
+        padding: 13px;
+        font-size: medium;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+      .need-help{
+        display: flex;
+        justify-content: end;
+        margin-top: 10px;
+        margin-bottom: 10px;
+          a{
+        text-decoration: none;
+        font-size: 12px;
+
+        }
+      }
+      .input-creds{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        input{
+            font-size: medium;
+            padding: 5px;
+        }
+      }
+      .tc-text{
+        font-size: 12px;
+        color: gray;
+      }
+      .close-btn{
+        position: absolute;
+        font-size: 30px;
+        cursor: pointer;
+        top: 0;
+        right: 0;
+      }
+      .signin-btn{
+        font-size: medium;
+        background-color: #f50;
+        color: white;
+        width: 100%;
+        margin-top: 30px;
+        padding: 12px;
+      }
+}
