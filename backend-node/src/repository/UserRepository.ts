@@ -174,11 +174,9 @@ class UserRepository {
                 data: {
                     google_id: provider.google_id,
                     access_token: provider.access_token,
-                    refresh_token: provider.refresh_token as string,
+                    refresh_token: provider.refresh_token ?? "",
                     user: {
-                        connect: {
-                            uid: uid,
-                        },
+                        connect: { uid: uid, },
                     },
                 },
             });

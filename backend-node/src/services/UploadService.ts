@@ -77,7 +77,7 @@ export class UploadService {
         }
     }
 
-    downloadData(fileName: string, destinationPath: NodeJS.WritableStream) {
+    private downloadData(fileName: string, destinationPath: NodeJS.WritableStream) {
         return new Promise((resolve, reject) => {
             const bucket = this.storage.bucket();
             const file = bucket.file(fileName);

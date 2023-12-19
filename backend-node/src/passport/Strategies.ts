@@ -17,7 +17,6 @@ export default class Strategies {
         @inject(UserRepository)
         private readonly _userRepository: UserRepository
     ) {
-
         this.localStrategy();
         this.googleStrategy();
     }
@@ -59,13 +58,15 @@ export default class Strategies {
             )
         );
     }
-    private googleStrategy() {
+    private googleStrategy = () => {
         passport.use(
             new GoogleStrategy(
                 {
-                    clientID: "435572794537-flep8daaqbigtc8a2u2koru2hbhffknd.apps.googleusercontent.com",
+                    clientID:
+                        "435572794537-flep8daaqbigtc8a2u2koru2hbhffknd.apps.googleusercontent.com",
                     clientSecret: "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",
-                    callbackURL: "http://localhost:8000/api/auth/login/google/callback",
+                    callbackURL:
+                        "http://localhost:8000/api/auth/login/google/callback",
                     passReqToCallback: true,
                 },
                 async (
@@ -76,9 +77,12 @@ export default class Strategies {
                     done: VerifyCallback
                 ) => {
                     try {
-                        console.log("Check if a user with the provided Google ID exists")
+                        console.log(
+                            "Check if a user with the provided Google ID exists"
+                        );
                         // Check if a user with the provided Google ID exists
-                        const existingUser = await this._userRepository.getByGoogleId(
+                        const existingUser =
+                            await this._userRepository.getByGoogleId(
                                 profile.id
                             );
 
@@ -86,9 +90,13 @@ export default class Strategies {
                             // User with Google ID already exists
                             return done(null, existingUser);
                         }
-                        console.log("failed")
-                        const email = profile.emails ? profile.emails[0].value : ""
-                        console.log("Check if a user with the provided email exists")
+                        console.log("failed");
+                        const email = profile.emails
+                            ? profile.emails[0].value
+                            : "";
+                        console.log(
+                            "Check if a user with the provided email exists"
+                        );
                         // Check if a user with the provided email exists
                         const userWithEmail = await this._userRepository.getByEmail(email);
 
@@ -97,29 +105,36 @@ export default class Strategies {
                             userWithEmail.google_id = profile.id;
 
                             // Update the user in the database
-                            const updatedUser =
+                            const googleData =
                                 await this._userRepository.createGoogleForUser(
                                     userWithEmail.uid,
                                     {
                                         google_id: profile?.id,
-                                        access_token: accessToken, 
-                                        refresh_token: refreshToken ?? ""
+                                        access_token: accessToken,
+                                        refresh_token: refreshToken ?? "",
                                     }
                                 );
+                            const updatedUser =
+                                    await this._userRepository.getByGoogleId(
+                                        profile.id
+                                    );
                             return done(null, updatedUser);
                         }
-                        console.log("failed")
+                        console.log("failed");
 
-                        console.log("User does not exist, create a new user with Google ID")
+                        console.log(
+                            "User does not exist, create a new user with Google ID"
+                        );
                         // User does not exist, create a new user with Google ID
 
                         // Create the new user in the database
-                        const createdUser = await this._userRepository.createByGoogle(email, {
-                            access_token: accessToken,
-                            google_id: profile?.id,
-                            refresh_token: refreshToken ?? "",
-                        });
-                        console.log("failed")
+                        const createdUser =
+                            await this._userRepository.createByGoogle(email, {
+                                access_token: accessToken,
+                                google_id: profile?.id,
+                                refresh_token: refreshToken ?? "",
+                            });
+                        console.log("failed");
 
                         return done(null, createdUser);
                     } catch (error) {
@@ -135,9 +150,9 @@ export default class Strategies {
                 }
             )
         );
-    }
+    };
 
-    private facebookStrategy() {
+    private facebookStrategy = () => {
         passport.use(
             new FacebookStrategy(
                 {
@@ -157,5 +172,5 @@ export default class Strategies {
                 }
             )
         );
-    }
+    };
 }

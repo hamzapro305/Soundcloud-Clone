@@ -33,7 +33,7 @@ AuthRouter.post(
 AuthRouter.get(
     "/login/google/callback",
     authMiddleware.googleCallback,
-    function (req, res) {
+    (req, res) => {
         return res.status(HttpStatusCode.OK).json({
             token: req?.user,
             message: "success",
