@@ -8,7 +8,7 @@ import { BACKEND_PORT } from "./src/config";
 import Middlewares from "./src/Middlewares/Middlewares";
 import { PassportConfig } from "./src/passport/PassportConfig";
 import TestRouter from "./src/routes/testRouter";
-import AuthRouter from "./src/routes/AuthRouter";
+import AuthRouter from "./src/routes/AuthRouter"
 
 dotenv.config();
 const PORT = BACKEND_PORT || 8000;

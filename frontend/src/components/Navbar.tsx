@@ -1,7 +1,7 @@
 "use client"
 import { useAppDispatch } from "@/Redux/Hooks";
 import { GlobalVariablesActions } from "@/Redux/Slices/GlobalVariablesSlice";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 const Navbar = () => {
     const dispatch = useAppDispatch()

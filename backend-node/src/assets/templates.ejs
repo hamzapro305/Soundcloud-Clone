@@ -1,0 +1,23 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+    const done = async () => {
+        await window.opener.postMessage({
+            token: '<%= token %>',
+        }, '*');
+        window.close()
+    };
+</script>
+
+<body>
+    <p>Authentication Done</p>
+    <button onclick="done()">Go Back</button>
+</body>
+
+</html>

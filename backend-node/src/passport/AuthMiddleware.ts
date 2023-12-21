@@ -11,67 +11,89 @@ export default class AuthMiddleware {
         private readonly _JWT_UTILS: JWT_Utils
     ) {}
 
-    public authenticateLocal = (req: Request, res: Response, next: NextFunction) => {
+    public authenticateLocal = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
         const _JWT_UTILS = new JWT_Utils();
-        passport.authenticate('local', (err: any, user: any, info: any) => {
+        passport.authenticate("local", (err: any, user: any, info: any) => {
             if (err) {
                 return next(err);
             }
             if (!user) {
                 // Handle authentication failure (e.g., redirect to login page)
-                return res.status(HttpStatusCode.BAD_REQUEST).json("some error")
+                return res
+                    .status(HttpStatusCode.BAD_REQUEST)
+                    .json("some error");
             }
             return res.status(HttpStatusCode.OK).json({
-                token: _JWT_UTILS.generateToken(user)
-            })
+                token: _JWT_UTILS.generateToken(user),
+            });
         })(req, res, next);
-    }
-    public authenticateGoogle = (req: Request, res: Response, next: NextFunction) => {
-        passport.authenticate('google', (err: any, user: any, info: any) => {
-            console.log(err)
+    };
+    public authenticateGoogle = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        passport.authenticate("google", (err: any, user: any, info: any) => {
+            console.log(err);
             if (err) {
                 return next(err);
             }
             if (!user) {
                 // Handle authentication failure (e.g., redirect to login page)
-                return res.status(HttpStatusCode.BAD_REQUEST).json("some error")
+                return res
+                    .status(HttpStatusCode.BAD_REQUEST)
+                    .json("some error");
             }
-            console.log("google => ", user)
+            console.log("google => ", user);
             return res.status(HttpStatusCode.OK).json({
-                token: this._JWT_UTILS.generateToken(user)
-            })
+                token: this._JWT_UTILS.generateToken(user),
+            });
         })(req, res, next);
-    }
-    public googleCallback = (req: Request, res: Response, next: NextFunction) => {
-        passport.authenticate('google', (err: any, user: any, info: any) => {
+    };
+    public googleCallback = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        passport.authenticate("google", (err: any, user: any, info: any) => {
             if (err) {
                 console.log(err);
                 return next(err);
             }
             if (!user) {
                 // Handle authentication failure (e.g., redirect to login page)
-                return res.status(HttpStatusCode.BAD_REQUEST).json("some error");
+                return res
+                    .status(HttpStatusCode.BAD_REQUEST)
+                    .json("some error");
             }
             console.log("google => ", user);
-            return res.status(HttpStatusCode.OK).json({
-                token: this._JWT_UTILS.generateToken(user)
+            res.render("templates.ejs", {
+                token: this._JWT_UTILS.generateToken(user),
             });
         })(req, res, next);
-    }
-    public isLoggedIn = (req: Request, res: Response, next: NextFunction): void | Response<any, Record<string, any>> => {
-        const authorizationHeader = req.headers['authorization'];
+    };
+    public isLoggedIn = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): void | Response<any, Record<string, any>> => {
+        const authorizationHeader = req.headers["authorization"];
 
         if (!authorizationHeader) {
             return res.status(HttpStatusCode.UNAUTHORIZED).json({
-                message: 'User not Authenticated',
+                message: "User not Authenticated",
             });
         }
 
-        const token = authorizationHeader.replace('Bearer ', '');
+        const token = authorizationHeader.replace("Bearer ", "");
 
         if (!token) {
             return res.status(HttpStatusCode.UNAUTHORIZED).json({
-                message: 'Token not provided',
+                message: "Token not provided",
             });
         }
 
@@ -79,7 +101,7 @@ export default class AuthMiddleware {
             const decodedToken = this._JWT_UTILS.verifyToken(token);
             if (!decodedToken) {
                 return res.status(HttpStatusCode.UNAUTHORIZED).json({
-                    message: 'Invalid token',
+                    message: "Invalid token",
                 });
             }
             // Optional: Attach the decoded token to the request for further processing
@@ -88,8 +110,7 @@ export default class AuthMiddleware {
             // Continue to the next middleware or route handler
             next();
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
-
+    };
 }
