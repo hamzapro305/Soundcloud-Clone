@@ -71,7 +71,7 @@ export default class AuthMiddleware {
                     .json("some error");
             }
             console.log("google => ", user);
-            res.render("templates.ejs", {
+            res.render("GoogleLoginSuccess.ejs", {
                 token: this._JWT_UTILS.generateToken(user),
             });
         })(req, res, next);

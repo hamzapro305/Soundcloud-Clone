@@ -194,6 +194,11 @@ class UserRepository {
                 data: {
                     email: data.email,
                     password: data.password as string,
+                    // profile: {
+                    //     create: {
+
+                    //     }
+                    // }
                 },
             });
             return new_user as User;

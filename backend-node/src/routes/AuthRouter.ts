@@ -12,6 +12,12 @@ const authController = container.resolve(AuthController);
 const authMiddleware = container.resolve(AuthMiddleware);
 const validation = container.resolve(Validation);
 
+
+AuthRouter.post(
+    "/login/verify",
+    authMiddleware.isLoggedIn,
+    (req, res) => res.status(HttpStatusCode.OK).json({ message: "user authenticated" })
+)
 AuthRouter.post(
     "/login/password",
     validation.UserLoginValidator,
@@ -21,10 +27,9 @@ AuthRouter.post(
 
 AuthRouter.get(
     "/login/google",
-    passport.authenticate("google", {
-        scope: ["email", "profile"],
-    })
+    passport.authenticate("google")
 );
+
 AuthRouter.post(
     "/signup/password",
     validation.UserLoginValidator,
@@ -32,22 +37,10 @@ AuthRouter.post(
 );
 AuthRouter.get(
     "/login/google/callback",
-    authMiddleware.googleCallback,
-    (req, res) => {
-        return res.status(HttpStatusCode.OK).json({
-            token: req?.user,
-            message: "success",
-        });
-    }
+    authMiddleware.googleCallback
 );
 AuthRouter.get(
-    "/login/facebook/callback",
-    (req, res) => {
-        return res.status(HttpStatusCode.OK).json({
-            token: req?.user,
-            message: "success",
-        });
-    }
+    "/login/facebook/callback"
 );
 
 export default AuthRouter;
