@@ -28,3 +28,14 @@ button{
     border-radius: 5px;
     cursor: pointer;
 }
+.primary-btn{
+    background-color: #f50;
+    color: white;
+}
+.secondary-btn{
+    background-color: inherit;
+    border: 1px solid #e5e5e5;
+    &:hover{
+        border-color: #c8c7c7;
+    }
+}

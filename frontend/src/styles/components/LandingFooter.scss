@@ -1,0 +1,24 @@
+.landing-footer{
+    padding-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    h1{
+        font-weight: 500;
+        font-size: 35px;
+    }
+    p{
+        font-size: 25px;
+       font-weight: 500;
+    }
+    button {
+        &.primary-btn{
+
+            padding: 10px;
+            font-size: large;
+        }
+    }        
+    
+}

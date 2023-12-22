@@ -65,7 +65,7 @@ const LoginModal = () => {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                         <button
-                            className="continue-btn"
+                            className="primary-btn"
                             onClick={() => setLocalLogin(true)}
                         >
                             Continue
