@@ -27,7 +27,9 @@ AuthRouter.post(
 
 AuthRouter.get(
     "/login/google",
-    passport.authenticate("google")
+    passport.authenticate("google", {
+        scope: ["email", "profile"]
+    })
 );
 
 AuthRouter.post(

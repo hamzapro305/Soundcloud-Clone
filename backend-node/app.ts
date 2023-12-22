@@ -8,7 +8,9 @@ import { BACKEND_PORT } from "./src/config";
 import Middlewares from "./src/Middlewares/Middlewares";
 import { PassportConfig } from "./src/passport/PassportConfig";
 import TestRouter from "./src/routes/testRouter";
-import AuthRouter from "./src/routes/AuthRouter"
+import AuthRouter from "./src/routes/AuthRouter";
+import express from "express";
+import path from "path";
 
 dotenv.config();
 const PORT = BACKEND_PORT || 8000;
@@ -16,7 +18,11 @@ const PORT = BACKEND_PORT || 8000;
 // Middlewares
 const app = Middlewares();
 
-// Passport Config
+// Config
+app.use(express.static(__dirname + "/src/assets/public"));
+app.set('views', path.join(__dirname, '/src/assets/templates'))
+app.set('view engine', 'ejs');
+
 new PassportConfig(app);
 
 // Routers
