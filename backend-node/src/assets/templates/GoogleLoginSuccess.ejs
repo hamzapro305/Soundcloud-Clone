@@ -8,18 +8,48 @@
 
 <script>
     const done = async () => {
-        await window.opener.postMessage({
-            token: '<%= token %>',
-        }, '*');
+        await window.opener.postMessage({ token: '<%= token %>', status: true }, '*');
         window.close()
     };
 </script>
 
-<body style="display: flex; justify-content: center; margin-top: 150px;">
-    <div style="width: 70%; text-align: center;">
-        <div style="display: flex; align-items: center; justify-content: center;">
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        margin-top: 150px;
+    }
+
+    .wrapper {
+        width: 70%;
+        text-align: center;
+    }
+
+    .head {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .head h1 {
+        font-weight: 900;
+        font-size: x-large;
+    }
+
+    .head img {
+        width: 50px;
+    }
+
+    p {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="wrapper">
+        <div class="head">
             <img src="/PNGs/done2PNG.jpg" alt="Tick Logo">
-            <h1 style="font-weight: 900; font-size: x-large;">Authentication Done</h1>
+            <h1>Authentication Done</h1>
         </div>
         <p style="color: gray; text-align: start;">The Login Process has been completed. Now You can return to the main
             page.</p>
