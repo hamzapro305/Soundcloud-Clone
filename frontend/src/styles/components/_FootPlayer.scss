@@ -1,0 +1,42 @@
+.FootPlayer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background-color: #f2f2f2;
+    border-top: 1px solid #cecece;
+
+    height: 50px;
+
+    &-wrapper {
+        display: grid;
+        grid-template-columns: auto 1fr 0.5fr;
+        height: 100%;
+        gap: 20px;
+        .actions {
+            display: flex;
+            gap: 6px;
+            .action {
+                all: unset;
+                font-size: 1.5rem;
+                padding: 0 6px;
+                cursor: pointer;
+
+                &.shuffle {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+        .playbackTimeline {
+            background: green;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 10px;
+            .timeLine {
+            }
+        }
+        .song {
+            background: blue;
+        }
+    }
+}

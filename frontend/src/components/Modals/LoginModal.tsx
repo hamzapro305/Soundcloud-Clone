@@ -9,6 +9,7 @@ import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useLocalStorage } from "usehooks-ts";
+import { ErrorToast, SuccessToast } from "../Toastify";
 
 const LoginModal = () => {
     const [localLogin, setLocalLogin] = useState(false);
@@ -26,7 +27,15 @@ const LoginModal = () => {
         );
 
         window.addEventListener("message", (e) => {
-            if (e.source === child) setToken(() => e.data?.token);
+            if (e.source === child) {
+                if (!e.data?.status) {
+                    ErrorToast(e.data?.message ?? "Authentication Failed");
+                } else {
+                    setToken(() => e.data?.token);
+                    SuccessToast("Authentication Successful");
+                    dispatch(GlobalVariablesActions.setLoginModal(false));
+                }
+            }
         });
     };
     return (
