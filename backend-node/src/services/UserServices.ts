@@ -5,6 +5,7 @@ import { ThrowCriticalError } from "../exceptions/CriticalError";
 import { inject, injectable } from "tsyringe";
 import ProfileRepository from "../repository/ProfileRepository";
 import { GoogleProvider } from "../@Types/Provider";
+import { User } from "../@Types/User";
 
 @injectable()
 export class UserServices {
@@ -29,9 +30,6 @@ export class UserServices {
                 );
             }
 
-            // Create user profile
-            await this._profileRepository.createProfile(new_user.uid);
-
             return new_user;
         } catch (error: any) {
             throw new ThrowCriticalError(error);
@@ -54,5 +52,12 @@ export class UserServices {
     public getUserByEmail = async (email: string) => {
         const user = await this._userRepository.getByEmail(email);
         return user;
+    };
+    public getByUID = async (uid: string): Promise<User | null> => {
+        try {
+            return await this._userRepository.getByUID(uid);
+        } catch (error) {
+            return null;
+        }
     };
 }

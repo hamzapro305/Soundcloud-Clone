@@ -1,24 +1,66 @@
 import { NextFunction, Request, Response } from "express";
-import { autoInjectable } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import ProfileService from "../services/ProfileService";
+import HttpStatusCode from "../utils/HttpStatusCode";
+import JWT_Utils from "../utils/JWT_Utils";
 
-@autoInjectable()
+@injectable()
 class ProfileController {
-    private _profileService: ProfileService;
-    constructor(_profileService: ProfileService) {
-        this._profileService = _profileService;
-    }
-    
-    public async updateProfile(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { uid, full_name, bio } = req.body;
-            return await this._profileService.updateProfile(uid, { full_name, bio });
+    constructor(
+        @inject(ProfileService)
+        private readonly _profileService: ProfileService,
 
+        @inject(JWT_Utils)
+        private readonly _JWT_Utils: JWT_Utils
+    ) {}
+
+    public updateProfile = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const user = this._JWT_Utils.verifyToken(
+                this._JWT_Utils.extractToken(req)
+            );
+            const { data } = req.body;
+
+            const profile = await this._profileService.updateProfile(user.uid, {
+                full_name: data?.full_name,
+                bio: data?.bio,
+            });
+
+            return res.status(HttpStatusCode.OK).json({
+                status: "updated",
+                profile: profile,
+            });
         } catch (error) {
-            console.log(error)
-            next(error)
+            console.log(error);
+            next(error);
         }
-    }
+    };
+
+    public getCurrentUserProfile = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const user = this._JWT_Utils.verifyToken(
+                this._JWT_Utils.extractToken(req)
+            );
+            const profile = await this._profileService.getProfileByUID(
+                user?.uid
+            );
+            return res.status(HttpStatusCode.OK).json({
+                status: "fetched",
+                profile: profile,
+            });
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    };
 }
 
-export default ProfileController
+export default ProfileController;

@@ -1,9 +1,7 @@
 import { injectable } from "tsyringe";
-import { TProfile } from "../@Types/Profile";
+import { TProfile, UpdateAbleProfile } from "../@Types/Profile";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
 import ProfileRepository from "../repository/ProfileRepository";
-
-type UpdateAbleProfile = Partial<Pick<TProfile, "full_name" | "bio">>;
 
 @injectable()
 class ProfileService {

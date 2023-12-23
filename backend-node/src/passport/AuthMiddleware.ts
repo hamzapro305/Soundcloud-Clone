@@ -70,9 +70,9 @@ export default class AuthMiddleware {
                     .status(HttpStatusCode.BAD_REQUEST)
                     .json("some error");
             }
-            console.log("google => ", user);
+            const token = this._JWT_UTILS.generateToken(user);
             res.render("GoogleLoginSuccess.ejs", {
-                token: this._JWT_UTILS.generateToken(user),
+                token: token,
             });
         })(req, res, next);
     };
@@ -81,23 +81,8 @@ export default class AuthMiddleware {
         res: Response,
         next: NextFunction
     ): void | Response<any, Record<string, any>> => {
-        const authorizationHeader = req.headers["authorization"];
-
-        if (!authorizationHeader) {
-            return res.status(HttpStatusCode.UNAUTHORIZED).json({
-                message: "User not Authenticated",
-            });
-        }
-
-        const token = authorizationHeader.replace("Bearer ", "");
-
-        if (!token) {
-            return res.status(HttpStatusCode.UNAUTHORIZED).json({
-                message: "Token not provided",
-            });
-        }
-
         try {
+            const token = this._JWT_UTILS.extractToken(req);
             const decodedToken = this._JWT_UTILS.verifyToken(token);
             if (!decodedToken) {
                 return res.status(HttpStatusCode.UNAUTHORIZED).json({

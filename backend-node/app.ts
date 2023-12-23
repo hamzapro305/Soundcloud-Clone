@@ -11,6 +11,7 @@ import TestRouter from "./src/routes/testRouter";
 import AuthRouter from "./src/routes/AuthRouter";
 import express from "express";
 import path from "path";
+import profileRouter from "./src/routes/ProfileRouter";
 
 dotenv.config();
 const PORT = BACKEND_PORT || 8000;
@@ -20,8 +21,8 @@ const app = Middlewares();
 
 // Config
 app.use(express.static(__dirname + "/src/assets/public"));
-app.set('views', path.join(__dirname, '/src/assets/templates'))
-app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, "/src/assets/templates"));
+app.set("view engine", "ejs");
 
 new PassportConfig(app);
 
@@ -30,6 +31,7 @@ app.use("/api/test", TestRouter);
 app.use("/api/user", UserRouter);
 app.use("/api/follow-user", FollowRouter);
 app.use("/api/auth", AuthRouter);
+app.use("/api/profile", profileRouter);
 
 // Handle Error After Controller
 app.use(ErrorMiddleware);

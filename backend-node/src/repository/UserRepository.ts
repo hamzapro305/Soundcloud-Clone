@@ -98,6 +98,9 @@ class UserRepository {
                             refresh_token: provider.refresh_token,
                         },
                     },
+                    profile: {
+                        create: {},
+                    },
                 },
             });
             return createdUser as User;
@@ -176,7 +179,7 @@ class UserRepository {
                     access_token: provider.access_token,
                     refresh_token: provider.refresh_token ?? "",
                     user: {
-                        connect: { uid: uid, },
+                        connect: { uid: uid },
                     },
                 },
             });
@@ -194,11 +197,9 @@ class UserRepository {
                 data: {
                     email: data.email,
                     password: data.password as string,
-                    // profile: {
-                    //     create: {
-
-                    //     }
-                    // }
+                    profile: {
+                        create: {},
+                    },
                 },
             });
             return new_user as User;

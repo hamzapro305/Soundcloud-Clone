@@ -6,3 +6,5 @@ export type TProfile = {
     followers_count: number;
     following_count: number;
 };
+
+export type UpdateAbleProfile = Partial<TProfile>;

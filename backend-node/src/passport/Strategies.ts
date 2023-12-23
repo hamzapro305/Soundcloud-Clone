@@ -21,16 +21,17 @@ export default class Strategies {
         this.googleStrategy();
     }
 
-    private localStrategy() {
+    private localStrategy = () => {
         passport.use(
             new LocalStrategy(
                 {
                     usernameField: "email",
                 },
                 async (email, password, done) => {
-                    const userRepository = new UserRepository();
                     try {
-                        const user = await userRepository.getByEmail(email);
+                        const user = await this._userRepository.getByEmail(
+                            email
+                        );
                         if (!user) {
                             return done(
                                 new CustomError(
@@ -57,14 +58,16 @@ export default class Strategies {
                 }
             )
         );
-    }
+    };
     private googleStrategy = () => {
         passport.use(
             new GoogleStrategy(
                 {
-                    clientID: "435572794537-flep8daaqbigtc8a2u2koru2hbhffknd.apps.googleusercontent.com",
+                    clientID:
+                        "435572794537-flep8daaqbigtc8a2u2koru2hbhffknd.apps.googleusercontent.com",
                     clientSecret: "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",
-                    callbackURL: "http://localhost:8000/api/auth/login/google/callback",
+                    callbackURL:
+                        "http://localhost:8000/api/auth/login/google/callback",
                     passReqToCallback: true,
                 },
                 async (
@@ -75,7 +78,6 @@ export default class Strategies {
                     done: VerifyCallback
                 ) => {
                     try {
-                        
                         // Check if a user with the provided Google ID exists
                         const existingUser =
                             await this._userRepository.getByGoogleId(
@@ -86,11 +88,14 @@ export default class Strategies {
                             // User with Google ID already exists
                             return done(null, existingUser);
                         }
-                        
-                        const email = profile.emails ? profile.emails[0].value : "";
-                        
+
+                        const email = profile.emails
+                            ? profile.emails[0].value
+                            : "";
+
                         // Check if a user with the provided email exists
-                        const userWithEmail = await this._userRepository.getByEmail(email);
+                        const userWithEmail =
+                            await this._userRepository.getByEmail(email);
 
                         if (userWithEmail) {
                             // User with the provided email exists, link Google ID to the existing user
@@ -107,9 +112,9 @@ export default class Strategies {
                                     }
                                 );
                             const updatedUser =
-                                    await this._userRepository.getByGoogleId(
-                                        profile.id
-                                    );
+                                await this._userRepository.getByGoogleId(
+                                    profile.id
+                                );
                             return done(null, updatedUser);
                         }
 
