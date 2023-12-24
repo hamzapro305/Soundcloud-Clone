@@ -7,23 +7,15 @@
 </head>
 
 <script>
-    const done = async () => {
+    window.addEventListener('load', async (event) => {
         await window.opener.postMessage({
             token: '<%= token %>',
         }, '*');
         window.close()
-    };
+    });
 </script>
 
-<body style="display: flex; justify-content: center; margin-top: 150px;">
-    <div style="width: 70%; text-align: center;">
-        <div style="display: flex; align-items: center; justify-content: center;">
-            <img src="./done2PNG.jpg" alt="Tick Logo">
-            <h1 style="font-weight: 900; font-size: x-large;">Authentication Done</h1>
-        </div>
-        <p style="color: gray; text-align: start;">The Login Process has been completed. Now You can return to the main page.</p>
-        <button style="border: none; background-color: rgb(82, 189, 0); color: white; padding: 8px; border-radius: 5px; cursor: pointer;" onclick="done()">Go Back</button>
-    </div>
+<body>
 </body>
 
 </html>
