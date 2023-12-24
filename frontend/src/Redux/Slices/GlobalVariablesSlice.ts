@@ -6,6 +6,7 @@ const GlobalVariables = createSlice({
         header: true,
         footer: true,
         loginModal: false,
+        token:""
     },
     reducers: {
         setHeader: (state, { payload }) => {
@@ -16,6 +17,9 @@ const GlobalVariables = createSlice({
         },
         setLoginModal: (state, { payload }) => {
             state.loginModal = payload;
+        },
+        setToken: (state, { payload }) => {
+            state.token = payload;
         },
     },
 });

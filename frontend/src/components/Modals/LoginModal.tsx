@@ -17,6 +17,7 @@ const LoginModal = () => {
     const [password, setPassword] = useState("");
     const [isToken, setToken] = useLocalStorage("token", "");
 
+
     const dispatch = useAppDispatch();
 
     const openGoogleLoginWindow = () => {
@@ -34,6 +35,7 @@ const LoginModal = () => {
                     setToken(() => e.data?.token);
                     SuccessToast("Authentication Successful");
                     dispatch(GlobalVariablesActions.setLoginModal(false));
+                    dispatch(GlobalVariablesActions.setToken(e.data.token));
                 }
             }
         });
