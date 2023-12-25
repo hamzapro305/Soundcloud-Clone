@@ -1,18 +1,21 @@
+"use client";
 import React from "react";
-import Banner from "@/components/LandingBanner";
-import TrendingSection from "@/components/TrendingSection";
-import CreatorSection from "@/components/CreatorSection";
-import LandingFooter from "@/components/LandingFooter";
+import LandingPage from "@/components/LandingPage";
+import { DiscoverHeader } from "@/components/DiscoverHeader";
 
 const page = async () => {
     return (
-        <div className="general-container">
-            <Banner />
-            Sommething
-            <TrendingSection />
-            <CreatorSection />
-            <LandingFooter />
-        </div>
+        <>
+            {token === "" ? (
+                // Render Landing Page If user not logged in
+                <LandingPage />
+            ) : (
+                <>
+                    <DiscoverHeader />
+                    dfsdf
+                </>
+            )}
+        </>
     );
 };
 

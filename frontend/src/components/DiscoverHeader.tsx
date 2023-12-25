@@ -1,5 +1,6 @@
 import Logo from "@/Assets/SVGs/Logo";
 import SearchBox from "./SearchBox";
+import Link from "next/link";
 
 export const DiscoverHeader = () => {
     return (
@@ -10,9 +11,9 @@ export const DiscoverHeader = () => {
                         <Logo fill="red" width="50px" />
                         <p>SOUNDCLOUD</p>
                     </div>
-                    <a href="#">Home</a>
-                    <a href="#">Feed</a>
-                    <a href="#">Library</a>
+                    <Link className="link-tag" href="#">Home</Link>
+                    <Link className="link-tag" href="#">Feed</Link>
+                    <Link className="link-tag" href="#">Library</Link>
                 </div>
                 <div className="middle">
                     <SearchBox placeholder="Search for artists, bands, tracks, podcasts"/>

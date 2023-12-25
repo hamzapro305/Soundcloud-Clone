@@ -1,5 +1,14 @@
-.trending-section {
+.trending-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.trending-cards {
     display: grid;
     grid-template-columns: repeat(6, 1fr); /* 5 columns with equal width */
     gap: 16px; /* Adjust the gap between grid items as needed */
+}
+.explore-trending-btn{
+    display: flex;
+    justify-content: center;
 }
