@@ -4,7 +4,7 @@ import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { Provider } from "../@Types/Provider";
 
-export default class GoogleRepository {
+class GoogleRepository {
     private readonly GOOGLE_USERINFO_URL = `https://www.googleapis.com/oauth2/v2/userinfo`;
 
     /**
@@ -46,16 +46,41 @@ export default class GoogleRepository {
         }
     };
 
-    public readonly getGoogleAccount = async (google_id: string) => {
+    public readonly removeGoogle = async (
+        google_id: string
+    ): Promise<boolean> => {
         try {
-            const google = await this.getGoogle(google_id);
-            const profile = await this.getGoogleProfile(
-                google?.access_token as string
-            );
-            return profile;
+            await prisma.google.delete({
+                where: { google_id: google_id },
+            });
+            return true;
         } catch (error) {
             console.log(error);
-            return null;
+            return false;
+        }
+    };
+
+    public readonly createGoogleForUser = async (
+        uid: string,
+        provider: Provider["google"]
+    ) => {
+        try {
+            await prisma.google.create({
+                data: {
+                    google_id: provider.google_id,
+                    access_token: provider.access_token,
+                    refresh_token: provider.refresh_token ?? "",
+                    user: {
+                        connect: { uid: uid },
+                    },
+                },
+            });
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
         }
     };
 }
+
+export default GoogleRepository;

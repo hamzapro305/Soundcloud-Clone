@@ -76,7 +76,29 @@ export default class AuthMiddleware {
             });
         })(req, res, next);
     };
-    public isLoggedIn = (
+    public facebookCallback = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        passport.authenticate("facebook", (err: any, user: any, info: any) => {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            if (!user) {
+                // Handle authentication failure (e.g., redirect to login page)
+                return res
+                    .status(HttpStatusCode.BAD_REQUEST)
+                    .json("some error");
+            }
+            const token = this._JWT_UTILS.generateToken(user);
+            res.render("GoogleLoginSuccess.ejs", {
+                token: token,
+            });
+        })(req, res, next);
+    };
+    public readonly isLoggedIn = (
         req: Request,
         res: Response,
         next: NextFunction

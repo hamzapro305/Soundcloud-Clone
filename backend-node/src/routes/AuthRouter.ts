@@ -24,6 +24,11 @@ AuthRouter.post(
     authMiddleware.authenticateLocal,
     authController.login
 );
+AuthRouter.post(
+    "/signup/password",
+    validation.UserLoginValidator,
+    authController.signUp
+);
 
 AuthRouter.get(
     "/login/google",
@@ -31,18 +36,18 @@ AuthRouter.get(
         scope: ["email", "profile"]
     })
 );
-
-AuthRouter.post(
-    "/signup/password",
-    validation.UserLoginValidator,
-    authController.signUp
+AuthRouter.get(
+    "/login/facebook",
+    passport.authenticate("facebook")
 );
+
 AuthRouter.get(
     "/login/google/callback",
     authMiddleware.googleCallback
 );
 AuthRouter.get(
-    "/login/facebook/callback"
+    "/login/facebook/callback",
+    authMiddleware.facebookCallback
 );
 
 export default AuthRouter;

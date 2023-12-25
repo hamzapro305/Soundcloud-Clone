@@ -22,7 +22,6 @@ class UserRepository {
             }
             return user as User;
         } catch (error: any) {
-            console.log(error);
             return null;
         }
     };
@@ -43,7 +42,6 @@ class UserRepository {
             }
             return user as User;
         } catch (error: any) {
-            console.log(error);
             return null;
         }
     };
@@ -62,7 +60,6 @@ class UserRepository {
             }
             return user as User;
         } catch (error: any) {
-            console.log(error);
             return null;
         }
     };
@@ -79,7 +76,6 @@ class UserRepository {
             }
             return user as User;
         } catch (error: any) {
-            console.log(error);
             return null;
         }
     };
@@ -105,7 +101,6 @@ class UserRepository {
             });
             return createdUser as User;
         } catch (error) {
-            console.log(error);
             return null;
         }
     };
@@ -128,7 +123,6 @@ class UserRepository {
             });
             return createdUser as User;
         } catch (error) {
-            console.log(error);
             return null;
         }
     };
@@ -141,52 +135,7 @@ class UserRepository {
             });
             return new_user as User;
         } catch (error) {
-            console.log(error);
             return null;
-        }
-    };
-    public createFacebookForUser = async (
-        uid: string,
-        provider: Provider["facebook"]
-    ): Promise<boolean> => {
-        try {
-            await prisma.facebook.create({
-                data: {
-                    facebook_id: provider.facebook_id,
-                    access_token: provider.access_token,
-                    refresh_token: provider.refresh_token as string,
-                    user: {
-                        connect: {
-                            uid: uid,
-                        },
-                    },
-                },
-            });
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-    };
-    public createGoogleForUser = async (
-        uid: string,
-        provider: Provider["google"]
-    ) => {
-        try {
-            await prisma.google.create({
-                data: {
-                    google_id: provider.google_id,
-                    access_token: provider.access_token,
-                    refresh_token: provider.refresh_token ?? "",
-                    user: {
-                        connect: { uid: uid },
-                    },
-                },
-            });
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
         }
     };
     public createByLocal = async (
@@ -204,7 +153,6 @@ class UserRepository {
             });
             return new_user as User;
         } catch (error) {
-            console.log(error);
             return null;
         }
     };
@@ -223,7 +171,6 @@ class UserRepository {
             });
             return user as User;
         } catch (error) {
-            console.log(error);
             return null;
         }
     };

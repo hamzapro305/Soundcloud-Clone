@@ -10,15 +10,24 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 import passport from "passport";
 import { inject, injectable } from "tsyringe";
 import { Request } from "express";
+import GoogleRepository from "../repository/GoogleRepository";
+import FacebookRepository from "../repository/FacebookRepository";
 
 @injectable()
 export default class Strategies {
     constructor(
         @inject(UserRepository)
-        private readonly _userRepository: UserRepository
+        private readonly _userRepository: UserRepository,
+
+        @inject(GoogleRepository)
+        private readonly _googleRepository: GoogleRepository,
+
+        @inject(FacebookRepository)
+        private readonly _facebookRepository: FacebookRepository
     ) {
         this.localStrategy();
         this.googleStrategy();
+        this.facebookStrategy();
     }
 
     private localStrategy = () => {
@@ -102,15 +111,14 @@ export default class Strategies {
                             userWithEmail.google_id = profile.id;
 
                             // Update the user in the database
-                            const googleData =
-                                await this._userRepository.createGoogleForUser(
-                                    userWithEmail.uid,
-                                    {
-                                        google_id: profile?.id,
-                                        access_token: accessToken,
-                                        refresh_token: refreshToken ?? "",
-                                    }
-                                );
+                            await this._googleRepository.createGoogleForUser(
+                                userWithEmail.uid,
+                                {
+                                    google_id: profile?.id,
+                                    access_token: accessToken,
+                                    refresh_token: refreshToken ?? "",
+                                }
+                            );
                             const updatedUser =
                                 await this._userRepository.getByGoogleId(
                                     profile.id
@@ -150,17 +158,79 @@ export default class Strategies {
                 {
                     clientID: "1212556792792833",
                     clientSecret: "f346ef9d3e3bc9fa132904c21a640d7a",
-                    callbackURL: "http://localhost:8000/auth/facebook/callback", // Adjust the callback URL
+                    callbackURL: "http://localhost:8000/api/auth/login/facebook/callback", // Adjust the callback URL
+                    profileFields: ["id", "email", "name"],
+                    passReqToCallback: true,
+                    scope: ["email"],
                 },
-                (accessToken, refreshToken, profile, done) => {
-                    // Implement your Facebook authentication logic here
-                    // Example: Find or create a user based on the Facebook profile information
-                    const user = {
-                        id: 3,
-                        username: "facebookUser",
-                        email: profile.emails ? profile.emails[0].value : "",
-                    };
-                    return done(null, user);
+                async (
+                    request: Request,
+                    accessToken: string,
+                    refreshToken: string,
+                    profile: any,
+                    done: VerifyCallback
+                ) => {
+                    try {
+                        // Check if a user with the provided Facebook ID exists
+                        const existingUser =
+                            await this._userRepository.getByFacebookId(
+                                profile.id
+                            );
+
+                        if (existingUser) {
+                            // User with Facebook ID already exists
+                            return done(null, existingUser);
+                        }
+
+                        const email = profile.emails
+                            ? profile.emails[0].value
+                            : "";
+
+                        // Check if a user with the provided email exists
+                        const userWithEmail =
+                            await this._userRepository.getByEmail(email);
+
+                        if (userWithEmail) {
+                            // User with the provided email exists, link Facebook ID to the existing user
+                            userWithEmail.facebook_id = profile.id;
+
+                            // Update the user in the database
+                            await this._facebookRepository.createFacebookForUser(
+                                userWithEmail.uid,
+                                {
+                                    facebook_id: profile?.id,
+                                    access_token: accessToken,
+                                    refresh_token: refreshToken ?? "",
+                                }
+                            );
+                            const updatedUser =
+                                await this._userRepository.getByFacebookId(
+                                    profile.id
+                                );
+                            return done(null, updatedUser);
+                        }
+
+                        // User does not exist, create a new user with Facebook ID
+
+                        // Create the new user in the database
+                        const createdUser =
+                            await this._userRepository.createByFacebook(email, {
+                                access_token: accessToken,
+                                facebook_id: profile?.id,
+                                refresh_token: refreshToken ?? "",
+                            });
+
+                        return done(null, createdUser);
+                    } catch (error) {
+                        console.error(error); // Log the error for debugging
+                        return done(
+                            new CustomError(
+                                "Facebook Authentication Failed",
+                                HttpStatusCode.INTERNAL_SERVER_ERROR
+                            ),
+                            false
+                        );
+                    }
                 }
             )
         );
