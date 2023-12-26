@@ -1,7 +1,13 @@
 import React from "react";
+import { DiscoverHeader } from "@/components/DiscoverHeader";
 
 const page = () => {
-    return <div>page</div>;
+    return (
+        <>
+            <DiscoverHeader />
+            jkdans
+        </>
+    );
 };
 
 export default page;

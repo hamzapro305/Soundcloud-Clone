@@ -8,29 +8,24 @@ import SearchBox from "@/components/SearchBox";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector } from "@/Redux/Hooks";
 import LandingPage from "@/components/LandingPage";
+import { useRouter } from 'next/navigation'
 import { DiscoverHeader } from "@/components/DiscoverHeader";
 import { makeStore } from "../Redux/Store";
 
 const page = () => {
+
+    const router = useRouter()
     const token = useAppSelector((state) => {
         return state.GlobalVariable.token;
     });
-    // const store= makeStore()
-    // console.log(store.getState().GlobalVariable.token,"======")
+
+    if (token!=="") {
+        router.replace('/discover')
+    }    
 
     return (
         <>
-            {token === "" ? (
-                // Render Landing Page If user not logged in
-                <LandingPage />
-            ) : (
-
-                <>
-                            <DiscoverHeader />
-
-                dfsdf
-                </>
-            )}
+            <LandingPage />
         </>
     );
 };

@@ -1,5 +1,7 @@
 .DiscoverHeader {
     background-color: $blackBG;
+    color: white;
+    font-size: 15px;
 
     &-wrapper {
         display: grid;
@@ -21,7 +23,28 @@
             }
         }
         .middle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 9px 10px 8px;
+            width: 630px;
+        }
+        .right{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            .profile-section{
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                .circle{
+    
+                    height: 35px;
+                    width: 35px;
+                    border-radius: 100%;
+                    background: linear-gradient(to right, rgb(0, 136, 185),rgb(146, 97, 105))
+                }
+            }
         }
     }
 }

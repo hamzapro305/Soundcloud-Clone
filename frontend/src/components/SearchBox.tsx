@@ -13,8 +13,10 @@ const SearchBox = ({ placeholder }: props) => {
                 placeholder={placeholder ?? ""}
                 onChange={(e) => setValue(e.target.value)}
             />
-            <IoSearchOutline size={12} />
-            <button>Upload you own</button>
+            <div className="search-icn">
+            <IoSearchOutline size={18} />
+            </div>
+            {/* <button>Upload you own</button> */}
         </div>
     );
 };

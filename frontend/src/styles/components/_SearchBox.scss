@@ -4,14 +4,19 @@
     gap: 4px;
     background: #e5e5e5;
     align-items: center;
-    padding: 2px 5px;
+    padding: 4px 5px;
     border-radius: 4px;
     input {
+        min-width: 300px;
         border: none;
         outline: none;
-        padding: 4px 0px;
+        padding: 4px ;
         background-color:transparent;
         height: 20px;
         font-size: 14px;
+        cursor: pointer;
+    }
+    .search-icn{
+        color: black;
     }
 }
