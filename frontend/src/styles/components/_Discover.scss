@@ -29,22 +29,56 @@
             padding: 9px 10px 8px;
             width: 630px;
         }
-        .right{
+        .right {
             display: flex;
             align-items: center;
             justify-content: space-around;
-            .profile-section{
+            .profile-section {
                 display: flex;
                 align-items: center;
                 gap: 5px;
-                .circle{
-    
+                .circle {
                     height: 35px;
                     width: 35px;
                     border-radius: 100%;
-                    background: linear-gradient(to right, rgb(0, 136, 185),rgb(146, 97, 105))
+                    background: linear-gradient(
+                        to right,
+                        rgb(0, 136, 185),
+                        rgb(146, 97, 105)
+                    );
                 }
             }
         }
+    }
+}
+
+.discover-wrapper {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    padding-top: 20px;
+    .main-content{
+        width: 75%;
+        .today-mixes{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px; 
+        }
+        .made-for-user{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px; 
+        }
+        .trending-section{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px; 
+        }
+    }
+    .discover-side-panel{
+        width: 25%;
     }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import Cards from "./ui/Cards";
+import Cards from "../ui/Cards";
 import trends from "@/utils/MockTrending";
 import Link from 'next/link'
 
