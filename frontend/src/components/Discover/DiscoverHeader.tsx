@@ -1,5 +1,5 @@
 import Logo from "@/Assets/SVGs/Logo";
-import SearchBox from "./SearchBox";
+import SearchBox from "../SearchBox";
 import Link from "next/link";
 import { IoMdNotifications } from "react-icons/io";
 import { IoIosMail } from "react-icons/io";

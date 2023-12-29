@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import Banner from "@/components/LandingBanner";
-import TrendingSection from "@/components/TrendingSection";
+import Banner from "@/components/LandingPage/LandingBanner";
+import TrendingSection from "@/components/LandingPage/TrendingSection";
 import CreatorSection from "@/components/CreatorSection";
-import LandingFooter from "@/components/LandingFooter";
+import LandingFooter from "@/components/LandingPage/LandingFooter";
 import SearchBox from "@/components/SearchBox";
 
 const LandingPage = () => {

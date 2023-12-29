@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "./Navbar";
-import TestServer from "./TestServer";
+import TestServer from "../TestServer";
 
 const LandingBanner = () => {
     return (
