@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { CustomError } from "../exceptions/CustomError";
 import { UserServices } from "../services/UserServices";
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 
-@injectable()
+@singleton()
 export default class AuthController {
     constructor(
         @inject(UserServices)

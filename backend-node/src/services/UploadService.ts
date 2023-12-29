@@ -62,7 +62,6 @@ export class UploadService {
         })
 
     }
-
     private deleteFile(path: string) {
         try {
             fs.unlink(path, (error) => {
@@ -76,7 +75,6 @@ export class UploadService {
             console.log(error)
         }
     }
-
     private downloadData(fileName: string, destinationPath: NodeJS.WritableStream) {
         return new Promise((resolve, reject) => {
             const bucket = this.storage.bucket();

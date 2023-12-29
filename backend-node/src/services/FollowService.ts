@@ -3,9 +3,9 @@ import ProfileRepository from "../repository/ProfileRepository";
 import { CustomError } from "../exceptions/CustomError";
 import FollowRepository from "../repository/FollowRepository";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 
-@injectable()
+@singleton()
 export default class FollowService {
     constructor(
         @inject(UserRepository)

@@ -8,12 +8,12 @@ import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import passport from "passport";
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import { Request } from "express";
 import GoogleRepository from "../repository/GoogleRepository";
 import FacebookRepository from "../repository/FacebookRepository";
 
-@injectable()
+@singleton()
 export default class Strategies {
     constructor(
         @inject(UserRepository)
@@ -151,7 +151,6 @@ export default class Strategies {
             )
         );
     };
-
     private facebookStrategy = () => {
         passport.use(
             new FacebookStrategy(

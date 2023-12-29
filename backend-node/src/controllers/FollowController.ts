@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import FollowService from "../services/FollowService";
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 
-@injectable()
+@singleton()
 class FollowController {
     constructor(
         @inject(FollowService)

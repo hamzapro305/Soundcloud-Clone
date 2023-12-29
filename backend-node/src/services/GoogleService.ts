@@ -1,7 +1,7 @@
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import GoogleRepository from "../repository/GoogleRepository";
 
-@injectable()
+@singleton()
 class GoogleService {
     constructor(
         @inject(GoogleRepository)

@@ -1,11 +1,11 @@
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 import { TProfile, UpdateAbleProfile } from "../@Types/Profile";
 import prisma from "../config/prisma-client";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
-@injectable()
+@singleton()
 class ProfileRepository {
     createProfile = async (uid: string): Promise<TProfile> => {
         try {

@@ -4,13 +4,15 @@ import HttpStatusCode from "../utils/HttpStatusCode";
 import { MimeType } from "../@Types/MimeType";
 import { GetExtensionFromMime } from "../utils/Functions";
 
-export const MulterConfigured = (Types: MimeType["ext"][], StorageType: "DISK" | "RAM"): multer.Multer => {
+type StorageT = { type: "RAM" } | { type: "DISK", tempPath: string }
+
+export const MulterConfigured = (Types: MimeType["ext"][], StorageType: StorageT): multer.Multer => {
     return multer({
 
-        storage: StorageType === "DISK" ?
+        storage: StorageType.type === "DISK" ?
             multer.diskStorage({
                 destination(req, file, callback) {
-                    callback(null, "temp/")
+                    callback(null, StorageType.tempPath)
                 },
                 filename(req, file, callback) {
                     callback(null, Date.now() + ' - ' + file.originalname)

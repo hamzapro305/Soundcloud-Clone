@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import JWT_Utils from "../utils/JWT_Utils";
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 
-@injectable()
+@singleton()
 export default class AuthMiddleware {
     constructor(
         @inject(JWT_Utils)
@@ -120,4 +120,6 @@ export default class AuthMiddleware {
             next(error);
         }
     };
+    public readonly isGoogleConnected = () => {}
+    public readonly isFacebookConnected = () => {}
 }

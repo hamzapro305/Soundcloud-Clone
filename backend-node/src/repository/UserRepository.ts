@@ -1,11 +1,11 @@
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 import { User } from "../@Types/User";
 import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { Provider } from "../@Types/Provider";
 
-@injectable()
+@singleton()
 class UserRepository {
     public getByGoogleId = async (google_id: string): Promise<User | null> => {
         try {

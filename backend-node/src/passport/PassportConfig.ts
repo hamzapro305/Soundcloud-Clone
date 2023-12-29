@@ -1,4 +1,4 @@
-import passport, { PassportStatic } from "passport";
+import passport from "passport";
 import Strategies from "./Strategies";
 import { Application } from "express";
 import { container } from "tsyringe";

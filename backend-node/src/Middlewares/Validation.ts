@@ -1,7 +1,7 @@
 import { ZodError, z } from "zod";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { NextFunction, Request, Response } from "express";
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 
 const extractZodError = (error: ZodError, res: Response): Response => {
     const errorMessages = error.errors.map((err) => {
@@ -19,7 +19,7 @@ const extractZodError = (error: ZodError, res: Response): Response => {
     });
 };
 
-@injectable()
+@singleton()
 export default class Validation {
     public UpdateProfileByUIDValidator = (
         req: Request,

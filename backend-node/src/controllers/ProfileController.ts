@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import ProfileService from "../services/ProfileService";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import JWT_Utils from "../utils/JWT_Utils";
 
-@injectable()
+@singleton()
 class ProfileController {
     constructor(
         @inject(ProfileService)

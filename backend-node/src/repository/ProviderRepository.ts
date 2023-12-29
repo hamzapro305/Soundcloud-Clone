@@ -1,11 +1,11 @@
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 import { PossibleProviders } from "../@Types/Provider";
 import prisma from "../config/prisma-client";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
-@injectable()
+@singleton()
 export default class ProviderRepository {
     public getProvider = async (providerType: PossibleProviders, _provider_id: string)  => {
         try {

@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { NextFunction, Request, Response } from "express";
-import { inject, injectable } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import { UserServices } from "../services/UserServices";
 import ProfileService from "../services/ProfileService";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
-@injectable()
+@singleton()
 export class UserController {
     constructor(
         @inject(UserServices)

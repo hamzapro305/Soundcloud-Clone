@@ -26,6 +26,29 @@ class GoogleRepository {
         }
     };
 
+    public readonly getGoogleByUID = async (uid: string) => {
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    uid: uid,
+                },
+                include: {
+                    google: true,
+                },
+            });
+            if (user?.google == null) {
+                throw new CustomError(
+                    "Google Not Found for this UID",
+                    HttpStatusCode.NOT_FOUND
+                );
+            }
+            return user?.google as Provider["google"];
+        } catch (error: any) {
+            console.log(error);
+            return null;
+        }
+    };
+
     public readonly getGoogle = async (google_id: string) => {
         try {
             const google = await prisma.google.findUnique({

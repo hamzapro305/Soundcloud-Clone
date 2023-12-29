@@ -2,19 +2,15 @@ import UserRepository from "../repository/UserRepository";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { ThrowCriticalError } from "../exceptions/CriticalError";
-import { inject, injectable } from "tsyringe";
-import ProfileRepository from "../repository/ProfileRepository";
+import { inject, singleton } from "tsyringe";
 import { GoogleProvider } from "../@Types/Provider";
 import { User } from "../@Types/User";
 
-@injectable()
+@singleton()
 export class UserServices {
     constructor(
         @inject(UserRepository)
-        private readonly _userRepository: UserRepository,
-
-        @inject(ProfileRepository)
-        private readonly _profileRepository: ProfileRepository
+        private readonly _userRepository: UserRepository
     ) {}
 
     public SignUpLocal = async (email: string, password: string) => {
@@ -60,4 +56,6 @@ export class UserServices {
             return null;
         }
     };
+    public readonly isGoogleConnected = (_uid: string) => {};
+    public readonly isFacebookConnected = (_uid: string) => {};
 }
