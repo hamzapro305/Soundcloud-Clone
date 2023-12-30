@@ -52,8 +52,30 @@ export default class Validation {
         });
 
         try {
-            const user = req.body;
+            const user = req.body?.user;
             userSchema.parse(user);
+            return next();
+        } catch (error) {
+            if (error instanceof ZodError) return extractZodError(error, res);
+
+            return res.status(HttpStatusCode.FORBIDDEN).json({
+                message: "Internal Server Error!",
+            });
+        }
+    };
+    public readonly createSongValidator = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        const songSchema = z.object({
+            title: z.string().nullable(),
+            description: z.string().nullable(),
+            url: z.string(),
+        });
+        try {
+            const song = req.body?.song;
+            songSchema.parse(song);
             return next();
         } catch (error) {
             if (error instanceof ZodError) return extractZodError(error, res);
