@@ -5,12 +5,16 @@ import { ThrowCriticalError } from "../exceptions/CriticalError";
 import { inject, singleton } from "tsyringe";
 import { GoogleProvider } from "../@Types/Provider";
 import { User } from "../@Types/User";
+import ProfileService from "./ProfileService";
 
 @singleton()
 export class UserServices {
     constructor(
         @inject(UserRepository)
-        private readonly _userRepository: UserRepository
+        private readonly _userRepository: UserRepository,
+
+        @inject(UserRepository)
+        private readonly _profileService: ProfileService
     ) {}
 
     public SignUpLocal = async (email: string, password: string) => {
@@ -40,6 +44,16 @@ export class UserServices {
                 email,
                 provider
             );
+            if (!user) {
+                return null;
+            }
+            const profile= await this._profileService.createProfile(user?.uid)
+            if (!profile) {
+                // If Profile is not created we also delete the user
+                await this._userRepository.deleteUser(user.uid)
+                return null
+            }
+
             return user;
         } catch (error) {
             return null;

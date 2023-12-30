@@ -12,6 +12,7 @@ import AuthRouter from "./src/routes/AuthRouter";
 import express from "express";
 import path from "path";
 import profileRouter from "./src/routes/ProfileRouter";
+import SongRouter from "./src/routes/SongRouter";
 
 dotenv.config();
 const PORT = BACKEND_PORT || 8000;
@@ -32,6 +33,7 @@ app.use("/api/user", UserRouter);
 app.use("/api/follow-user", FollowRouter);
 app.use("/api/auth", AuthRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/songs", SongRouter);
 
 // Handle Error After Controller
 app.use(ErrorMiddleware);

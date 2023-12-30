@@ -69,8 +69,8 @@ export default class Validation {
         next: NextFunction
     ) => {
         const songSchema = z.object({
-            title: z.string().nullable(),
-            description: z.string().nullable(),
+            title: z.string().optional(),
+            description: z.string().optional(),
             url: z.string(),
         });
         try {

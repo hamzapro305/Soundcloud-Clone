@@ -1,10 +1,11 @@
-import { inject } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import SongService from "../services/SongService";
 import { NextFunction, Request, Response } from "express";
 import JWT_Utils from "../utils/JWT_Utils";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { CustomError } from "../exceptions/CustomError";
 
+@singleton()
 export default class SongController {
     constructor(
         @inject(SongService)

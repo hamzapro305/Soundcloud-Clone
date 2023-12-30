@@ -173,6 +173,20 @@ class UserRepository {
         } catch (error) {
             return null;
         }
+    };   
+     public deleteUser = async (
+        uid: string
+    ) => {
+        try {
+            await prisma.user.delete({
+                where: {
+                    uid: uid,
+                }
+            });
+            return true
+        } catch (error) {
+            return false;
+        }
     };
 }
 

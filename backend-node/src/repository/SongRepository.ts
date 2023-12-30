@@ -9,6 +9,7 @@ class SongRepository {
         data: Partial<EmptySong>
     ) => {
         try {
+            console.log("object")
             const song = await prisma.song.create({
                 data: {
                     thumbnail: "",
@@ -20,14 +21,15 @@ class SongRepository {
                     likes_count: 0,
                     plays_count: 0,
                     comments_count: 0,
-                    created_at: "",
-                    updated_at: "",
+                    created_at: new Date(Date.now()).toISOString(),
+                    updated_at: new Date(Date.now()).toISOString(),
                     url: "",
                     song_playlist_id: "",
                     profile_id: profile_id,
                     ...data,
                 },
             });
+
             return song;
         } catch (error) {
             console.log(error);
