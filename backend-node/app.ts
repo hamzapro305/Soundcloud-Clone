@@ -13,6 +13,7 @@ import express from "express";
 import path from "path";
 import profileRouter from "./src/routes/ProfileRouter";
 import SongRouter from "./src/routes/SongRouter";
+import multer from "multer";
 
 dotenv.config();
 const PORT = BACKEND_PORT || 8000;

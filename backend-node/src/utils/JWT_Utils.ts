@@ -15,6 +15,10 @@ export default class JWT_Utils {
         });
     };
 
+    public getUserFromRequest = (req: Request) => {
+        return this.verifyToken(this.extractToken(req));
+    };
+
     public extractToken = (req: Request): string => {
         const authorizationHeader = req.headers["authorization"];
 

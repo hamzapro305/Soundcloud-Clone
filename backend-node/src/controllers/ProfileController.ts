@@ -20,9 +20,7 @@ class ProfileController {
         next: NextFunction
     ) => {
         try {
-            const user = this._JWT_Utils.verifyToken(
-                this._JWT_Utils.extractToken(req)
-            );
+            const user = this._JWT_Utils.getUserFromRequest(req)
             const { data } = req.body;
 
             const profile = await this._profileService.updateProfile(user.uid, {
@@ -46,9 +44,7 @@ class ProfileController {
         next: NextFunction
     ) => {
         try {
-            const user = this._JWT_Utils.verifyToken(
-                this._JWT_Utils.extractToken(req)
-            );
+            const user = this._JWT_Utils.getUserFromRequest(req)
             const profile = await this._profileService.getProfileByUID(
                 user?.uid
             );
