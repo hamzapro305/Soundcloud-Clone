@@ -85,4 +85,29 @@ export default class Validation {
             });
         }
     };
+    public readonly updateSongValidator = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        const songSchema = z.object({
+            title: z.string().optional(),
+            description: z.string().optional(),
+            thumbnail: z.string().optional(),
+            genre: z.string().optional(),
+            duration: z.number().optional(),
+            privacy: z.enum(["PRIVATE", "PUBLIC"]).optional(),
+        });
+        try {
+            const song = req.body?.song;
+            songSchema.parse(song);
+            return next();
+        } catch (error) {
+            if (error instanceof ZodError) return extractZodError(error, res);
+
+            return res.status(HttpStatusCode.FORBIDDEN).json({
+                message: "Internal Server Error!",
+            });
+        }
+    };
 }

@@ -11,9 +11,16 @@ const authMiddleware = container.resolve(AuthMiddleware);
 const songController = container.resolve(SongController);
 
 SongRouter.post(
-    "/",
+    "/create",
     authMiddleware.isLoggedIn,
     validator.createSongValidator,
+    songController.createSong
+);
+
+SongRouter.post(
+    "/update",
+    authMiddleware.isLoggedIn,
+    validator.updateSongValidator,
     songController.createSong
 );
 

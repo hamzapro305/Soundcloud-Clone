@@ -1,7 +1,6 @@
 import { inject, singleton } from "tsyringe";
 import SongRepository from "../repository/SongRepository";
 import { EmptySong } from "../@Types/Song";
-import { storage } from "../config/Firebase";
 import ProfileService from "./ProfileService";
 
 @singleton()
@@ -26,7 +25,6 @@ class SongService {
             );
             return song;
         } catch (error) {
-            console.log(error,"======")
             return null;
         }
     };
