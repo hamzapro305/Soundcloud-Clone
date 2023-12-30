@@ -33,7 +33,7 @@ app.use("/api/user", UserRouter);
 app.use("/api/follow-user", FollowRouter);
 app.use("/api/auth", AuthRouter);
 app.use("/api/profile", profileRouter);
-app.use("/api/songs", SongRouter);
+app.use("/api/song", SongRouter);
 
 // Handle Error After Controller
 app.use(ErrorMiddleware);

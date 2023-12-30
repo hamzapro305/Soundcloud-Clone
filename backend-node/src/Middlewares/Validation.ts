@@ -21,7 +21,12 @@ const extractZodError = (error: ZodError, res: Response): Response => {
 
 @singleton()
 export default class Validation {
-    private schemaHandler = (schema: any, data: any, res: Response, next: NextFunction) => {
+    private schemaHandler = (
+        schema: any,
+        data: any,
+        res: Response,
+        next: NextFunction
+    ) => {
         try {
             schema.parse(data);
             return next();
@@ -41,16 +46,8 @@ export default class Validation {
             full_name: z.string(),
             bio: z.string(),
         });
-        try {
-            const { data: profile } = req.body;
-            profileSchema.parse(profile);
-            return next();
-        } catch (error) {
-            if (error instanceof ZodError) return extractZodError(error, res);
-            return res.status(HttpStatusCode.FORBIDDEN).json({
-                message: "Internal Server Error!",
-            });
-        }
+        const { data: profile } = req.body;
+        this.schemaHandler(profileSchema, profile, res, next);
     };
     public UserLoginValidator = (
         req: Request,
@@ -61,18 +58,8 @@ export default class Validation {
             email: z.string().email().nullable(),
             password: z.string().min(6),
         });
-
-        try {
-            const user = req.body?.user;
-            userSchema.parse(user);
-            return next();
-        } catch (error) {
-            if (error instanceof ZodError) return extractZodError(error, res);
-
-            return res.status(HttpStatusCode.FORBIDDEN).json({
-                message: "Internal Server Error!",
-            });
-        }
+        const user = req.body?.user;
+        this.schemaHandler(userSchema, user, res, next);
     };
     public readonly createSongValidator = (
         req: Request,
@@ -84,17 +71,8 @@ export default class Validation {
             description: z.string().optional(),
             url: z.string(),
         });
-        try {
-            const song = req.body?.song;
-            songSchema.parse(song);
-            return next();
-        } catch (error) {
-            if (error instanceof ZodError) return extractZodError(error, res);
-
-            return res.status(HttpStatusCode.FORBIDDEN).json({
-                message: "Internal Server Error!",
-            });
-        }
+        const song = req.body?.song;
+        this.schemaHandler(songSchema, song, res, next);
     };
     public readonly updateSongValidator = (
         req: Request,
@@ -110,6 +88,6 @@ export default class Validation {
             privacy: z.enum(["PRIVATE", "PUBLIC"]).optional(),
         });
         const song = req.body?.song;
-        this.schemaHandler(songSchema, song, res, next)
+        this.schemaHandler(songSchema, song, res, next);
     };
 }
