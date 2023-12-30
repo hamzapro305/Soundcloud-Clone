@@ -62,6 +62,8 @@ class ProfileRepository {
         }
     };
 
+    
+
     addFollowing = async (uid: string) => {
         try {
             const profile = await prisma.profile.update({
