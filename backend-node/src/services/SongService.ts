@@ -1,6 +1,7 @@
 import { inject, singleton } from "tsyringe";
 import SongRepository from "../repository/SongRepository";
 import { EmptySong } from "../@Types/Song";
+import { storage } from "../config/Firebase";
 
 @singleton()
 class SongService {
