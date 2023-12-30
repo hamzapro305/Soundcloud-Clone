@@ -1,17 +1,18 @@
-import { Privacy } from "../@Types/Privacy";
-import { EmptySong, Song, SongDTO } from "../@Types/Song";
+import { singleton } from "tsyringe";
+import { EmptySong } from "../@Types/Song";
 import prisma from "../config/prisma-client";
 
-
-
+@singleton()
 class SongRepository {
-
-    public readonly createSong = async (userID: string,data:Partial<EmptySong>) => {
+    public readonly createSong = async (
+        userID: string,
+        data: Partial<EmptySong>
+    ) => {
         try {
-            await prisma.song.create({
+            const song = await prisma.song.create({
                 data: {
                     thumbnail: "",
-                    privacy: "PUBLIC",
+                    privacy: "PRIVATE",
                     title: "",
                     description: "",
                     genre: "",
@@ -24,10 +25,14 @@ class SongRepository {
                     url: "",
                     song_playlist_id: "",
                     profile_id: userID,
-                    ...data
+                    ...data,
                 },
             });
-        } catch (error) {}
+            return song;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
     };
 
     public readonly deleteSong = () => {};
