@@ -80,14 +80,18 @@ export default class Validation {
         next: NextFunction
     ) => {
         const songSchema = z.object({
-            title: z.string().optional(),
-            description: z.string().optional(),
-            thumbnail: z.string().optional(),
-            genre: z.string().optional(),
-            duration: z.number().optional(),
-            privacy: z.enum(["PRIVATE", "PUBLIC"]).optional(),
+            song_id: z.string(), // Top-level song_id for direct access
+            song: z.object({
+              // Optional properties for flexibility
+              title: z.string().optional(),
+              description: z.string().optional(),
+              thumbnail: z.string().optional(),
+              genre: z.string().optional(),
+              duration: z.string().optional(),
+              privacy: z.enum(["PRIVATE", "PUBLIC"]).optional(),
+            }),
         });
-        const song = req.body?.song;
+        const song = req.body;
         this.schemaHandler(songSchema, song, res, next);
     };
 }

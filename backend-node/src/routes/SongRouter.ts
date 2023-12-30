@@ -20,11 +20,11 @@ SongRouter.post(
     songController.createSong
 );
 
-SongRouter.post(
+SongRouter.put(
     "/update",
     authMiddleware.isLoggedIn,
     validator.updateSongValidator,
-    songController.createSong
+    songController.updateSong
 );
 SongRouter.post(
     "/upload",

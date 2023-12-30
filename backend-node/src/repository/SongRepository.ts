@@ -1,6 +1,8 @@
 import { singleton } from "tsyringe";
 import { EmptySong } from "../@Types/Song";
 import prisma from "../config/prisma-client";
+import { CustomError } from "../exceptions/CustomError";
+import HttpStatusCode from "../utils/HttpStatusCode";
 
 @singleton()
 class SongRepository {
@@ -9,7 +11,7 @@ class SongRepository {
         data: Partial<EmptySong>
     ) => {
         try {
-            console.log("object")
+            console.log("object");
             const song = await prisma.song.create({
                 data: {
                     thumbnail: "",
@@ -18,13 +20,8 @@ class SongRepository {
                     description: "",
                     genre: "",
                     duration: "",
-                    likes_count: 0,
-                    plays_count: 0,
-                    comments_count: 0,
                     created_at: new Date(Date.now()).toISOString(),
-                    updated_at: new Date(Date.now()).toISOString(),
                     url: "",
-                    song_playlist_id: "",
                     profile_id: profile_id,
                     ...data,
                 },
@@ -34,6 +31,23 @@ class SongRepository {
         } catch (error) {
             console.log(error);
             return null;
+        }
+    };
+
+    public readonly updateSong = async (song_id: string,data: Partial<EmptySong>) => {
+        try {
+            await prisma.song.update({
+                where: {
+                    song_id,
+                },
+                data
+            });
+        } catch (error) {
+            console.log(error)
+            throw new CustomError(
+                "Internal Server Error",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
         }
     };
 
