@@ -1,5 +1,6 @@
 import { inject } from "tsyringe";
 import SongService from "../services/SongService";
+import { Request, Response } from "express";
 
 export default class SongController {
     constructor(
@@ -10,9 +11,9 @@ export default class SongController {
         req:Request, res:Response
     ) => {
         try {
-            
-            
-            const song = await this._songService.createSong("userID", data);
+            const {userID,...data}=req.body?.song;
+
+            const song = await this._songService.createSong(userID, data);
             return song;
         } catch (error) {
             return null;
