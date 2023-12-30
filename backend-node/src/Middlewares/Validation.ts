@@ -21,6 +21,17 @@ const extractZodError = (error: ZodError, res: Response): Response => {
 
 @singleton()
 export default class Validation {
+    private schemaHandler = (schema: any, data: any, res: Response, next: NextFunction) => {
+        try {
+            schema.parse(data);
+            return next();
+        } catch (error) {
+            if (error instanceof ZodError) return extractZodError(error, res);
+            return res.status(HttpStatusCode.FORBIDDEN).json({
+                message: "Internal Server Error!",
+            });
+        }
+    };
     public UpdateProfileByUIDValidator = (
         req: Request,
         res: Response,
@@ -98,16 +109,7 @@ export default class Validation {
             duration: z.number().optional(),
             privacy: z.enum(["PRIVATE", "PUBLIC"]).optional(),
         });
-        try {
-            const song = req.body?.song;
-            songSchema.parse(song);
-            return next();
-        } catch (error) {
-            if (error instanceof ZodError) return extractZodError(error, res);
-
-            return res.status(HttpStatusCode.FORBIDDEN).json({
-                message: "Internal Server Error!",
-            });
-        }
+        const song = req.body?.song;
+        this.schemaHandler(songSchema, song, res, next)
     };
 }
