@@ -5,7 +5,7 @@ import prisma from "../config/prisma-client";
 @singleton()
 class SongRepository {
     public readonly createSong = async (
-        userID: string,
+        profile_id: string,
         data: Partial<EmptySong>
     ) => {
         try {
@@ -24,7 +24,7 @@ class SongRepository {
                     updated_at: "",
                     url: "",
                     song_playlist_id: "",
-                    profile_id: userID,
+                    profile_id: profile_id,
                     ...data,
                 },
             });
