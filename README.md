@@ -40,5 +40,5 @@ We welcome contributions from the community! If you'd like to contribute to this
 <!-- ## Credits -->
 
 ## Contact
-`hamzapro285@gmail.com` -> `Muhammad Hamza Siddiqui`
+`hamzapro285@gmail.com` -> `Muhammad Hamza Siddiqui` <br />
 `syed_yahya_sallu@gmail.com` -> `Syed Yahya Salman`
