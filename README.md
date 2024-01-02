@@ -13,7 +13,7 @@ This is a SoundCloud clone application that allows users to upload, share, and l
 4. Set up the database: `Use Docker`
 5. Start the application: `npm start`
 
-`Using Docker`
+`Using Docker` <br />
 1: execute in project root directory `docker-compose up -d`
 
 ## Features
