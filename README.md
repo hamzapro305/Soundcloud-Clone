@@ -1,6 +1,6 @@
 # SoundCloud Clone Application
 
-![H:%20Give%20me%20one%20good%20and%20detailed%20prompt%20to%20generate%20the%20image%20using%20Stable%20Diffusion%20for%20the%20SoundCloud%20Clone%20and%20Original%20conversation.](https://image-cdn.flowgpt.com/image-generation/8cff51b1e715959b52dbae780fd4fd00.png)
+![SoundCloud Clone Application](https://userstyles.org/style_screenshots/134382_after.png?r=1703664072)
 
 ## Description
 This is a SoundCloud clone application that allows users to upload, share, and listen to music tracks. It is built using [insert tech stack here] and provides similar features and functionality as the original SoundCloud platform.
