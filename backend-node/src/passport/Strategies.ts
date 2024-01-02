@@ -30,7 +30,7 @@ export default class Strategies {
         this.facebookStrategy();
     }
 
-    private localStrategy = () => {
+    private readonly localStrategy = () => {
         passport.use(
             new LocalStrategy(
                 {
@@ -68,7 +68,7 @@ export default class Strategies {
             )
         );
     };
-    private googleStrategy = () => {
+    private readonly googleStrategy = () => {
         passport.use(
             new GoogleStrategy(
                 {
@@ -76,8 +76,9 @@ export default class Strategies {
                         "435572794537-flep8daaqbigtc8a2u2koru2hbhffknd.apps.googleusercontent.com",
                     clientSecret: "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",
                     callbackURL:
-                        "http://localhost:8000/api/auth/login/google/callback",
+                        "/api/auth/login/google/callback",
                     passReqToCallback: true,
+                    scope: ["email", "profile"],
                 },
                 async (
                     request: Request,
@@ -151,13 +152,13 @@ export default class Strategies {
             )
         );
     };
-    private facebookStrategy = () => {
+    private readonly facebookStrategy = () => {
         passport.use(
             new FacebookStrategy(
                 {
                     clientID: "1212556792792833",
                     clientSecret: "f346ef9d3e3bc9fa132904c21a640d7a",
-                    callbackURL: "http://localhost:8000/api/auth/login/facebook/callback", // Adjust the callback URL
+                    callbackURL: "/api/auth/login/facebook/callback", // Adjust the callback URL
                     profileFields: ["id", "email", "name"],
                     passReqToCallback: true,
                     scope: ["email"],

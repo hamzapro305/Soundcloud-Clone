@@ -21,8 +21,7 @@ AuthRouter.post(
 AuthRouter.post(
     "/login/password",
     validation.UserLoginValidator,
-    authMiddleware.authenticateLocal,
-    authController.login
+    authMiddleware.authenticateLocal
 );
 AuthRouter.post(
     "/signup/password",
@@ -32,9 +31,7 @@ AuthRouter.post(
 
 AuthRouter.get(
     "/login/google",
-    passport.authenticate("google", {
-        scope: ["email", "profile"]
-    })
+    passport.authenticate("google")
 );
 AuthRouter.get(
     "/login/facebook",

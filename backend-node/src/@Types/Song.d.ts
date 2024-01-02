@@ -48,4 +48,5 @@ export type EmptySong = {
     updated_at: string;
     url: string;
     song_playlist_id: string;
+    song_id: string;
 };

@@ -3,7 +3,7 @@ import SongService from "../services/SongService";
 import { NextFunction, Request, Response } from "express";
 import JWT_Utils from "../utils/JWT_Utils";
 import HttpStatusCode from "../utils/HttpStatusCode";
-import multer from "multer";
+import { UploadService } from "../services/UploadService";
 
 @singleton()
 export default class SongController {
@@ -12,7 +12,10 @@ export default class SongController {
         private readonly _songService: SongService,
 
         @inject(JWT_Utils)
-        private readonly _JWT_Utils: JWT_Utils
+        private readonly _JWT_Utils: JWT_Utils,
+
+        @inject(UploadService)
+        private readonly _uploadService: UploadService
     ) {}
     public readonly uploadSong = (
         req: Request,
@@ -20,7 +23,15 @@ export default class SongController {
         next: NextFunction
     ) => {
         try {
+            const user = this._JWT_Utils.getUserFromRequest(req)
             const File = req.file;
+            if(File) {
+                let id = ""
+                this._uploadService.uploadDataUsingMemoryStorage(
+                    File,
+                    `user/songs/${id}.mp3`
+                )
+            }
         } catch (error) {
             next(error);
         }
