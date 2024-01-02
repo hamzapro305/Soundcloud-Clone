@@ -1,4 +1,2 @@
-mongo-data
-backend-node/.env
 /node_modules
-backend-node/.env
+data-sql

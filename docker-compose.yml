@@ -1,17 +1,17 @@
 version: "3.7"
 
 services:
-    frontend:
-        build: ./frontend
-        restart: always
-        ports:
-            - 3000:3000
-        env_file:
-            - .env
-        depends_on:
-            - backend
-        expose:
-            - 3000
+    # frontend:
+    #     build: ./frontend
+    #     restart: always
+    #     ports:
+    #         - 3000:3000
+    #     env_file:
+    #         - .env
+    #     depends_on:
+    #         - backend
+    #     expose:
+    #         - 3000
         
     backend:
         build: ./backend-node
@@ -20,17 +20,22 @@ services:
             - 8000
         ports:
             - 8000:8000
+            - 5555:5555
         depends_on:
             - database
         env_file:
             - .env
 
     database:
-        image: "mongo:4.0.27-xenial"
+        image: "postgres:alpine3.17"
         restart: always
         expose:
-            - 27017
+            - 5432
         volumes:
-            - ./mongo-data:/data/db
+            - ./data-sql:/var/lib/postgresql
         ports:
-            - 27017:27017
+            - 5432:5432
+        environment:
+            POSTGRES_USER: hamza
+            POSTGRES_PASSWORD: 123
+
