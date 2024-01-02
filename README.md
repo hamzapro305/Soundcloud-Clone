@@ -45,4 +45,4 @@ We welcome contributions from the community! If you'd like to contribute to this
 
 ## Contact
 `hamzapro285@gmail.com` -> `Muhammad Hamza Siddiqui` <br />
-`syed_yahya_sallu@gmail.com` -> `Syed Yahya Salman`
+`saimyahya47@gmail.com` -> `Syed Yahya Salman`
