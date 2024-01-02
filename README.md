@@ -3,7 +3,7 @@
 ![SoundCloud Clone Application](https://userstyles.org/style_screenshots/134382_after.png?r=1703664072)
 
 ## Description
-This is a SoundCloud clone application that allows users to upload, share, and listen to music tracks. It is built using [insert tech stack here] and provides similar features and functionality as the original SoundCloud platform.
+This is a SoundCloud clone application that allows users to upload, share, and listen to music tracks. It is built using `Node`, `Docker` and provides similar features and functionality as the original SoundCloud platform.
 
 ## Installation
 1. Clone the repository: `git clone https://github.com/hamzapro305/Soundcloud-Clone.git`
