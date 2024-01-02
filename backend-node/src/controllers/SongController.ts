@@ -54,4 +54,21 @@ export default class SongController {
             next(error);
         }
     };
+
+    public readonly updateSong = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const {song_id,song}=req.body;
+
+            const updatedSong = await this._songService.updateSong(song_id, song);
+            return res
+                .status(HttpStatusCode.OK)
+                .json({ message: "Song Created", updatedSong });
+        } catch (error) {
+            next(error);
+        }
+    };
 }

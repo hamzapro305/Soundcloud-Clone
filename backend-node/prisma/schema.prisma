@@ -64,14 +64,14 @@ model Song {
     // Timestamp of when the song was uploaded
     created_at     DateTime  @default(now())
     // Timestamp of the last update to the song
-    updated_at     DateTime
+    updated_at     DateTime?
     // Comments
     comments       Comment[]
     // URL of song store in storage
     url            String
 
     // playlist Relation
-    song_playlist_id String
+    song_playlist_id String?
     playlists        SongToPlaylist[]
     // song_playlist    Playlist @relation(fields: [song_playlist_id], references: [playlist_id])
 }

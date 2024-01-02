@@ -41,11 +41,6 @@ export type EmptySong = {
     description: string;
     genre: string;
     duration: string;
-    likes_count: number;
-    plays_count: number;
-    comments_count: number;
-    created_at: string;
-    updated_at: string;
     url: string;
     song_playlist_id: string;
     song_id: string;

@@ -2,6 +2,8 @@ import { inject, singleton } from "tsyringe";
 import SongRepository from "../repository/SongRepository";
 import { EmptySong } from "../@Types/Song";
 import ProfileService from "./ProfileService";
+import { CustomError } from "../exceptions/CustomError";
+import HttpStatusCode from "../utils/HttpStatusCode";
 
 @singleton()
 class SongService {
@@ -25,14 +27,24 @@ class SongService {
             );
             return song;
         } catch (error) {
+            console.log(error)
             return null;
         }
     };
 
-    public readonly saveAudio = () => {
-        // Firebase Storage Audio save hogi
-        // Iski koi na koi ID hogi
-        return true;
+    public readonly updateSong = async (
+        songID: string,
+        data: Partial<EmptySong>
+    ) => {
+        try {
+            const updatedSong = await this._songRepository.updateSong(songID,data);
+            return updatedSong;
+        } catch (error) {
+            throw new CustomError(
+                "Internal Server Error",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
+        }
     };
 
     public readonly editSong = () => {
