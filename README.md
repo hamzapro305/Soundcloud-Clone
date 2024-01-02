@@ -6,7 +6,7 @@
 This is a SoundCloud clone application that allows users to upload, share, and listen to music tracks. It is built using [insert tech stack here] and provides similar features and functionality as the original SoundCloud platform.
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/your-username/soundcloud-clone.git`
+1. Clone the repository: `git clone https://github.com/hamzapro305/Soundcloud-Clone.git`
 2. Navigate to the project directory: `cd soundcloud-clone`
 3. Install the dependencies: `npm install`
 4. Set up the database: [insert instructions here]
@@ -20,12 +20,12 @@ This is a SoundCloud clone application that allows users to upload, share, and l
 - Search functionality to discover music
 
 ## Tech Stack
-- Back-end: [Express JS, Node 20, Typescript]
-- Front-end: [Next JS]
-- Database: [Postgresql]
+- Back-end: `Express JS`, `Node 20`, `Typescript`
+- Front-end: `Next JS`
+- Database: `Postgresql`
 
-## Usage
-[Provide instructions on how to use your application and any additional setup steps if required.]
+<!-- ## Usage -->
+<!-- [Provide instructions on how to use your application and any additional setup steps if required.] -->
 
 ## Contributing
 We welcome contributions from the community! If you'd like to contribute to this project, please follow these steps:
@@ -34,11 +34,11 @@ We welcome contributions from the community! If you'd like to contribute to this
 3. Make your changes
 4. Submit a pull request
 
-## License
-[Specify the license under which your application is released.]
+<!-- ## License -->
+<!-- [Specify the license under which your application is released.] -->
 
-## Credits
-[Give credit to any external resources or libraries used in your application.]
+<!-- ## Credits -->
 
 ## Contact
-[Provide contact information for users to reach out to you for support or questions.]
+`hamzapro285@gmail.com` -> `Muhammad Hamza Siddiqui`
+`syed_yahya_sallu@gmail.com` -> `Syed Yahya Salman`
