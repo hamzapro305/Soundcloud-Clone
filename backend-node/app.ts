@@ -42,5 +42,4 @@ app.use(ErrorMiddleware);
 // Run application
 app.listen(PORT, () => {
     console.log("listening to port ", PORT);
-    console.log(process.env.DATABASE_URL)
 });
