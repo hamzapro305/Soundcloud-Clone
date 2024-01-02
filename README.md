@@ -6,11 +6,15 @@
 This is a SoundCloud clone application that allows users to upload, share, and listen to music tracks. It is built using `Node`, `Docker` and provides similar features and functionality as the original SoundCloud platform.
 
 ## Installation
+`Not Using Docker`
 1. Clone the repository: `git clone https://github.com/hamzapro305/Soundcloud-Clone.git`
 2. Navigate to the project directory: `cd Soundcloud-Clone`
 3. Install the dependencies: `npm install`
 4. Set up the database: `Use Docker`
 5. Start the application: `npm start`
+
+`Using Docker`
+1: execute in project root directory `docker-compose up -d`
 
 ## Features
 - User authentication and authorization
