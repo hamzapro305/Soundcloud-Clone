@@ -10,11 +10,9 @@ const resolve = container.resolve;
 
 const upload = MulterConfigured([".mp3"], { type: "RAM" });
 
-const [validator, authMiddleware, songController] = [
-    resolve(Validation),
-    resolve(AuthMiddleware),
-    resolve(SongController),
-];
+const validator = container.resolve(Validation)
+const authMiddleware= container.resolve(AuthMiddleware)
+const songController= container.resolve(SongController)
 
 SongRouter.post(
     "/create",

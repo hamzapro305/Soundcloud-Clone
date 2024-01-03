@@ -3,8 +3,8 @@ import SongService from "../services/SongService";
 import { NextFunction, Request, Response } from "express";
 import JWT_Utils from "../utils/JWT_Utils";
 import HttpStatusCode from "../utils/HttpStatusCode";
-import { UploadService } from "../services/UploadService";
 import { randomUUID } from "crypto";
+import UploadService from "../services/UploadService";
 
 @singleton()
 export default class SongController {

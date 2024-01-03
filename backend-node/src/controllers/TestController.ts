@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { UploadService } from "../services/UploadService";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { GetExtensionFromMime } from "../utils/Functions";
 import { MimeType } from "../@Types/MimeType";
 import { inject, singleton } from "tsyringe";
+import UploadService from "../services/UploadService";
 
 @singleton()
 class TestController {

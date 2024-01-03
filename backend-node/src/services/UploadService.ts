@@ -1,9 +1,14 @@
+import { singleton } from "tsyringe";
 import { storage as Storage } from "../config/Firebase";
 
 import fs from "fs";
 
-export class UploadService {
-    constructor(private storage: typeof Storage) {}
+class UploadService {
+    private readonly storage: typeof Storage;
+
+    constructor() {
+        this.storage = Storage;
+    }
 
     public uploadDataUsingMemoryStorage(
         File: Express.Multer.File,
@@ -86,3 +91,5 @@ export class UploadService {
         });
     }
 }
+
+export default UploadService;

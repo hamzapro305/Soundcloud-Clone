@@ -4,7 +4,7 @@ import { EmptySong } from "../@Types/Song";
 import ProfileService from "./ProfileService";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
-import { UploadService } from "./UploadService";
+import UploadService from "./UploadService";
 
 @singleton()
 class SongService {

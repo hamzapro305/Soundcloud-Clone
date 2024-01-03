@@ -7,13 +7,10 @@ import passport from "passport";
 import HttpStatusCode from "../utils/HttpStatusCode";
 
 const AuthRouter = Router();
-const resolve = container.resolve
 
-const [authController, authMiddleware, validation] = [
-    resolve(AuthController),
-    resolve(AuthMiddleware),
-    resolve(Validation),
-];
+const authController = container.resolve(AuthController);
+const authMiddleware = container.resolve(AuthMiddleware);
+const validation = container.resolve(Validation);
 
 
 AuthRouter.post(

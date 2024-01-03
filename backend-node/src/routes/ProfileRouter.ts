@@ -7,11 +7,9 @@ import AuthMiddleware from "../passport/AuthMiddleware";
 const profileRouter = Router();
 const resolve = container.resolve;
 
-const [validator, profileController, authMiddleware] = [
-    resolve(Validation),
-    resolve(ProfileController),
-    resolve(AuthMiddleware),
-];
+const validator = container.resolve(Validation)
+const authMiddleware= container.resolve(AuthMiddleware)
+const profileController= container.resolve(ProfileController)
 
 profileRouter.post(
     "/update/uid/",
