@@ -1,12 +1,9 @@
-import { storage } from "../config/Firebase";
+import { storage as Storage } from "../config/Firebase";
 
 import fs from "fs";
 
 export class UploadService {
-    private storage: typeof storage;
-    constructor() {
-        this.storage = storage;
-    }
+    constructor(private storage: typeof Storage) {}
 
     public uploadDataUsingMemoryStorage(
         File: Express.Multer.File,

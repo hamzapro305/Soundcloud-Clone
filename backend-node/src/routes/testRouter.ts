@@ -5,8 +5,7 @@ import { container } from "tsyringe";
 
 const TestRouter = Router();
 const upload = MulterConfigured([".zip", ".json"], {
-    type: "DISK",
-    tempPath: "temp",
+    type: "RAM",
 });
 
 const testController = container.resolve(TestController);

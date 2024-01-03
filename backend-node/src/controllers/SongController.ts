@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import JWT_Utils from "../utils/JWT_Utils";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { UploadService } from "../services/UploadService";
+import { randomUUID } from "crypto";
 
 @singleton()
 export default class SongController {
@@ -25,12 +26,11 @@ export default class SongController {
         try {
             const user = this._JWT_Utils.getUserFromRequest(req)
             const File = req.file;
-            if(File) {
-                let id = ""
-                this._uploadService.uploadDataUsingMemoryStorage(
-                    File,
-                    `user/songs/${id}.mp3`
-                )
+            if(File && user) {
+                let songId = randomUUID()
+                const path = `user/${user?.uid}/songs/${songId}.mp3`
+
+                this._songService.uploadSong(user?.uid, songId, File, path);
             }
         } catch (error) {
             next(error);

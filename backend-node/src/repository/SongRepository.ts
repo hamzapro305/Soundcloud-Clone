@@ -11,7 +11,6 @@ class SongRepository {
         data: Partial<EmptySong>
     ) => {
         try {
-            console.log("object");
             const song = await prisma.song.create({
                 data: {
                     thumbnail: "",
@@ -21,6 +20,8 @@ class SongRepository {
                     genre: "",
                     duration: "",
                     created_at: new Date(Date.now()).toISOString(),
+                    updated_at: new Date(Date.now()).toISOString(),
+                    song_playlist_id: "",
                     url: "",
                     profile_id: profile_id,
                     ...data,
@@ -34,16 +35,31 @@ class SongRepository {
         }
     };
 
-    public readonly updateSong = async (song_id: string,data: Partial<EmptySong>) => {
+    public readonly updateSong = async (
+        song_id: string,
+        data: Partial<EmptySong>
+    ) => {
         try {
             await prisma.song.update({
-                where: {
-                    song_id,
-                },
-                data
+                where: { song_id },
+                data,
             });
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            throw new CustomError(
+                "Internal Server Error",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
+        }
+    };
+
+    public readonly getSong = async (song_id: string) => {
+        try {
+            return await prisma.song.findUnique({
+                where: { song_id },
+            });
+        } catch (error) {
+            console.log(error);
             throw new CustomError(
                 "Internal Server Error",
                 HttpStatusCode.INTERNAL_SERVER_ERROR

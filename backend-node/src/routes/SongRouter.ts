@@ -6,12 +6,15 @@ import SongController from "../controllers/SongController";
 import { MulterConfigured } from "../config/Multer";
 
 const SongRouter = Router();
+const resolve = container.resolve;
 
 const upload = MulterConfigured([".mp3"], { type: "RAM" });
 
-const validator = container.resolve(Validation);
-const authMiddleware = container.resolve(AuthMiddleware);
-const songController = container.resolve(SongController);
+const [validator, authMiddleware, songController] = [
+    resolve(Validation),
+    resolve(AuthMiddleware),
+    resolve(SongController),
+];
 
 SongRouter.post(
     "/create",
