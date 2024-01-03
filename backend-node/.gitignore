@@ -7,4 +7,4 @@
 
 /prisma/migrations
 
-/.env
+.env

@@ -23,16 +23,20 @@ export type Song = {
 
 export type SongDTO = {
     song_id: string;
-    title?: string;
-    upload_by: User;
-    url: string;
-    thumbnail?: string;
+    thumbnail: string;
+    profile_id: string;
+    privacy: "PUBLIC" | "PRIVATE";
+    title: string;
+    description: string;
     genre: string;
-    description?: string;
     duration: string;
-    created_at: number;
-    updated_at: number;
-    song_playlist_id: string;
+    likes_count: number;
+    plays_count: number;
+    comments_count: number;
+    created_at: Date;
+    updated_at: Date | null;
+    url: string;
+    song_playlist_id: string | null;
 };
 
 export type EmptySong = {

@@ -55,15 +55,39 @@ class SongRepository {
 
     public readonly getSong = async (song_id: string) => {
         try {
-            return await prisma.song.findUnique({
+            const song=await prisma.song.findUnique({
                 where: { song_id },
             });
+            if (!song) {
+                throw new CustomError("Song Does Not Exist",HttpStatusCode.NOT_FOUND)
+            }
+            return song
         } catch (error) {
             console.log(error);
             throw new CustomError(
                 "Internal Server Error",
                 HttpStatusCode.INTERNAL_SERVER_ERROR
             );
+        }
+    };
+
+    public readonly toggleLike = async (song_id: string,action:{type:"increment" | "decrement"}): Promise<boolean> => {
+        try {
+            // increment the like count
+            await prisma.song.update({
+                where: {
+                    song_id,
+                },
+                data: {
+                    likes_count: {
+                        [action.type]: 1,
+                    },
+                },
+            });
+            return true
+
+        } catch (error) {
+            return false
         }
     };
 
