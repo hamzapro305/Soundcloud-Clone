@@ -1,5 +1,5 @@
 import { singleton } from "tsyringe";
-import { EmptySong } from "../@Types/Song";
+import { EmptySong, SongDTO, TEditableSong } from "../@Types/Song";
 import prisma from "../config/prisma-client";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
@@ -55,13 +55,16 @@ class SongRepository {
 
     public readonly getSong = async (song_id: string) => {
         try {
-            const song=await prisma.song.findUnique({
+            const song = await prisma.song.findUnique({
                 where: { song_id },
             });
             if (!song) {
-                throw new CustomError("Song Does Not Exist",HttpStatusCode.NOT_FOUND)
+                throw new CustomError(
+                    "Song Does Not Exist",
+                    HttpStatusCode.NOT_FOUND
+                );
             }
-            return song
+            return song;
         } catch (error) {
             console.log(error);
             throw new CustomError(
@@ -71,7 +74,10 @@ class SongRepository {
         }
     };
 
-    public readonly toggleLike = async (song_id: string,action:{type:"increment" | "decrement"}): Promise<boolean> => {
+    public readonly toggleLike = async (
+        song_id: string,
+        action: { type: "increment" | "decrement" }
+    ): Promise<boolean> => {
         try {
             // increment the like count
             await prisma.song.update({
@@ -84,10 +90,52 @@ class SongRepository {
                     },
                 },
             });
-            return true
-
+            return true;
         } catch (error) {
-            return false
+            return false;
+        }
+    };
+
+    public readonly incrementPlayCount = async (
+        song_id: string
+    ): Promise<boolean> => {
+        try {
+            await prisma.song.update({
+                where: {
+                    song_id,
+                },
+                data:{
+                    plays_count:{
+                        increment:1
+                    }
+                }
+            });
+            return true;
+        } catch (error) {
+            throw new CustomError(
+                "Internal Server Error",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
+        }
+    };
+
+    public readonly editSong = async (
+        song_id: string,
+        data: Partial<TEditableSong>
+    ): Promise<SongDTO> => {
+        try {
+            const updatedSong = await prisma.song.update({
+                where: {
+                    song_id,
+                },
+                data,
+            });
+            return updatedSong;
+        } catch (error) {
+            throw new CustomError(
+                "Internal Server Error",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
         }
     };
 

@@ -54,8 +54,18 @@ class SongService {
         }
     };
 
-    public readonly editSong = () => {
-        // Use Id py edit kro
+    public readonly incrementPlayCount = async (songID: string) => {
+        try {
+            
+            return await this._songRepository.incrementPlayCount(
+                songID
+            )
+        } catch (error) {
+            throw new CustomError(
+                "Internal Server Error",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
+        }
     };
 
     public readonly uploadSong = async (

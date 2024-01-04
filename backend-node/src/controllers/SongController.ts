@@ -36,6 +36,21 @@ export default class SongController {
             next(error);
         }
     };
+
+    public readonly incrementPlayCount = async(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    )=>{
+        try {
+            const {songID}= req.params;
+            await this._songService.incrementPlayCount(songID)
+            res.status(200).json(true)
+        } catch (error) {
+            next(error);
+        }
+    }
+
     public readonly createSong = async (
         req: Request,
         res: Response,

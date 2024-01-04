@@ -49,3 +49,15 @@ export type EmptySong = {
     song_playlist_id: string;
     song_id: string;
 };
+
+export type TEditableSong = {
+    thumbnail: string;
+    privacy: "PUBLIC" | "PRIVATE";
+    title: string;
+    description: string;
+    genre: string;
+    likes_count: number;
+    plays_count: number;
+    comments_count: number;
+    updated_at: Date | null;
+};

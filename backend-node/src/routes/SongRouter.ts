@@ -40,4 +40,9 @@ SongRouter.post(
     likeController.toggleLike
 );
 
+SongRouter.put(
+    "/increment-playcount/:songID",
+    songController.incrementPlayCount
+);
+
 export default SongRouter;

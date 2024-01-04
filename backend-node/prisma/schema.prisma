@@ -121,7 +121,7 @@ model Comment {
     // Timestamp of when the comment was posted
     created_at DateTime @default(now())
     // Timestamp of the last update to the comment
-    updated_at DateTime
+    updated_at DateTime @default(now())
     // timestamp
     timestamp  Int
 
