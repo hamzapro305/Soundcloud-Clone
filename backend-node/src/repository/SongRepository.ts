@@ -53,7 +53,7 @@ class SongRepository {
         }
     };
 
-    public readonly getSong = async (song_id: string) => {
+    public readonly getSongByID = async (song_id: string) => {
         try {
             const song = await prisma.song.findUnique({
                 where: { song_id },

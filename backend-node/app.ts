@@ -9,6 +9,7 @@ import Middlewares from "./src/Middlewares/Middlewares";
 import { PassportConfig } from "./src/passport/PassportConfig";
 import TestRouter from "./src/routes/testRouter";
 import AuthRouter from "./src/routes/AuthRouter";
+import CommentRouter from "./src/routes/CommentRouter";
 import express from "express";
 import path from "path";
 import profileRouter from "./src/routes/ProfileRouter";
@@ -35,6 +36,7 @@ app.use("/api/follow-user", FollowRouter);
 app.use("/api/auth", AuthRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/song", SongRouter);
+app.use("/api/comments", CommentRouter);
 
 // Handle Error After Controller
 app.use(ErrorMiddleware);

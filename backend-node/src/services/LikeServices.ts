@@ -21,7 +21,7 @@ class LikeServices {
     ): Promise<SongDTO> => {
         try {
             // check if song exists
-            const song = await this._songRepository.getSong(song_id);
+            const song = await this._songRepository.getSongByID(song_id);
 
             // check if user has already liked the song
             const isLiked = await this._likeRepository.isLiked(
