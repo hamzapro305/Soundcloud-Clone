@@ -101,6 +101,7 @@ class UserRepository {
             });
             return createdUser as User;
         } catch (error) {
+            console.log(error)
             return null;
         }
     };
@@ -123,6 +124,7 @@ class UserRepository {
             });
             return createdUser as User;
         } catch (error) {
+            console.log(error)
             return null;
         }
     };
@@ -135,6 +137,7 @@ class UserRepository {
             });
             return new_user as User;
         } catch (error) {
+            console.log(error)
             return null;
         }
     };
@@ -153,6 +156,7 @@ class UserRepository {
             });
             return new_user as User;
         } catch (error) {
+            console.log(error)
             return null;
         }
     };
@@ -171,6 +175,7 @@ class UserRepository {
             });
             return user as User;
         } catch (error) {
+            console.log(error)
             return null;
         }
     };   
@@ -185,6 +190,7 @@ class UserRepository {
             });
             return true
         } catch (error) {
+            console.log(error)
             return false;
         }
     };

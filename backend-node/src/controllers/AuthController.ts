@@ -16,9 +16,7 @@ export default class AuthController {
 
     public signUp = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { email, password } = req.body;
-            if (!email || !password)
-                throw new CustomError("Email, pass wrong", 400);
+            const { email, password } = req.body?.user;
             try {
                 const user = await this._userServices.SignUpLocal(
                     email,

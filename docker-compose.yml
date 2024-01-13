@@ -20,6 +20,7 @@ services:
             - 8000
         ports:
             - 8000:8000
+            - 5555:5555
         depends_on:
             - database
         environment:
@@ -35,20 +36,10 @@ services:
         expose:
             - 5432
         volumes:
-            - ./data-sql:/var/lib/postgresql
+            - ./data-sql:/var/lib/postgresql/data
         ports:
             - 5432:5432
         environment:
             POSTGRES_USER: hamza
             POSTGRES_PASSWORD: 123
-
-    database-studio:
-        build: "./database-studio"
-        depends_on:
-            - database
-            - backend
-        ports:
-            - 5555:5555
-        environment:
-            - DATABASE_URL=postgresql://hamza:123@database:5432/soundCloud?schema=public
         

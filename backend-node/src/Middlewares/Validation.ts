@@ -55,7 +55,7 @@ export default class Validation {
         next: NextFunction
     ) => {
         const userSchema = z.object({
-            email: z.string().email().nullable(),
+            email: z.string().email(),
             password: z.string().min(6),
         });
         const user = req.body?.user;
