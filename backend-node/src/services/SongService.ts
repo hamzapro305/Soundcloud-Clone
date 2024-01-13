@@ -103,6 +103,25 @@ class SongService {
         }
     };
 
+    public readonly getAllSongs = async () => {
+        try {
+            const songsDocs = await this._songRepository.getAllSongs()
+            if(songsDocs) {
+                const songs = songsDocs.map(song => {
+                    return ({
+                        ...song,
+                        url: `user/${song.song_id}/songs/${song.upload_by}.mp3`
+                    })
+                })
+                return songs
+            }
+            return null
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
+
     public readonly deleteSong = () => {};
 
     public readonly setSongPrivacy = () => {};

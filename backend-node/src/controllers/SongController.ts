@@ -18,18 +18,18 @@ export default class SongController {
         @inject(UploadService)
         private readonly _uploadService: UploadService
     ) {}
-    
+
     public readonly uploadSong = (
         req: Request,
         res: Response,
         next: NextFunction
     ) => {
         try {
-            const user = this._JWT_Utils.getUserFromRequest(req)
+            const user = this._JWT_Utils.getUserFromRequest(req);
             const File = req.file;
-            if(File && user) {
-                let songId = randomUUID()
-                const path = `user/${user?.uid}/songs/${songId}.mp3`
+            if (File && user) {
+                let songId = randomUUID();
+                const path = `user/${user?.uid}/songs/${songId}.mp3`;
 
                 this._songService.uploadSong(user?.uid, songId, File, path);
             }
@@ -38,19 +38,35 @@ export default class SongController {
         }
     };
 
-    public readonly incrementPlayCount = async(
+    public readonly incrementPlayCount = async (
         req: Request,
         res: Response,
         next: NextFunction
-    )=>{
+    ) => {
         try {
-            const {songID}= req.params;
-            await this._songService.incrementPlayCount(songID)
-            res.status(200).json(true)
+            const { songID } = req.params;
+            await this._songService.incrementPlayCount(songID);
+            res.status(200).json(true);
         } catch (error) {
             next(error);
         }
-    }
+    };
+
+    public readonly getSongs = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const songs = await this._songService.getAllSongs();
+            if (songs) {
+                res.status(HttpStatusCode.OK).json({ songs });
+            }
+            res.status(HttpStatusCode.BAD_GATEWAY).json({ error: "" });
+        } catch (error) {
+            next(error);
+        }
+    };
 
     public readonly updateSong = async (
         req: Request,
@@ -58,9 +74,12 @@ export default class SongController {
         next: NextFunction
     ) => {
         try {
-            const {song_id,song}=req.body;
+            const { song_id, song } = req.body;
 
-            const updatedSong = await this._songService.updateSong(song_id, song);
+            const updatedSong = await this._songService.updateSong(
+                song_id,
+                song
+            );
             return res
                 .status(HttpStatusCode.OK)
                 .json({ message: "Song Created", updatedSong });

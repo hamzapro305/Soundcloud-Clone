@@ -22,6 +22,12 @@ SongRouter.put(
     validator.updateSongValidator,
     songController.updateSong
 );
+
+SongRouter.get(
+    "/songs",
+    songController.getSongs
+)
+
 SongRouter.post(
     "/upload",
     // authMiddleware.isLoggedIn,
