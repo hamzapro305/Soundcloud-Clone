@@ -37,6 +37,7 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/song", SongRouter);
 app.use("/api/comments", CommentRouter);
+app.get("/health",(_,res)=>res.send("Backend is Up and Running!"))
 
 // Handle Error After Controller
 app.use(ErrorMiddleware);

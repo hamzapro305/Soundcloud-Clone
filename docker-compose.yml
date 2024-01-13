@@ -12,7 +12,7 @@ services:
     #         - backend
     #     expose:
     #         - 3000
-        
+
     backend:
         build: ./backend-node
         restart: always
@@ -20,11 +20,14 @@ services:
             - 8000
         ports:
             - 8000:8000
-            - 5555:5555
         depends_on:
             - database
-        env_file:
-            - .env
+        environment:
+            - DB_HOST=database
+            - DB_PORT=27017
+            - BACKEND_PORT=8000
+            - BACKEND_DOMAIN=backend:8000
+            - DATABASE_URL=postgresql://hamza:123@database:5432/soundCloud?schema=public
 
     database:
         image: "postgres:alpine3.17"
@@ -39,3 +42,13 @@ services:
             POSTGRES_USER: hamza
             POSTGRES_PASSWORD: 123
 
+    database-studio:
+        build: "./database-studio"
+        depends_on:
+            - database
+            - backend
+        ports:
+            - 5555:5555
+        environment:
+            - DATABASE_URL=postgresql://hamza:123@database:5432/soundCloud?schema=public
+        
