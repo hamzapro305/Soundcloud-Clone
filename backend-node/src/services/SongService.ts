@@ -110,7 +110,7 @@ class SongService {
                 const songs = songsDocs.map(song => {
                     return ({
                         ...song,
-                        url: `user/${song.song_id}/songs/${song.upload_by}.mp3`
+                        url: `user/${song.song_id}/songs/${song.upload_by.uid}.mp3`
                     })
                 })
                 return songs

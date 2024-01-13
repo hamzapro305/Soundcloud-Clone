@@ -24,13 +24,19 @@ SongRouter.put(
 );
 
 SongRouter.get(
-    "/songs",
+    "/all-songs",
     songController.getSongs
+)
+
+SongRouter.get(
+    "/single-song/:song_id/:user_id",
+    validator.getSongValidator,
+    songController.getSong
 )
 
 SongRouter.post(
     "/upload",
-    // authMiddleware.isLoggedIn,
+    authMiddleware.isLoggedIn,
     upload.single("Song"),
     songController.uploadSong
 );

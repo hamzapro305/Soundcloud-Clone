@@ -3,6 +3,7 @@ import { storage as Storage } from "../config/Firebase";
 
 import fs from "fs";
 
+@singleton()
 class UploadService {
     private readonly storage: typeof Storage;
 
@@ -27,6 +28,7 @@ class UploadService {
                 resolve("finish");
             } catch (error) {
                 console.log(error);
+                console.log("Upload File Error")
                 reject(error);
             }
         });

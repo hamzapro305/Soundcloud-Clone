@@ -17,32 +17,6 @@ class TestController {
         private readonly _songService: SongService
     ) {}
 
-    public readonly downloadSong = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) => {
-        try {
-            const readStream = await this._songService.getSongFile(
-                "4a91c66d-3190-45cd-a9c1-4be51f5ee2de",
-                "094b5faf-ff82-4b08-994c-d8a7feabcc80"
-            );
-
-            // Set headers for the response
-            res.setHeader("Content-Type", "audio/mpeg");
-            res.setHeader(
-                "Content-Disposition",
-                'attachment; filename="song.mp3"'
-            );
-            
-            readStream?.pipe(res)
-
-        } catch (error) {
-            console.log(error);
-            next(error)
-        }
-    };
-
     public readonly uploadFile = async (
         req: Request,
         res: Response,
