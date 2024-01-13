@@ -5,6 +5,7 @@ import ProfileService from "./ProfileService";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import UploadService from "./UploadService";
+import DownloadService from "./DownloadService";
 
 @singleton()
 class SongService {
@@ -16,7 +17,10 @@ class SongService {
         private readonly _profileService: ProfileService,
 
         @inject(UploadService)
-        private readonly _uploadService: UploadService
+        private readonly _uploadService: UploadService,
+
+        @inject(DownloadService)
+        private readonly _downloadService: DownloadService
     ) {}
 
     public readonly createSong = async (
@@ -54,12 +58,20 @@ class SongService {
         }
     };
 
+    public readonly getSongFile = async (songId: string, uid: string) => {
+        try {
+            const url = `user/${uid}/songs/${songId}.mp3`;
+            const file = this._downloadService.downloadDataStream(url);
+            return file;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
+
     public readonly incrementPlayCount = async (songID: string) => {
         try {
-            
-            return await this._songRepository.incrementPlayCount(
-                songID
-            )
+            return await this._songRepository.incrementPlayCount(songID);
         } catch (error) {
             throw new CustomError(
                 "Internal Server Error",
@@ -75,7 +87,7 @@ class SongService {
         path: string
     ) => {
         try {
-            const song = await this._songRepository.createSong(uid, {
+            const song = await this.createSong(uid, {
                 song_id: song_id,
             });
             if (!song)

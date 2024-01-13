@@ -8,23 +8,7 @@
 </head>
 
 <body>
-    <button onclick="openGoogleLoginPopup()">Open Google Login Popup</button>
-
-    <script>
-        function openGoogleLoginPopup() {
-            // Open the Google login popup
-            const popup = window.open('http://localhost:8000/api/auth/login/google', 'GoogleLoginPopup', 'width=400,height=400');
-
-            // Listen for messages from the popup
-            window.addEventListener('message', (event) => {
-                if (event.origin === window.location.origin) {
-                    // Handle the token received from the popup
-                    const idToken = event.data.idToken;
-                    console.log('Google login successful. ID Token:', idToken);
-                }
-            });
-        }
-    </script>
+    <audio src="http://localhost:8000/api/test/downloadSong" autoplay="true"  controls="true"></audio>
 </body>
 
 </html>

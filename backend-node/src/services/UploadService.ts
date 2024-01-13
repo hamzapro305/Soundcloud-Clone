@@ -69,27 +69,6 @@ class UploadService {
             console.log(error);
         }
     }
-    private downloadData(
-        fileName: string,
-        destinationPath: NodeJS.WritableStream
-    ) {
-        return new Promise((resolve, reject) => {
-            const bucket = this.storage.bucket();
-            const file = bucket.file(fileName);
-
-            const readStream = file.createReadStream();
-
-            readStream.on("error", (error) => {
-                reject(error);
-            });
-
-            readStream.on("end", () => {
-                resolve(`File ${fileName} downloaded successfully!`);
-            });
-
-            readStream.pipe(destinationPath);
-        });
-    }
 }
 
 export default UploadService;

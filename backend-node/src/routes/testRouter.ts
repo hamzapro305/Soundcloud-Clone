@@ -12,4 +12,6 @@ const testController = container.resolve(TestController);
 
 TestRouter.post("/upload", upload.single("file"), testController.uploadFile);
 
+TestRouter.get("/downloadSong", testController.downloadSong);
+
 export default TestRouter;
