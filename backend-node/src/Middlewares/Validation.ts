@@ -82,16 +82,31 @@ export default class Validation {
         const songSchema = z.object({
             song_id: z.string(), // Top-level song_id for direct access
             song: z.object({
-              // Optional properties for flexibility
-              title: z.string().optional(),
-              description: z.string().optional(),
-              thumbnail: z.string().optional(),
-              genre: z.string().optional(),
-              duration: z.string().optional(),
-              privacy: z.enum(["PRIVATE", "PUBLIC"]).optional(),
+                // Optional properties for flexibility
+                title: z.string().optional(),
+                description: z.string().optional(),
+                thumbnail: z.string().optional(),
+                genre: z.string().optional(),
+                duration: z.string().optional(),
+                privacy: z.enum(["PRIVATE", "PUBLIC"]).optional(),
             }),
         });
         const song = req.body;
+        this.schemaHandler(songSchema, song, res, next);
+    };
+    public readonly getSongValidator = (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        const songSchema = z.object({
+            song_id: z.string(), // Top-level song_id for direct access
+            user_id: z.string(),
+        });
+        const song = {
+            song_id: req.params?.song_id,
+            user_id: req.params?.user_id,
+        };
         this.schemaHandler(songSchema, song, res, next);
     };
 }

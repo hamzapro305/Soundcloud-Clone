@@ -16,22 +16,27 @@ const authMiddleware= container.resolve(AuthMiddleware)
 const songController= container.resolve(SongController)
 const likeController= container.resolve(LikeController)
 
-SongRouter.post(
-    "/create",
-    authMiddleware.isLoggedIn,
-    validator.createSongValidator,
-    songController.createSong
-);
-
 SongRouter.put(
     "/update",
     authMiddleware.isLoggedIn,
     validator.updateSongValidator,
     songController.updateSong
 );
+
+SongRouter.get(
+    "/all-songs",
+    songController.getSongs
+)
+
+SongRouter.get(
+    "/single-song/:song_id/:user_id",
+    validator.getSongValidator,
+    songController.getSong
+)
+
 SongRouter.post(
     "/upload",
-    // authMiddleware.isLoggedIn,
+    authMiddleware.isLoggedIn,
     upload.single("Song"),
     songController.uploadSong
 );

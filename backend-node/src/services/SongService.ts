@@ -5,6 +5,7 @@ import ProfileService from "./ProfileService";
 import { CustomError } from "../exceptions/CustomError";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import UploadService from "./UploadService";
+import DownloadService from "./DownloadService";
 
 @singleton()
 class SongService {
@@ -16,7 +17,10 @@ class SongService {
         private readonly _profileService: ProfileService,
 
         @inject(UploadService)
-        private readonly _uploadService: UploadService
+        private readonly _uploadService: UploadService,
+
+        @inject(DownloadService)
+        private readonly _downloadService: DownloadService
     ) {}
 
     public readonly createSong = async (
@@ -54,12 +58,20 @@ class SongService {
         }
     };
 
+    public readonly getSongFile = async (songId: string, uid: string) => {
+        try {
+            const url = `user/${uid}/songs/${songId}.mp3`;
+            const file = this._downloadService.downloadDataStream(url);
+            return file;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
+
     public readonly incrementPlayCount = async (songID: string) => {
         try {
-            
-            return await this._songRepository.incrementPlayCount(
-                songID
-            )
+            return await this._songRepository.incrementPlayCount(songID);
         } catch (error) {
             throw new CustomError(
                 "Internal Server Error",
@@ -90,6 +102,25 @@ class SongService {
             return null;
         }
     };
+
+    public readonly getAllSongs = async () => {
+        try {
+            const songsDocs = await this._songRepository.getAllSongs()
+            if(songsDocs) {
+                const songs = songsDocs.map(song => {
+                    return ({
+                        ...song,
+                        url: `user/${song.song_id}/songs/${song.upload_by.uid}.mp3`
+                    })
+                })
+                return songs
+            }
+            return null
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
 
     public readonly deleteSong = () => {};
 

@@ -5,12 +5,16 @@ import { GetExtensionFromMime } from "../utils/Functions";
 import { MimeType } from "../@Types/MimeType";
 import { inject, singleton } from "tsyringe";
 import UploadService from "../services/UploadService";
+import SongService from "../services/SongService";
 
 @singleton()
 class TestController {
     constructor(
         @inject(UploadService)
-        private readonly _uploadService: UploadService
+        private readonly _uploadService: UploadService,
+
+        @inject(SongService)
+        private readonly _songService: SongService
     ) {}
 
     public readonly uploadFile = async (

@@ -3,6 +3,7 @@ import { storage as Storage } from "../config/Firebase";
 
 import fs from "fs";
 
+@singleton()
 class UploadService {
     private readonly storage: typeof Storage;
 
@@ -27,6 +28,7 @@ class UploadService {
                 resolve("finish");
             } catch (error) {
                 console.log(error);
+                console.log("Upload File Error")
                 reject(error);
             }
         });
@@ -68,27 +70,6 @@ class UploadService {
         } catch (error) {
             console.log(error);
         }
-    }
-    private downloadData(
-        fileName: string,
-        destinationPath: NodeJS.WritableStream
-    ) {
-        return new Promise((resolve, reject) => {
-            const bucket = this.storage.bucket();
-            const file = bucket.file(fileName);
-
-            const readStream = file.createReadStream();
-
-            readStream.on("error", (error) => {
-                reject(error);
-            });
-
-            readStream.on("end", () => {
-                resolve(`File ${fileName} downloaded successfully!`);
-            });
-
-            readStream.pipe(destinationPath);
-        });
     }
 }
 

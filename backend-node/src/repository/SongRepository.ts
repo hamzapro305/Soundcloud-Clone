@@ -104,11 +104,11 @@ class SongRepository {
                 where: {
                     song_id,
                 },
-                data:{
-                    plays_count:{
-                        increment:1
-                    }
-                }
+                data: {
+                    plays_count: {
+                        increment: 1,
+                    },
+                },
             });
             return true;
         } catch (error) {
@@ -136,6 +136,21 @@ class SongRepository {
                 "Internal Server Error",
                 HttpStatusCode.INTERNAL_SERVER_ERROR
             );
+        }
+    };
+
+    public readonly getAllSongs = () => {
+        try {
+            const songs = prisma.song.findMany({
+                select: {
+                    song_id: true,
+                    upload_by: true,
+                },
+            });
+            if(songs) return songs;
+        } catch (error) {
+            console.log(error);
+            return null;
         }
     };
 

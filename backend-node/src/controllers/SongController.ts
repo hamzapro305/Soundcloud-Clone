@@ -18,55 +18,82 @@ export default class SongController {
         @inject(UploadService)
         private readonly _uploadService: UploadService
     ) {}
-    public  readonly uploadSong = async (
+
+    public readonly uploadSong = async (
         req: Request,
         res: Response,
         next: NextFunction
     ) => {
         try {
-            const user = this._JWT_Utils.getUserFromRequest(req)
+            const user = this._JWT_Utils.getUserFromRequest(req);
             const File = req.file;
-            if(File && user) {
-                let songId = randomUUID()
-                const path = `user/${user?.uid}/songs/${songId}.mp3`
+            if (File && user) {
+                let songId = randomUUID();
+                const path = `user/${user?.uid}/songs/${songId}.mp3`;
 
-                const song=await this._songService.uploadSong(user?.uid, songId, File, path);
-                res.status(HttpStatusCode.OK).json(song)
+                const song = await this._songService.uploadSong(
+                    user?.uid,
+                    songId,
+                    File,
+                    path
+                );
+                res.status(HttpStatusCode.OK).json(song);
             }
         } catch (error) {
             next(error);
         }
     };
 
-    public readonly incrementPlayCount = async(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    )=>{
-        try {
-            const {songID}= req.params;
-            await this._songService.incrementPlayCount(songID)
-            res.status(200).json(true)
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    public readonly createSong = async (
+    public readonly incrementPlayCount = async (
         req: Request,
         res: Response,
         next: NextFunction
     ) => {
         try {
-            const user = this._JWT_Utils.getUserFromRequest(req)
-
-            const data = req.body?.song;
-
-            const song = await this._songService.createSong(user?.uid, data);
-            return res
-                .status(HttpStatusCode.OK)
-                .json({ message: "Song Created", song });
+            const { songID } = req.params;
+            await this._songService.incrementPlayCount(songID);
+            res.status(200).json(true);
         } catch (error) {
+            next(error);
+        }
+    };
+
+    public readonly getSongs = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const songs = await this._songService.getAllSongs();
+            if (songs) {
+                return res.status(HttpStatusCode.OK).json({ songs });
+            }
+            return res.status(HttpStatusCode.BAD_GATEWAY).json({ error: "" });
+        } catch (error) {
+            next(error);
+        }
+    };
+    public readonly getSong = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const readStream = await this._songService.getSongFile(
+                req.params.song_id,
+                req.params.user_id
+            );
+
+            // Set headers for the response
+            res.setHeader("Content-Type", "audio/mpeg");
+            res.setHeader(
+                "Content-Disposition",
+                'attachment; filename="song.mp3"'
+            );
+
+            readStream?.pipe(res);
+        } catch (error) {
+            console.log(error);
             next(error);
         }
     };
@@ -77,9 +104,12 @@ export default class SongController {
         next: NextFunction
     ) => {
         try {
-            const {song_id,song}=req.body;
+            const { song_id, song } = req.body;
 
-            const updatedSong = await this._songService.updateSong(song_id, song);
+            const updatedSong = await this._songService.updateSong(
+                song_id,
+                song
+            );
             return res
                 .status(HttpStatusCode.OK)
                 .json({ message: "Song Created", updatedSong });
