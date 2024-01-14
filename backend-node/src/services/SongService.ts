@@ -75,7 +75,7 @@ class SongService {
         path: string
     ) => {
         try {
-            const song = await this._songRepository.createSong(uid, {
+            const song = await this.createSong(uid, {
                 song_id: song_id,
             });
             if (!song)

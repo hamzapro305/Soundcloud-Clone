@@ -95,7 +95,9 @@ class UserRepository {
                         },
                     },
                     profile: {
-                        create: {},
+                        create: {
+                            
+                        },
                     },
                 },
             });

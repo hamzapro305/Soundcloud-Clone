@@ -20,4 +20,6 @@ profileRouter.post(
 
 profileRouter.get("/get/uid/", authMiddleware.isLoggedIn);
 
+profileRouter.get("/profile-pic/:uid", profileController.getProfilePic);
+
 export default profileRouter;

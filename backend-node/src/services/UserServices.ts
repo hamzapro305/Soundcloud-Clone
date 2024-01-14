@@ -6,6 +6,7 @@ import { inject, singleton } from "tsyringe";
 import { GoogleProvider } from "../@Types/Provider";
 import { User } from "../@Types/User";
 import ProfileService from "./ProfileService";
+import GoogleService from "./GoogleService";
 
 @singleton()
 export class UserServices {
@@ -14,7 +15,10 @@ export class UserServices {
         private readonly _userRepository: UserRepository,
 
         @inject(UserRepository)
-        private readonly _profileService: ProfileService
+        private readonly _profileService: ProfileService   ,   
+
+        @inject(UserRepository)
+        private readonly _googleService: GoogleService
     ) {}
 
     public SignUpLocal = async (email: string, password: string) => {

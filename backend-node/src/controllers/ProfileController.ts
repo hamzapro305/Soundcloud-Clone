@@ -56,6 +56,22 @@ class ProfileController {
             console.log(error);
             next(error);
         }
+    };    
+    
+    public getProfilePic = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const {uid}=req.params
+            const imageURL=await this._profileService.getProfilePic(uid);
+            res.status(200).json(imageURL)
+
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
     };
 }
 

@@ -12,7 +12,7 @@ export class UserController {
         private readonly _userService: UserServices,
 
         @inject(ProfileService)
-        private readonly _profileService: ProfileService,
+        private readonly _profileService: ProfileService
     ) {}
 
     public readonly retrieveUser = async (

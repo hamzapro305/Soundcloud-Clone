@@ -20,6 +20,15 @@ class GoogleService {
             return null;
         }
     };
+    public readonly getGooglePicfromUid= async(uid:string)=>{
+        try {
+            const googleAccount=await this._googleRepository.getGoogleByUID(uid)
+            const googleProfile = await this._googleRepository.getGoogleProfile(googleAccount?.access_token as string)
+            return googleProfile.picture
+        } catch (error) {
+            
+        }
+    }
 }
 
 export default GoogleService;

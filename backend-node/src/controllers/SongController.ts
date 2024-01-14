@@ -18,7 +18,7 @@ export default class SongController {
         @inject(UploadService)
         private readonly _uploadService: UploadService
     ) {}
-    public readonly uploadSong = (
+    public  readonly uploadSong = async (
         req: Request,
         res: Response,
         next: NextFunction
@@ -30,7 +30,8 @@ export default class SongController {
                 let songId = randomUUID()
                 const path = `user/${user?.uid}/songs/${songId}.mp3`
 
-                this._songService.uploadSong(user?.uid, songId, File, path);
+                const song=await this._songService.uploadSong(user?.uid, songId, File, path);
+                res.status(HttpStatusCode.OK).json(song)
             }
         } catch (error) {
             next(error);

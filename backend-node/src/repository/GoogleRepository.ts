@@ -14,11 +14,13 @@ class GoogleRepository {
      */
     public readonly getGoogleProfile = async (accessToken: string) => {
         try {
+            console.log(accessToken,"THis is access token")
             const res = await axios.get(this.GOOGLE_USERINFO_URL, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            console.log(res,"this is response")
             return res.data;
         } catch (error) {
             console.log(error);
