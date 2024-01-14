@@ -1,17 +1,17 @@
 version: "3.7"
 
 services:
-    # frontend:
-    #     build: ./frontend
-    #     restart: always
-    #     ports:
-    #         - 3000:3000
-    #     env_file:
-    #         - .env
-    #     depends_on:
-    #         - backend
-    #     expose:
-    #         - 3000
+    frontend:
+        build: ./frontend
+        restart: always
+        ports:
+            - 3000:3000
+        environment:
+            - BACKEND_URL="backend:8000"
+        depends_on:
+            - backend
+        expose:
+            - 3000
 
     backend:
         build: ./backend-node
