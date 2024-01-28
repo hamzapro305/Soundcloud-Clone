@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import HttpStatusCode from "../utils/HttpStatusCode";
-import { CustomError } from "../exceptions/CustomError";
 import { UserServices } from "../services/UserServices";
 import { inject, singleton } from "tsyringe";
 

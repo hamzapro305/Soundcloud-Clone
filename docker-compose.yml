@@ -1,5 +1,4 @@
 version: "3.7"
-
 services:
     frontend:
         build: ./frontend
@@ -12,7 +11,6 @@ services:
             - backend
         expose:
             - 3000
-
     backend:
         build: ./backend-node
         restart: always
@@ -29,7 +27,6 @@ services:
             - BACKEND_PORT=8000
             - BACKEND_DOMAIN=backend:8000
             - DATABASE_URL=postgresql://hamza:123@database:5432/soundCloud?schema=public
-
     database:
         image: "postgres:alpine3.17"
         restart: always

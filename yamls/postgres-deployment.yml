@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+data:
+  POSTGRES_USER: "hamza"
+  POSTGRES_PASSWORD: "123"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: database-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "C:/Users/Hamza Siddiqui/Documents/Projects/Soundcloud-Clone/data-sql"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: database
+        image: postgres:alpine3.17
+        envFrom:
+        - configMapRef:
+            name: postgres-config
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: local-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: local-storage
+        persistentVolumeClaim:
+          claimName: database-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database-service
+spec:
+  type: ClusterIP
+  selector:
+    app: database
+  ports:
+  - port: 5432
+    targetPort: 5432
